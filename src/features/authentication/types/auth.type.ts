@@ -1,7 +1,7 @@
 export interface LoginPayload {
     credential: string;
     password: string;
-}
+};
 
 export interface RegisterUserPayload {
     email: string,
@@ -9,7 +9,25 @@ export interface RegisterUserPayload {
     fullName: string,
     username: string,
     contactNumber: string
-    dateOfBirth: Date | null,
+    dateOfBirth: Date | string,
+};
+
+export interface ForgotPasswordPayload {
+    credential : string,
+};
+
+export interface ResetPasswordPayload {
+    token : string,
+    password : string,
+    confirmPassword : string,
+}
+
+export interface stringResponseGeneral {
+    result : string
+}
+
+export interface SendResetLinkResponse {
+    result : string
 }
 
 
@@ -21,7 +39,7 @@ export interface LoginResponse {
         token: string;
     };
     errorCode: string | null;
-}
+};
 
 // This RegisterUserResponse needs to be extended / updated
 export interface RegisterUserResponse {
@@ -31,7 +49,7 @@ export interface RegisterUserResponse {
     username: string,
     contactNumber: string
     dateOfBirth: string,
-}
+};
 
 
 export interface User {
@@ -44,7 +62,7 @@ export interface User {
     gender?: string;
     profilePicture?: string;
     avatarUrl?: string;
-}
+};
 
 
 export interface DecodedToken {
@@ -59,4 +77,4 @@ export interface DecodedToken {
     exp: number;
 
     [key: string]: string | number;
-}
+};

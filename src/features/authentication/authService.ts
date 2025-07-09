@@ -1,10 +1,15 @@
-import type { LoginPayload, LoginResponse, RegisterUserPayload, RegisterUserResponse, User } from './types/auth.type';
+import type { ForgotPasswordPayload, LoginPayload, LoginResponse, RegisterUserPayload, SendResetLinkResponse, RegisterUserResponse, User, ResetPasswordPayload, stringResponseGeneral } from './types/auth.type';
 import API from '../../utils/axios.utils';
 
 const ENDPOINTS = {
     LOGIN: '/auth/login',
     REGISTER_USER: '/auth/register',
+    SEND_RESET_LINK: '/auth/forgot-password',
+    RESET_PASSWORD: '/auth/reset-password',
     CURRENT_USER: '/user/get-logged-in-user',
+    UNIQUE_USERNAME_CHECK: '/auth/is-unique-username',
+    UNIQUE_EMAIL_CHECK: '/auth/is-unique-email',
+    UNIQUE_CONTACT_CHECK: '/auth/is-unique-contact-number'
 };
 
 export const loginUser = async (data: LoginPayload): Promise<LoginResponse> => {
@@ -21,6 +26,58 @@ export const registerUser = async (data: RegisterUserPayload): Promise<RegisterU
     console.log(response);
 
     return response.data;
+};
+
+export const sendResetLink = async (data: ForgotPasswordPayload): Promise<SendResetLinkResponse> => {
+    const response = await API.post<SendResetLinkResponse>(ENDPOINTS.SEND_RESET_LINK, data);
+
+    return response.data;
+};
+
+export const resetPassword = async (data: ResetPasswordPayload): Promise<stringResponseGeneral> => {
+    const response = await API.post<stringResponseGeneral>(ENDPOINTS.RESET_PASSWORD, data);
+
+    return response.data;
+}
+
+export const checkUniqueEmail = async (email: string) => {
+    try {
+        const response = await API.get(ENDPOINTS.UNIQUE_EMAIL_CHECK, {
+            params: { email },
+        });
+        return response.data;
+
+        // Remove this try catch block as it is already being handled in the test method in the formik
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+        if (error.response && error.response.status === 400) {
+            const message = error.response.data?.message || "Email already exists";
+            return Promise.reject(new Error(message));
+        }
+        // Generic fallback
+        return Promise.reject(new Error("Something went wrong during email validation"));
+    }
+};
+
+export const checkUniqueContact = async (contactNumber: string) => {
+
+    const response = await API.get(ENDPOINTS.UNIQUE_CONTACT_CHECK, {
+        params: { contactNumber },
+    });
+
+    return response.data;
+}
+
+export const checkUniqueUsername = async (username: string) => {
+    try {
+        const response = await API.get(ENDPOINTS.UNIQUE_USERNAME_CHECK, {
+            params: { username },
+        });
+        return response.data;
+    }
+    catch {
+        console.log('Here is the response as follows : ')
+    }
 }
 
 export const fetchCurrentUser = async (): Promise<User> => {

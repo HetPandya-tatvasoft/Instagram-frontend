@@ -1,0 +1,118 @@
+import { TextField } from '@mui/material'
+import React, { useCallback } from 'react'
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import type { ResetPasswordPayload } from '../types/auth.type';
+import useResetPassword from '../hooks/resetPassword';
+import { useSearchParams } from 'react-router-dom';
+
+const VALIDATION_SCHEMA = Yup.object({
+    password: Yup.string()
+        .required("Password is required")
+        .matches(
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,15}$/,
+            "Password must be 8-15 characters, include uppercase, lowercase, number, and special character"
+        ),
+    confirmPassword: Yup.string()
+        .required("Confirm Password is required")
+        .matches(
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,15}$/,
+            "Password must be 8-15 characters, include uppercase, lowercase, number, and special character"
+        )
+        .oneOf([Yup.ref('password')], "Passwords must match"),
+})
+
+const INITIAL_VALUES: ResetPasswordPayload = {
+    token: "",
+    password: "",
+    confirmPassword: ""
+};
+
+const ResetPassword: React.FC = () => {
+
+    const [searchParams] = useSearchParams();
+
+    const token = searchParams.get("token") ?? "token";
+
+    console.log(`The token is as follows : ${token}`)
+    
+    const { mutate, isPending, error } = useResetPassword();
+
+    const handleSubmit = useCallback(
+        (values: ResetPasswordPayload) => {
+            mutate({...values, token}, {
+                onError: () => { }
+            }
+            )
+        }, [mutate]
+    )
+
+    const formik = useFormik({
+        initialValues: INITIAL_VALUES,
+        validationSchema: VALIDATION_SCHEMA,
+        onSubmit: handleSubmit,
+    });
+
+    return (
+        <>
+            <div className="flex justify-center h-screen items-center">
+                <div className="border-1 border-solid border-gray-300 m-3  w-[390px]">
+                    <div className="resetpass-main-container p-8">
+                        <div className="resetpass-heading mt-2 flex justify-center text-lg">
+                            <h3 className='font-bold'>Create A Strong Password</h3>
+                        </div>
+                        <div className="w-full mt-2">
+                            <p className="text-sm text-wrap text-center text-gray-500">
+                                Password must be 8–15 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character (@,$,!,%,?,&).
+                            </p>
+                        </div>
+                        <div className="forgotpass-form mt-4">
+                            <div className="flex justify-center">
+                                <form className='flex flex-col gap-4 w-full' onSubmit={formik.handleSubmit}>
+                                    <TextField
+                                        label="New Password"
+                                        type="password"
+                                        variant="outlined"
+                                        size="small"
+                                        id="passwordInputInstaForgotPass"
+                                        name="password"
+                                        fullWidth
+                                        value={formik.values.password}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        error={formik.touched.password && Boolean(formik.errors.password)}
+                                        helperText={formik.touched.password && formik.errors.password}
+                                    />
+                                    <TextField
+                                        label="New Password, again"
+                                        type="password"
+                                        variant="outlined"
+                                        size="small"
+                                        id="passwordAgainInputInstaForgotPass"
+                                        name="confirmPassword"
+                                        className="mt-4"
+                                        fullWidth
+                                        value={formik.values.confirmPassword}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        error={formik.touched.confirmPassword && Boolean(formik.errors.confirmPassword)}
+                                        helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
+                                    />
+                                    <button
+                                        type="submit"
+                                        disabled = {isPending}
+                                        className="bg-[#0095f6] hover:bg-[#1877f2] text-white py-1 rounded-lg font-medium disabled:opacity-50 w-full mt-4"
+                                    >
+                                        { isPending ? "Resetting Password ..." : "Reset Password"}
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </>
+    )
+}
+
+export default ResetPassword

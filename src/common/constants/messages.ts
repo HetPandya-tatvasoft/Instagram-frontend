@@ -7,6 +7,12 @@ export const MESSAGES = {
         INVALID_CREDENTIALS : "Invalid Credentials",
 
         SIGNUP_FAILED : "Failed to sign up, Please try again later",
-        SIGNUP_SUCCESS : "Signup Successfull, Please Log in."
+        SIGNUP_SUCCESS : "Signup Successfull, Please Log in.",
+
+        RESET_LINK_SUCCESS : "Reset Link Successfully, Please check your email",
+        RESET_LINK_FAILED : "Failed to send Reset Link ! Please try again later",
+
+        RESET_PASSWORD_SUCCESS : "Password resetted Successfully.",
+        RESET_PASSWORD_FAILED : "Failed to reset password ! Please try again later.",
     }
 }

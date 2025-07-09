@@ -1,17 +1,15 @@
 import { useMutation } from "@tanstack/react-query";
-import { useAppDispatch } from "../../app/redux/hooks"
-import type { LoginPayload, LoginResponse, User, DecodedToken } from "./types/auth.type";
-import { setUser } from "./authSlice";
-import { loginUser } from "./authService";
+import { useAppDispatch } from "../../../app/redux/hooks"
+import type { LoginPayload, LoginResponse } from "../types/auth.type";
+import { setUser } from "../authSlice";
+import { loginUser } from "../authService";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { MESSAGES } from "../../common/constants/messages";
-import { setAuthToken } from "../../utils/cookie.utils";
-import { decodeToken } from "../../utils/jwt.utils";
-import { buildUserFromToken } from "../../utils/user.utils";
-import { handleApiError } from "../../utils/error.utils";
-
-
+import { MESSAGES } from "../../../common/constants/messages";
+import { setAuthToken } from "../../../utils/cookie.utils";
+import { decodeToken } from "../../../utils/jwt.utils";
+import { buildUserFromToken } from "../../../utils/user.utils";
+import { handleApiError } from "../../../utils/error.utils";
 
 export const useLogin = () => {
     const dispatch = useAppDispatch();
