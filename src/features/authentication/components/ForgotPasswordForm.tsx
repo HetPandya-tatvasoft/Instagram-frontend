@@ -3,6 +3,8 @@ import * as Yup from "yup";
 import type { ForgotPasswordPayload } from "../types/auth.type";
 import { useFormik } from "formik";
 import useSendResetPasswordLink from "../hooks/forgotPassword";
+import { Link } from "react-router-dom";
+import { ROUTES } from '../../../common/constants/routes'
 
 const VALIDATION_SCHEMA = Yup.object({
     credential: Yup.string()
@@ -80,7 +82,7 @@ const ForgotPasswordForm: React.FC = () => {
                     <div className="flex-1 h-px bg-gray-300" />
                 </div>
                 <div className="flex justify-center">
-                    <p className="text-black font-semibold">Create new account</p>
+                    <Link to={ROUTES.REGISTER} className="text-black font-semibold">Create new account</Link>
                 </div>
             </div>
         </>

@@ -29,11 +29,7 @@ const LoginForm: React.FC = () => {
 
     const handleSubmit = useCallback(
         (values: LoginPayload) => {
-            mutate(values, {
-                onError: () => {
-                    // Handle error if needed
-                },
-            });
+            mutate(values);
         },
         [mutate]
     );
@@ -60,7 +56,6 @@ const LoginForm: React.FC = () => {
                         error={formik.touched.credential && Boolean(formik.errors.credential)}
                         helperText={formik.touched.credential && formik.errors.credential}
                     />
-
                     <FormikTextField
                         label="Password"
                         id="passwordInputInstaLogin"
@@ -72,21 +67,12 @@ const LoginForm: React.FC = () => {
                         error={formik.touched.password && Boolean(formik.errors.password)}
                         helperText={formik.touched.password && formik.errors.password}
                     />
-
-                    {/* <button
-                        type="submit"
-                        disabled={isPending}
-                        className="bg-[#4cb5f9] hover:bg-[#4099db] text-white py-1 rounded-lg font-medium disabled:opacity-50"
-                    >
-                        {isPending ? <ClipLoader size={20} color="#fff" /> : "Log In"}
-                    </button> */}
                     <FormButton
                         type="submit"
                         disabled={isPending}
                         loading={isPending}
                         label="Log In"
                     />
-
                 </form>
 
                 <div className="flex items-center my-4">

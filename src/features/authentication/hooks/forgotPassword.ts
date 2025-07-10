@@ -6,6 +6,7 @@ import { MESSAGES } from '../../../common/constants/messages';
 import toast from 'react-hot-toast';
 import type { ApiResponse } from '../../../@core/api/apiResponse.type';
 import { handleApiError } from "../../../utils/error.utils";
+import { ROUTES } from '../../../common/constants/routes'
 
 const useSendResetPasswordLink = () => {
 
@@ -15,7 +16,7 @@ const useSendResetPasswordLink = () => {
         mutationFn: sendResetLink,
         onSuccess: (response) => {
             toast.success(MESSAGES.AUTH.RESET_LINK_SUCCESS);
-            navigate('/accounts/login')
+            navigate(ROUTES.LOGIN)
         },
         onError: (error) => {
             handleApiError(error)

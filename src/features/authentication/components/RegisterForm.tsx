@@ -126,9 +126,6 @@ const RegisterForm: React.FC = () => {
     const handleRegisterSubmit = useCallback(
 
         (values: typeof INITIAL_VALUES) => {
-
-            // const formattedDOB = dayjs(`${values.year}-${values.month}-${values.day}`).format("YYYY-MM-DD");
-
             const dateOfBirth = new Date(Number(values.year), Number(values.month) - 1, Number(values.day));
 
             const formattedDOB = dayjs(dateOfBirth).format("YYYY-MM-DD");
@@ -142,11 +139,7 @@ const RegisterForm: React.FC = () => {
                 dateOfBirth: formattedDOB,
             };
 
-            mutate(payload, {
-                onError: () => {
-                    // Do some functions and all of them if needed
-                }
-            })
+            mutate(payload)
         },
         [mutate],
     );
@@ -176,7 +169,6 @@ const RegisterForm: React.FC = () => {
 
     return (
         <>
-
             <Box className=" flex items-center justify-center">
                 <div className=" p-8 w-full max-w-sm">
                     <div className="mb-8 flex flex-col items-center">
@@ -393,9 +385,6 @@ const RegisterForm: React.FC = () => {
                                         </FormControl>
                                     </div>
 
-                                    {/* {formik.touched.dateOfBirth && formik.errors.dateOfBirth && typeof formik.errors.dateOfBirth === 'string' && (
-                                            <FormHelperText error>{formik.errors.dateOfBirth}</FormHelperText>
-                                        )} */}
                                     <button
                                         type="submit"
                                         disabled={isPending}

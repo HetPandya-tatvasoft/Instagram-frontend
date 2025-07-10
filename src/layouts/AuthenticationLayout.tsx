@@ -1,6 +1,6 @@
 import type React from "react"
 import { Link, useLocation } from "react-router-dom"
-import { PATHNAME_PORTION } from "../consts/routes";
+import { PATHNAME_PORTION } from "../common/constants/routes";
 
 
 interface AuthFormPageProps {

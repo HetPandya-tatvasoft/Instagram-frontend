@@ -1,9 +1,18 @@
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from '../../../common/constants/routes'
 
 
 const BackToLogin = () => {
+
+    const navigate = useNavigate();
+
+    const navigateToLogin = () => {
+        navigate(ROUTES.LOGIN)
+    }
+
     return (
         <div className="w-full">
-            <button type="button" className="w-full px-4 py-2 border-t border-solid border-gray-300 text-sm text-gray-800 font-semibold">
+            <button type="button" onClick={navigateToLogin} className="w-full px-4 py-2 border-t border-solid border-gray-300 text-sm text-gray-800 font-semibold cursor-pointer">
                 Back to Login
             </button>
         </div>

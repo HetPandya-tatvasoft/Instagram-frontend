@@ -6,6 +6,7 @@ import { MESSAGES } from '../../../common/constants/messages';
 import toast from 'react-hot-toast';
 import { handleApiError } from "../../../utils/error.utils";
 import type { ApiResponse } from '../../../@core/api/apiResponse.type';
+import { ROUTES } from '../../../common/constants/routes'
 
 const useResetPassword = () => {
 
@@ -15,7 +16,7 @@ const useResetPassword = () => {
         mutationFn: resetPassword,
         onSuccess: (response) => {
             toast.success(MESSAGES.AUTH.RESET_PASSWORD_SUCCESS);
-            navigate('/accounts/login')
+            navigate(ROUTES.LOGIN)
         },
         onError: (error) => {
             handleApiError(error)
