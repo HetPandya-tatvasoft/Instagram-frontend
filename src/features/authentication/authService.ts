@@ -13,17 +13,12 @@ const ENDPOINTS = {
 };
 
 export const loginUser = async (data: LoginPayload): Promise<LoginResponse> => {
-    console.log(data);
     const response = await API.post<LoginResponse>(ENDPOINTS.LOGIN, data);
-    console.log(response);
-
     return response.data;
 };
 
 export const registerUser = async (data: RegisterUserPayload): Promise<RegisterUserResponse> => {
-    console.log(data);
     const response = await API.post<RegisterUserResponse>(ENDPOINTS.REGISTER_USER, data);
-    console.log(response);
 
     return response.data;
 };
@@ -75,8 +70,8 @@ export const checkUniqueUsername = async (username: string) => {
         });
         return response.data;
     }
-    catch {
-        console.log('Here is the response as follows : ')
+    catch (error) {
+        console.warn(error)
     }
 }
 

@@ -49,7 +49,6 @@ const STEP_ONE_VALIDATION_SCHEMA = Yup.object().shape({
     email: Yup.string().email("Invalid email").required("Email is required")
         .test('unique-email', 'Email Already exists', async function (value) {
             if (!value) return false;
-            console.log(value)
             try {
                 await checkUniqueEmail(value);
                 return true;
@@ -69,7 +68,6 @@ const STEP_ONE_VALIDATION_SCHEMA = Yup.object().shape({
         .required("Username is required")
         .test('unique-username', 'Username Already exists', async function (value) {
             if (!value) return false;
-            console.log(value)
             try {
                 await checkUniqueUsername(value);
                 return true;
@@ -82,7 +80,6 @@ const STEP_ONE_VALIDATION_SCHEMA = Yup.object().shape({
         .required("Contact number is required")
         .test('unique-contactNumber', 'Contact Number Already exists', async function (value) {
             if (!value) return false;
-            console.log(value)
             try {
                 await checkUniqueContact(value);
                 return true;
@@ -106,15 +103,6 @@ const STEP_TWO_VALIDATION_SCHEMA = Yup.object({
         .min(1900, "Invalid year")
         .max(today.getFullYear() - 18, "Alteast 18 years old"),
 });
-
-// const INITIAL_VALUES: RegisterUserPayload = {
-//     email: "",
-//     password: "",
-//     fullName: "",
-//     username: "",
-//     contactNumber: "",
-//     dateOfBirth: null
-// }
 
 const INITIAL_VALUES = {
     email: "",
@@ -144,8 +132,6 @@ const RegisterForm: React.FC = () => {
             const dateOfBirth = new Date(Number(values.year), Number(values.month) - 1, Number(values.day));
 
             const formattedDOB = dayjs(dateOfBirth).format("YYYY-MM-DD");
-
-            console.log(`The date of birth is ${dateOfBirth}`);
 
             const payload: RegisterUserPayload = {
                 email: values.email,
@@ -291,26 +277,6 @@ const RegisterForm: React.FC = () => {
                                 )}
                                 {step === 2 && (
                                     <>
-                                        {/* <DemoItem>
-                                            <DatePicker
-                                                label="Date of Birth"
-                                                value={formik.values.dateOfBirth}
-                                                onChange={(date) => formik.setFieldValue('dateOfBirth', date)}
-                                                slotProps={{
-                                                    textField: {
-                                                        id: 'dateOfBirthInputRegister',
-                                                        size: 'small',
-                                                        variant: 'outlined',
-                                                        onBlur: formik.handleBlur,
-                                                        error: formik.touched.dateOfBirth && Boolean(formik.errors.dateOfBirth),
-                                                    },
-                                                }}
-
-                                                name="dateOfBirth"
-                                            />
-                                        </DemoItem> */}
-
-
                                         <div className="flex justify-between gap-2">
                                             {/* Day */}
                                             <FormControl

@@ -12,7 +12,6 @@ const AuthFormPage: React.FC<AuthFormPageProps> = ({ children }) => {
 
     const location = useLocation();
     const isLogin = location.pathname.includes(PATHNAME_PORTION.LOGIN_PART);
-    console.log(`Our current location is : ${location.pathname.includes(PATHNAME_PORTION.LOGIN_PART)}`)
 
     return (
         <div className="flex justify-center items-center min-h-screen">

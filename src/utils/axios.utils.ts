@@ -10,7 +10,6 @@ const API: AxiosInstance = axios.create({
 API.interceptors.request.use((config) => {
 
     // You can also skip that for public urls like login, register
-
     const token = getAuthToken();
     if (token) {
         config.headers.Authorization = `Bearer ${token}`;

@@ -15,7 +15,6 @@ const useRegister = () => {
     return useMutation<RegisterUserResponse, Error, RegisterUserPayload>({
         mutationFn: registerUser,
         onSuccess: (response) => {
-            console.log(response);
             toast.success(MESSAGES.AUTH.SIGNUP_SUCCESS);
             navigate('/accounts/login')
         },

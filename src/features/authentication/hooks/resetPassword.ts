@@ -12,7 +12,6 @@ const useResetPassword = () => {
     return useMutation<stringResponseGeneral, Error, ResetPasswordPayload>({
         mutationFn: resetPassword,
         onSuccess: (response) => {
-            console.log(response);
             toast.success(MESSAGES.AUTH.RESET_PASSWORD_SUCCESS);
             navigate('/accounts/login')
         },

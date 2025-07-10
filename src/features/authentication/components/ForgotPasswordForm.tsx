@@ -18,7 +18,6 @@ const ForgotPasswordForm: React.FC = () => {
     const { mutate, isPending, error } = useSendResetPasswordLink();
 
     const handleSubmit = (values: ForgotPasswordPayload) => {
-        console.log("Going to handle submit")
         mutate(values, {});
     }
 

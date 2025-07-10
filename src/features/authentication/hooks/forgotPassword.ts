@@ -12,7 +12,6 @@ const useSendResetPasswordLink = () => {
     return useMutation<SendResetLinkResponse, Error, ForgotPasswordPayload>({
         mutationFn: sendResetLink,
         onSuccess: (response) => {
-            console.log(response);
             toast.success(MESSAGES.AUTH.RESET_LINK_SUCCESS);
             navigate('/accounts/login')
         },

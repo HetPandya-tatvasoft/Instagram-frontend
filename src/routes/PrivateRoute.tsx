@@ -28,7 +28,6 @@ const PrivateRoute = ({ children }: { children: JSX.Element }) => {
     }
 
     if (!user || !user.token || isTokenExpired(user.token)) {
-        console.log("There is some error in this thing of users only")
         return <Navigate to="/accounts/login" replace />;
     }
 

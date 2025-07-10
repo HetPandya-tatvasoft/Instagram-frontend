@@ -33,8 +33,6 @@ const ResetPassword: React.FC = () => {
     const [searchParams] = useSearchParams();
 
     const token = searchParams.get("token") ?? "token";
-
-    console.log(`The token is as follows : ${token}`)
     
     const { mutate, isPending, error } = useResetPassword();
 

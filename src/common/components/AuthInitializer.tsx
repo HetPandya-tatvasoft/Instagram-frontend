@@ -10,10 +10,8 @@ interface DecodedToken extends User {
     exp: number;
 }
 
-
 const AuthInitializer = () => {
     const dispatch = useAppDispatch();
-    console.log("Auth Initalizer is being called brother🔥🔥💀")
     useEffect(() => {
         const token = getAuthToken();
 
@@ -27,7 +25,6 @@ const AuthInitializer = () => {
 
             if (isValid) {
                 dispatch(setUser({ ...decoded, token }));
-                console.log("Dispatch is called and successfully did nothing")
             } else {
                 Cookies.remove('token');
                 dispatch(setInitialised());
@@ -40,4 +37,4 @@ const AuthInitializer = () => {
     return null;
 }
 
-export default AuthInitializer
+export default AuthInitializer;
