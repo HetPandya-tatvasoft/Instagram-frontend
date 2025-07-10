@@ -11,6 +11,7 @@ import { decodeToken } from "../../../utils/jwt.utils";
 import { buildUserFromToken } from "../../../utils/user.utils";
 import { handleApiError } from "../../../utils/error.utils";
 import type { ApiResponse } from "../../../@core/api/apiResponse.type";
+import { ROUTES } from "../../../common/constants/routes";
 
 export const useLogin = () => {
     const dispatch = useAppDispatch();
@@ -39,8 +40,14 @@ export const useLogin = () => {
             setAuthToken(token);
 
             dispatch(setUser(user));
+
             toast.success(MESSAGES.AUTH.LOGIN_SUCCESS);
-            navigate("/posts")
+            console.log("PROFILE route constant:", ROUTES.MAIN_ROUTES.PROFILE);
+            navigate(ROUTES.MAIN_ROUTES.PROFILE);
+            // eslint-disable-next-line no-debugger
+            debugger;
+            // navigate('/het-pandya/profile')
+            // navigate("/posts");
         },
         onError: (error) => {
             handleApiError(error);

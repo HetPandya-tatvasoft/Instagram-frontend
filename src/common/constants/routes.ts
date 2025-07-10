@@ -20,5 +20,9 @@ export const ROUTES = {
     LOGIN : '/accounts/login',
     REGISTER: '/accounts/register',
     FORGOT_PASSWORD : '/accounts/password/forgot',
-    RESET_PASSWORD : '/accounts/password/reset-password'
+    RESET_PASSWORD : '/accounts/password/reset-password',
+
+    MAIN_ROUTES : {
+        PROFILE : '/het-pandya/profile'
+    }
 }
