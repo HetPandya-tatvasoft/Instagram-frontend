@@ -1,5 +1,6 @@
 import type { ForgotPasswordPayload, LoginPayload, LoginResponse, RegisterUserPayload, SendResetLinkResponse, RegisterUserResponse, User, ResetPasswordPayload, stringResponseGeneral } from './types/auth.type';
 import API from '../../utils/axios.utils';
+import { postRequest } from '../../utils/httpClient.utils';
 
 const ENDPOINTS = {
     LOGIN: '/auth/login',
@@ -12,28 +13,42 @@ const ENDPOINTS = {
     UNIQUE_CONTACT_CHECK: '/auth/is-unique-contact-number'
 };
 
-export const loginUser = async (data: LoginPayload): Promise<LoginResponse> => {
-    const response = await API.post<LoginResponse>(ENDPOINTS.LOGIN, data);
-    return response.data;
-};
+// export const loginUser = async (data: LoginPayload): Promise<LoginResponse> => {
+//     const response = await API.post<LoginResponse>(ENDPOINTS.LOGIN, data);
+//     return response.data;
+// };
 
-export const registerUser = async (data: RegisterUserPayload): Promise<RegisterUserResponse> => {
-    const response = await API.post<RegisterUserResponse>(ENDPOINTS.REGISTER_USER, data);
+export const loginUser = (payload: LoginPayload) =>
+    postRequest<LoginResponse, LoginPayload>(ENDPOINTS.LOGIN, payload);
 
-    return response.data;
-};
+export const registerUser = (payload : RegisterUserPayload) => 
+    postRequest<RegisterUserResponse, RegisterUserPayload>(ENDPOINTS.REGISTER_USER, payload);
 
-export const sendResetLink = async (data: ForgotPasswordPayload): Promise<SendResetLinkResponse> => {
-    const response = await API.post<SendResetLinkResponse>(ENDPOINTS.SEND_RESET_LINK, data);
+export const sendResetLink = (payload : ForgotPasswordPayload) => 
+    postRequest<stringResponseGeneral, ForgotPasswordPayload>(ENDPOINTS.SEND_RESET_LINK, payload);
 
-    return response.data;
-};
+export const resetPassword = (payload : ResetPasswordPayload) =>
+    postRequest<stringResponseGeneral, ResetPasswordPayload>(ENDPOINTS.RESET_PASSWORD, payload);
 
-export const resetPassword = async (data: ResetPasswordPayload): Promise<stringResponseGeneral> => {
-    const response = await API.post<stringResponseGeneral>(ENDPOINTS.RESET_PASSWORD, data);
 
-    return response.data;
-}
+
+// export const registerUser = async (data: RegisterUserPayload): Promise<RegisterUserResponse> => {
+//     const response = await API.post<RegisterUserResponse>(ENDPOINTS.REGISTER_USER, data);
+
+//     return response.data;
+// };
+
+// export const sendResetLink = async (data: ForgotPasswordPayload): Promise<SendResetLinkResponse> => {
+//     const response = await API.post<SendResetLinkResponse>(ENDPOINTS.SEND_RESET_LINK, data);
+
+//     return response.data;
+// };
+
+// export const resetPassword = async (data: ResetPasswordPayload): Promise<stringResponseGeneral> => {
+//     const response = await API.post<stringResponseGeneral>(ENDPOINTS.RESET_PASSWORD, data);
+
+//     return response.data;
+// }
 
 export const checkUniqueEmail = async (email: string) => {
     try {

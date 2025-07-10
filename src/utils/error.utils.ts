@@ -12,9 +12,9 @@ export const handleApiError = (error: unknown) => {
         } else if (backendData?.message) {
             toast.error(backendData.message);
         } else {
-            toast.error(MESSAGES.AUTH.LOGIN_FAILED);
+            toast.error(MESSAGES.ERROR.INTERNAL_SERVER_ERROR);
         }
     } else {
-        toast.error(MESSAGES.AUTH.LOGIN_FAILED);
+        toast.error(MESSAGES.ERROR.INTERNAL_SERVER_ERROR);
     }
 }

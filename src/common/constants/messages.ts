@@ -14,5 +14,8 @@ export const MESSAGES = {
 
         RESET_PASSWORD_SUCCESS : "Password resetted Successfully.",
         RESET_PASSWORD_FAILED : "Failed to reset password ! Please try again later.",
+    },
+    ERROR : {
+        INTERNAL_SERVER_ERROR : 'Something went wrong! Please try again later.'
     }
 }

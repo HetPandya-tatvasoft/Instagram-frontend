@@ -10,12 +10,13 @@ import { setAuthToken } from "../../../utils/cookie.utils";
 import { decodeToken } from "../../../utils/jwt.utils";
 import { buildUserFromToken } from "../../../utils/user.utils";
 import { handleApiError } from "../../../utils/error.utils";
+import type { ApiResponse } from "../../../@core/api/apiResponse.type";
 
 export const useLogin = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
-    return useMutation<LoginResponse, Error, LoginPayload>({
+    return useMutation<ApiResponse, Error, LoginPayload>({
         mutationFn: loginUser,
         onSuccess: (response) => {
             if (!response.isSuccess) {
