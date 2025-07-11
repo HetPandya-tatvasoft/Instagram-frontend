@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import { Heart, MessageCircle, Send, Bookmark, MoreHorizontal, Settings, Search, Home, Compass, PlaySquare, User, Plus, Menu } from 'lucide-react';
-import instaLogo from "../assets/images/insta-text-logo.png";
+import instaLogo from "../assets/images/henstagram-logo.png";
 
-const MainLayout: React.FC = () => {
+interface MainLayoutProps {
+    children : React.ReactNode,
+}
+
+const MainLayout: React.FC<MainLayoutProps> = ({children}) => {
 
     const sidebarModules = [
         { icon: Home, label: 'Home', active: false },
@@ -19,12 +23,12 @@ const MainLayout: React.FC = () => {
 
     return (
         <>
-            <div className="main-instagram-container min-h-screen bg-white flex">
+            <div className="main-instagram-container h-screen bg-white flex">
                 {/* Sidebar */}
-                <div className="main-instagram-sidebar hidden md:flex w-60 flex-col justify-between ps-4 border-r border-gray-200 p-4 min-h-full">
+                <div className="main-instagram-sidebar hidden md:flex w-24 lg:w-60 flex-col justify-between ps-4 border-r border-gray-200 p-4 h-full">
                     <div className="sidebar-top-instagram">
-                        <div className="instagram-sidebar-heading mb-6">
-                            <img src={instaLogo} alt="Instagram" className="h-10" />
+                        <div className="instagram-sidebar-heading mb-6 flex justify-center">
+                            <img src={instaLogo} alt="Instagram" className=" h-8 lg:h-8" />
                         </div>
 
                         <nav className="space-y-2">
@@ -62,13 +66,12 @@ const MainLayout: React.FC = () => {
                     ))}
                 </div>
 
-                {/* Main content here */}
-                <div className="flex-1 p-4">
-                    {/* Put your dynamic or routed content here */}
-                    <h1 className="text-xl font-semibold">Main Content Area</h1>
+                {/* Main content */}
+                <div className="flex-1">
+                    {/* All the home pages, messages, profile, explore will be feeded here */}
+                    {children}
                 </div>
             </div>
-
         </>
     )
 }

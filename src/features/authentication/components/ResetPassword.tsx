@@ -3,7 +3,7 @@ import React, { useCallback } from 'react'
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import type { ResetPasswordPayload } from '../types/auth.type';
-import useResetPassword from '../hooks/resetPassword';
+import useResetPassword from '../hooks/useResetPassword';
 import { useSearchParams } from 'react-router-dom';
 
 const VALIDATION_SCHEMA = Yup.object({

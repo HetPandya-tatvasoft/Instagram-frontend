@@ -1,8 +1,8 @@
 import { useCallback } from "react";
 import type { LoginPayload } from "../types/auth.type";
-import { useLogin } from "../hooks/login";
+import { useLogin } from "../hooks/useLogin";
 import { Box } from "@mui/material";
-import instaLogo from "../../../assets/images/insta-text-logo.png";
+import instaLogo from "../../../assets/images/henstagram-logo.png";
 import { useFormik, useField } from "formik";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";

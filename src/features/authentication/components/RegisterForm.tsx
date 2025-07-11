@@ -1,14 +1,11 @@
 import { Box, FormHelperText, TextField, FormControl, InputLabel, Select, MenuItem, Grid, Stack } from "@mui/material"
-import AuthFormPage from "../../../layouts/AuthenticationLayout"
-import instaLogo from "../../../assets/images/insta-text-logo.png";
-
+import instaLogo from "../../../assets/images/henstagram-logo.png";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import type { RegisterUserPayload } from "../types/auth.type";
 import React, { useCallback, useState } from "react";
-import useRegister from "../hooks/register";
+import useRegister from "../hooks/useRegister";
 import dayjs from "dayjs";
-import localeData from 'dayjs/plugin/localeData';
 import { checkUniqueEmail, checkUniqueUsername, checkUniqueContact } from "../authService";
 import { ERROR_CODES } from "../../../common/constants/error";
 

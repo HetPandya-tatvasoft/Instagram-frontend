@@ -44,10 +44,6 @@ export const useLogin = () => {
             toast.success(MESSAGES.AUTH.LOGIN_SUCCESS);
             console.log("PROFILE route constant:", ROUTES.MAIN_ROUTES.PROFILE);
             navigate(ROUTES.MAIN_ROUTES.PROFILE);
-            // eslint-disable-next-line no-debugger
-            debugger;
-            // navigate('/het-pandya/profile')
-            // navigate("/posts");
         },
         onError: (error) => {
             handleApiError(error);

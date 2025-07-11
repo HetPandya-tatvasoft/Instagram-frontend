@@ -2,7 +2,7 @@ import { TextField } from "@mui/material";
 import * as Yup from "yup";
 import type { ForgotPasswordPayload } from "../types/auth.type";
 import { useFormik } from "formik";
-import useSendResetPasswordLink from "../hooks/forgotPassword";
+import useSendResetPasswordLink from "../hooks/useForgotPassword";
 import { Link } from "react-router-dom";
 import { ROUTES } from '../../../common/constants/routes'
 

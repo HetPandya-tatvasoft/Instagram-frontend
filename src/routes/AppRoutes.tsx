@@ -6,8 +6,7 @@ import RegisterPage from '../features/authentication/pages/RegisterPage';
 import ForgotPasswordPage from '../features/authentication/pages/ForgotPasswordPage';
 import ResetPasswordPage from '../features/authentication/pages/ResetPasswordPage';
 import { ROUTES } from '../common/constants/routes';
-import MainSidebarLayout from '../layouts/MainSidebarLayout';
-import MainLayout from '../layouts/MainLayout';
+import ProfilePage from '../features/profile/pages/ProfilePage';
 
 const AppRoutes = () => {
     return (
@@ -19,14 +18,9 @@ const AppRoutes = () => {
                 <Route path={ROUTES.FORGOT_PASSWORD} element={<ForgotPasswordPage />} />
                 <Route path={ROUTES.RESET_PASSWORD} element={<ResetPasswordPage />} />
 
-                <Route path='/posts' element={
-                    <PrivateRoute>
-                        <MainSidebarLayout />
-                    </PrivateRoute>
-                } />
                 <Route path={ROUTES.MAIN_ROUTES.PROFILE} element={
                     <PrivateRoute>
-                        <MainLayout />
+                        <ProfilePage />
                     </PrivateRoute>
                 } />
 
