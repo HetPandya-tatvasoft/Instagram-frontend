@@ -2,10 +2,13 @@ import React, { useState } from 'react';
 import MainLayout from '../../../layouts/MainLayout';
 import { Settings, Pencil, Plus, Heart, MessageCircle } from 'lucide-react';
 import useLogout from '../../../hooks/useLogout';
+import { useNavigate } from 'react-router-dom';
 
 const ProfilePage: React.FC = () => {
 
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+
+    const navigate = useNavigate();
 
     const logout = useLogout();
 
