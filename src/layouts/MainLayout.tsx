@@ -1,22 +1,24 @@
 import React, { useState } from 'react';
 import { Heart, MessageCircle, Send, Bookmark, MoreHorizontal, Settings, Search, Home, Compass, PlaySquare, User, Plus, Menu } from 'lucide-react';
 import instaLogo from "../assets/images/henstagram-logo.png";
+import { ROUTES } from '../common/constants/routes';
+import { Link } from 'react-router-dom';
 
 interface MainLayoutProps {
-    children : React.ReactNode,
+    children: React.ReactNode,
 }
 
-const MainLayout: React.FC<MainLayoutProps> = ({children}) => {
+const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
 
     const sidebarModules = [
-        { icon: Home, label: 'Home', active: false },
-        { icon: Search, label: 'Search', active: false },
-        { icon: Compass, label: 'Explore', active: false },
-        { icon: PlaySquare, label: 'Reels', active: false },
-        { icon: MessageCircle, label: 'Messages', active: false },
-        { icon: Heart, label: 'Notifications', active: false },
-        { icon: Plus, label: 'Create', active: false },
-        { icon: User, label: 'Profile', active: true },
+        { icon: Home, label: 'Home', active: false, linkTo : ROUTES.MAIN_ROUTES.HOME },
+        { icon: Search, label: 'Search', active: false, linkTo : '' },
+        { icon: Compass, label: 'Explore', active: false, linkTo : '' },
+        { icon: PlaySquare, label: 'Reels', active: false, linkTo : '' },
+        { icon: MessageCircle, label: 'Messages', active: false, linkTo : '' },
+        { icon: Heart, label: 'Notifications', active: false, linkTo : '' },
+        { icon: Plus, label: 'Create', active: false, linkTo : '' },
+        { icon: User, label: 'Profile', active: true, linkTo : ROUTES.MAIN_ROUTES.PROFILE },
     ];
 
     console.log("The main layout component get called")
@@ -28,22 +30,22 @@ const MainLayout: React.FC<MainLayoutProps> = ({children}) => {
                 <div className="main-instagram-sidebar hidden md:flex w-24 lg:w-60 flex-col justify-between ps-4 border-r border-gray-200 p-4 h-full">
                     <div className="sidebar-top-instagram">
                         <div className="instagram-sidebar-heading mb-6 flex justify-center">
-                            <img src={instaLogo} alt="Instagram" className=" h-8 lg:h-8" />
+                            <img src={instaLogo} alt="Instagram" className=" h-4 lg:h-8" />
                         </div>
 
                         <nav className="space-y-2">
                             {sidebarModules.map((item, index) => (
-                                <div
+                                <Link to={item.linkTo}
                                     key={index}
                                     className={`flex items-center space-x-3 p-3 rounded-lg cursor-pointer transition-all
-                        ${item.active ? 'bg-gray-100 font-semibold' : 'hover:bg-gray-100'}
-                    `}
+                                    ${item.active ? 'bg-gray-100 font-semibold' : 'hover:bg-gray-100'}
+                                `}
                                 >
                                     <item.icon size={24} className={item.active ? 'text-black' : 'text-gray-700'} />
                                     <span className={`text-base ${item.active ? 'text-black' : 'text-gray-700'} hidden lg:inline`}>
                                         {item.label}
                                     </span>
-                                </div>
+                                </Link>
                             ))}
                         </nav>
                     </div>

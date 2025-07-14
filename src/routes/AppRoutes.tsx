@@ -7,6 +7,8 @@ import ForgotPasswordPage from '../features/authentication/pages/ForgotPasswordP
 import ResetPasswordPage from '../features/authentication/pages/ResetPasswordPage';
 import { ROUTES } from '../common/constants/routes';
 import ProfilePage from '../features/profile/pages/ProfilePage';
+import EditProfilePage from '../features/profile/pages/EditProfilePage';
+import HomePage from '../features/home/pages/HomePage';
 
 const AppRoutes = () => {
     return (
@@ -18,9 +20,21 @@ const AppRoutes = () => {
                 <Route path={ROUTES.FORGOT_PASSWORD} element={<ForgotPasswordPage />} />
                 <Route path={ROUTES.RESET_PASSWORD} element={<ResetPasswordPage />} />
 
+                <Route path={ROUTES.MAIN_ROUTES.HOME} element={
+                    <PrivateRoute>
+                        <HomePage />
+                    </PrivateRoute>
+                } />
+
                 <Route path={ROUTES.MAIN_ROUTES.PROFILE} element={
                     <PrivateRoute>
                         <ProfilePage />
+                    </PrivateRoute>
+                } />
+
+                <Route path={ROUTES.MAIN_ROUTES.UPDATE_PROFILE} element={
+                    <PrivateRoute>
+                        <EditProfilePage />
                     </PrivateRoute>
                 } />
 

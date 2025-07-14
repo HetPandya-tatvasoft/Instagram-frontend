@@ -1,7 +1,7 @@
-import { TextField } from "@mui/material";
+import { TextField, type TextFieldProps } from "@mui/material";
 import type { ChangeEvent, FocusEvent } from "react";
 
-interface FormikTextFieldProps {
+export interface FormikTextFieldProps {
     label: string;
     id?: string;
     name: string;
@@ -11,6 +11,7 @@ interface FormikTextFieldProps {
     onBlur: (e: FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
     error?: boolean;
     helperText: string | false | undefined;
+    shrinkLabel?: boolean;
 }
 
 const FormikTextField: React.FC<FormikTextFieldProps> = ({
@@ -23,6 +24,7 @@ const FormikTextField: React.FC<FormikTextFieldProps> = ({
     onBlur,
     error,
     helperText,
+    shrinkLabel,
 }) => {
     return (
         <TextField
@@ -37,6 +39,11 @@ const FormikTextField: React.FC<FormikTextFieldProps> = ({
             onBlur={onBlur}
             error={error}
             helperText={helperText}
+            slotProps={{
+                inputLabel: {
+                    shrink: shrinkLabel,
+                },
+            }}
         />
     );
 };

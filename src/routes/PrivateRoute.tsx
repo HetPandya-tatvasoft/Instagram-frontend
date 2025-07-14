@@ -9,7 +9,7 @@ interface DecodedToken {
     [key: string]: unknown;
 }
 
-const isTokenExpired = (token: string): boolean => {
+const isTokenExpired = (token: string): boolean => {    
     try {
         const decoded = jwtDecode<DecodedToken>(token);
         const currentTime = Math.floor(Date.now() / 1000);
