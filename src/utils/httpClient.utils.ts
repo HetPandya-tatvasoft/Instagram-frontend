@@ -1,26 +1,25 @@
-
-import API from './axios.utils'
-import type { ApiResponse } from './../@core/api/apiResponse.type'
-import type { AxiosRequestConfig } from 'axios';
+import API from "./axios.utils";
+import type { ApiResponse } from "./../@core/api/apiResponse.type";
+import type { AxiosRequestConfig } from "axios";
 
 class HttpError extends Error {
-    errorCode?: string;
-    constructor(message: string, errorCode?: string) {
-        super(message);
-        this.name = 'HttpError';
-        this.errorCode = errorCode;
-    };
-};
+  errorCode?: string;
+  constructor(message: string, errorCode?: string) {
+    super(message);
+    this.name = "HttpError";
+    this.errorCode = errorCode;
+  }
+}
 
 export const getRequest = async <T>(url: string): Promise<T> => {
-    const res = await API.get<ApiResponse<T>>(url);
-    console.log(res.data.isSuccess)
-    if (!res.data.isSuccess) {
-        throw new HttpError(res.data.message, res.data.errorCode);
-    };
+  const res = await API.get<ApiResponse<T>>(url);
+  console.log(res.data.isSuccess);
+//   if (!res.data.isSuccess) {
+//     throw new HttpError(res.data.message, res.data.errorCode);
+//   }
 
-    return res.data.data;
-}
+  return res.data.data;
+};
 
 /**
  * Sends a POST request.
@@ -28,14 +27,14 @@ export const getRequest = async <T>(url: string): Promise<T> => {
  */
 
 export const postRequest = async <TResponse, TPayload>(
-    url: string,
-    payload: TPayload,
-    config?: AxiosRequestConfig
+  url: string,
+  payload: TPayload,
+  config?: AxiosRequestConfig
 ): Promise<ApiResponse<TResponse>> => {
-    const res = await API.post<ApiResponse<TResponse>>(url, payload, config);
-    return res.data;
+  const res = await API.post<ApiResponse<TResponse>>(url, payload, config);
+  console.log(res);
+  return res.data;
 };
-
 
 // export const postRequest = async <T, D>(url: string, data: D): Promise<T> => {
 //     const res = await API.post<ApiResponse<T>>(url, data);
@@ -47,4 +46,3 @@ export const postRequest = async <TResponse, TPayload>(
 
 //     return res.data.data;
 // }
-

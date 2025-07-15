@@ -1,6 +1,6 @@
 
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { User } from "./types/auth.type";
+import type { User } from "../types/auth.type";
 import Cookies from "js-cookie";
 
 interface AuthState {
@@ -24,7 +24,7 @@ const authSlice = createSlice({
     logout: (state) => {
       state.user = null;
       Cookies.remove("auth_token");
-      state.isInitialised = true;
+      state.isInitialised = false;
     },
     setInitialised : (state) => {
       state.isInitialised = true;

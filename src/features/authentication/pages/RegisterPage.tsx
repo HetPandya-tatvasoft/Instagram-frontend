@@ -1,4 +1,3 @@
-
 import RegisterForm from '../components/RegisterForm'
 import SignInOrUpSwitch from '../../../common/components/SignInOrUpSwitch'
 import AuthFormPage from "../../../layouts/AuthenticationLayout";

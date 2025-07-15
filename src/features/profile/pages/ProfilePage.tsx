@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
 import MainLayout from '../../../layouts/MainLayout';
 import { Settings, Pencil, Plus, Heart, MessageCircle } from 'lucide-react';
-import useLogout from '../../../hooks/useLogout';
-import { useNavigate } from 'react-router-dom';
-import { ROUTES } from '../../../common/constants/routes';
-import ProfilePicture from '../components/ProfilePicture';
 import ProfileHeader from '../components/ProfileHeader';
 
 const ProfilePage: React.FC = () => {

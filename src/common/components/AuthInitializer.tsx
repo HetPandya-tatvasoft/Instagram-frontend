@@ -1,40 +1,48 @@
 import { useEffect } from "react";
 import { useAppDispatch } from "../../app/redux/hooks";
-import type { User } from "../../features/authentication/types/auth.type"
-import Cookies from 'js-cookie';
-import { jwtDecode } from 'jwt-decode';
-import { setUser, setInitialised } from "../../features/authentication/authSlice";
+import type { User } from "../../features/authentication/types/auth.type";
+import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode";
+import {
+  setUser,
+  setInitialised,
+} from "../../features/authentication/slice/authSlice";
 import { getAuthToken } from "../../utils/cookie.utils";
+import useLogout from "../../hooks/useLogout";
 
 interface DecodedToken extends User {
-    exp: number;
+  exp: number;
 }
 
 const AuthInitializer = () => {
-    const dispatch = useAppDispatch();
-    useEffect(() => {
-        const token = getAuthToken();
+  const dispatch = useAppDispatch();
+  const logout = useLogout();
+  useEffect(() => {
+    const token = getAuthToken();
 
-        if (!token) {
-            dispatch(setInitialised());
-            return;
-        }
-        try {
-            const decoded: DecodedToken = jwtDecode(token);
-            const isValid = decoded.exp > Math.floor(Date.now() / 1000);
+    if (!token) {
+      dispatch(setInitialised());
+      logout();
+      return;
+    }
+    try {
+      const decoded: DecodedToken = jwtDecode(token);
+      const isValid = decoded.exp > Math.floor(Date.now() / 1000);
 
-            if (isValid) {
-                dispatch(setUser({ ...decoded, token }));
-            } else {
-                Cookies.remove('token');
-                dispatch(setInitialised());
-            }
-        } catch (err) {
-            Cookies.remove('token');
-        }
-    }, [dispatch])
+      if (isValid) {
+        dispatch(setUser({ ...decoded, token }));
+      } else {
+        Cookies.remove("token");
+        logout();
+        dispatch(setInitialised());
+      }
+    } catch (err) {
+      logout();
+      Cookies.remove("token");
+    }
+  }, [dispatch, logout]);
 
-    return null;
-}
+  return null;
+};
 
 export default AuthInitializer;

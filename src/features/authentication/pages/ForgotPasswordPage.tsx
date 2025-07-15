@@ -1,4 +1,3 @@
-
 import ForgotPasswordForm from '../components/ForgotPasswordForm'
 import BackToLogin from '../components/BackToLogin'
 import AuthFormPage from "../../../layouts/AuthenticationLayout";

@@ -3,6 +3,7 @@ import { Heart, MessageCircle, Send, Bookmark, MoreHorizontal, Settings, Search,
 import instaLogo from "../assets/images/henstagram-logo.png";
 import { ROUTES } from '../common/constants/routes';
 import { Link } from 'react-router-dom';
+import CenterModalLayout from './CenterModalLayout';
 
 interface MainLayoutProps {
     children: React.ReactNode,
@@ -10,16 +11,41 @@ interface MainLayoutProps {
 
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
 
+    const [isCreatePostModalOpen, setIsCreatePostModalOpen] = useState(false);
+
+    const [file, setFile] = useState(null);
+
+    const [caption, setCaption] = useState("");
+
+    const handlePost = () => {
+        if (!file) return;
+        const formData = new FormData();
+        formData.append("image", file);
+        formData.append("caption", caption);
+        console.log("Post Submitted", { file, caption });
+
+        // TODO: Submit with mutation here
+        // closeModal();
+        setFile(null);
+        setCaption("");
+    };
+
+    // if (!isModalOpen) return null;
+
     const sidebarModules = [
-        { icon: Home, label: 'Home', active: false, linkTo : ROUTES.MAIN_ROUTES.HOME },
-        { icon: Search, label: 'Search', active: false, linkTo : '' },
-        { icon: Compass, label: 'Explore', active: false, linkTo : '' },
-        { icon: PlaySquare, label: 'Reels', active: false, linkTo : '' },
-        { icon: MessageCircle, label: 'Messages', active: false, linkTo : '' },
-        { icon: Heart, label: 'Notifications', active: false, linkTo : '' },
-        { icon: Plus, label: 'Create', active: false, linkTo : '' },
-        { icon: User, label: 'Profile', active: true, linkTo : ROUTES.MAIN_ROUTES.PROFILE },
+        { icon: Home, label: 'Home', active: false, linkTo: ROUTES.MAIN_ROUTES.HOME, shouldCreatePostModalOpen: false },
+        { icon: Search, label: 'Search', active: false, linkTo: '', shouldCreatePostModalOpen: false },
+        { icon: Compass, label: 'Explore', active: false, linkTo: '', shouldCreatePostModalOpen: false },
+        { icon: PlaySquare, label: 'Reels', active: false, linkTo: '', shouldCreatePostModalOpen: false },
+        { icon: MessageCircle, label: 'Messages', active: false, linkTo: '', shouldCreatePostModalOpen: false },
+        { icon: Heart, label: 'Notifications', active: false, linkTo: '', shouldCreatePostModalOpen: false },
+        { icon: Plus, label: 'Create', active: false, linkTo: '', shouldCreatePostModalOpen: true },
+        { icon: User, label: 'Profile', active: true, linkTo: ROUTES.MAIN_ROUTES.PROFILE, shouldCreatePostModalOpen: false },
     ];
+
+    const handleCreatePostButtonClick = () => {
+        setIsCreatePostModalOpen((prev) => !prev);
+    }
 
     console.log("The main layout component get called")
 
@@ -34,19 +60,47 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
                         </div>
 
                         <nav className="space-y-2">
-                            {sidebarModules.map((item, index) => (
-                                <Link to={item.linkTo}
-                                    key={index}
-                                    className={`flex items-center space-x-3 p-3 rounded-lg cursor-pointer transition-all
-                                    ${item.active ? 'bg-gray-100 font-semibold' : 'hover:bg-gray-100'}
-                                `}
-                                >
-                                    <item.icon size={24} className={item.active ? 'text-black' : 'text-gray-700'} />
-                                    <span className={`text-base ${item.active ? 'text-black' : 'text-gray-700'} hidden lg:inline`}>
-                                        {item.label}
-                                    </span>
-                                </Link>
-                            ))}
+                            {sidebarModules.map((item, index) =>
+                                item.shouldCreatePostModalOpen ? (
+                                    <button
+                                        key={index}
+                                        onClick={handleCreatePostButtonClick}
+                                        className={`flex items-center space-x-3 p-3 w-full text-left rounded-lg cursor-pointer transition-all
+              ${item.active ? "bg-gray-100 font-semibold" : "hover:bg-gray-100"}
+            `}
+                                    >
+                                        <item.icon
+                                            size={24}
+                                            className={item.active ? "text-black" : "text-gray-700"}
+                                        />
+                                        <span
+                                            className={`text-base ${item.active ? "text-black" : "text-gray-700"
+                                                } hidden lg:inline`}
+                                        >
+                                            {item.label}
+                                        </span>
+                                    </button>
+                                ) : (
+                                    <Link
+                                        key={index}
+                                        to={item.linkTo}
+                                        className={`flex items-center space-x-3 p-3 rounded-lg cursor-pointer transition-all
+              ${item.active ? "bg-gray-100 font-semibold" : "hover:bg-gray-100"}
+            `}
+                                    >
+                                        <item.icon
+                                            size={24}
+                                            className={item.active ? "text-black" : "text-gray-700"}
+                                        />
+                                        <span
+                                            className={`text-base ${item.active ? "text-black" : "text-gray-700"
+                                                } hidden lg:inline`}
+                                        >
+                                            {item.label}
+                                        </span>
+                                    </Link>
+                                )
+                            )}
                         </nav>
                     </div>
 
@@ -74,6 +128,113 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
                     {children}
                 </div>
             </div>
+
+            {/* Create Post Modal */}
+            {/* {
+                isCreatePostModalOpen &&
+                <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/60">
+                    <div className="bg-white rounded-xl w-full max-w-md mx-4 overflow-hidden">
+                        <div className="border-b px-4 py-3 text-center font-semibold">
+                            Create New Post
+                        </div>
+
+                        {!file ? (
+                            <div className="p-6 text-center">
+                                <label className="cursor-pointer block">
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        hidden
+                                    />
+                                    <div className="border border-dashed border-gray-400 p-10 rounded-lg">
+                                        <p className="text-gray-600">Click to upload image</p>
+                                    </div>
+                                </label>
+                            </div>
+                        ) : (
+                            <div className="p-4">
+                                <img
+                                    src={URL.createObjectURL(file)}
+                                    alt="preview"
+                                    className="w-full h-64 object-cover rounded"
+                                />
+                                <textarea
+                                    placeholder="Write a caption..."
+                                    className="w-full mt-3 p-2 border rounded focus:outline-none"
+                                    rows={3}
+                                    value={caption}
+                                    onChange={(e) => setCaption(e.target.value)}
+                                ></textarea>
+
+                                <div className="mt-4 flex justify-between">
+                                    <button
+                                        className="px-4 py-2 bg-gray-200 text-gray-700 rounded"
+                                    >
+                                        Cancel
+                                    </button>
+                                    <button
+                                        onClick={handlePost}
+                                        className="px-4 py-2 bg-blue-500 text-white rounded"
+                                    >
+                                        Share
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            } */}
+            <CenterModalLayout isOpen={isCreatePostModalOpen} onClose={() => setIsCreatePostModalOpen(false)}>
+                <div className="bg-white rounded-xl w-full max-w-md mx-4 overflow-hidden">
+                    <div className="border-b px-4 py-3 text-center font-semibold">
+                        Create New Post
+                    </div>
+
+                    {!file ? (
+                        <div className="p-6 text-center">
+                            <label className="cursor-pointer block">
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    hidden
+                                />
+                                <div className="border border-dashed border-gray-400 p-10 rounded-lg">
+                                    <p className="text-gray-600">Click to upload image</p>
+                                </div>
+                            </label>
+                        </div>
+                    ) : (
+                        <div className="p-4">
+                            <img
+                                src={URL.createObjectURL(file)}
+                                alt="preview"
+                                className="w-full h-64 object-cover rounded"
+                            />
+                            <textarea
+                                placeholder="Write a caption..."
+                                className="w-full mt-3 p-2 border rounded focus:outline-none"
+                                rows={3}
+                                value={caption}
+                                onChange={(e) => setCaption(e.target.value)}
+                            ></textarea>
+
+                            <div className="mt-4 flex justify-between">
+                                <button
+                                    className="px-4 py-2 bg-gray-200 text-gray-700 rounded"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    onClick={handlePost}
+                                    className="px-4 py-2 bg-blue-500 text-white rounded"
+                                >
+                                    Share
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </CenterModalLayout>
         </>
     )
 }

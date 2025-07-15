@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { useAppDispatch } from "../../../app/redux/hooks"
 import type { LoginPayload, LoginResponse } from "../types/auth.type";
-import { setUser } from "../authSlice";
+import { setUser } from "../slice/authSlice";
 import { loginUser } from "../authService";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
@@ -44,7 +44,7 @@ export const useLogin = () => {
             toast.success(MESSAGES.AUTH.LOGIN_SUCCESS);
             console.log("PROFILE route constant:", ROUTES.MAIN_ROUTES.PROFILE);
             navigate(ROUTES.MAIN_ROUTES.PROFILE);
-        },
+        }, 
         onError: (error) => {
             handleApiError(error);
             console.error("Login failed:", error);

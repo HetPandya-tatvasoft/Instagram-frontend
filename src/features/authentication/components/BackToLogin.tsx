@@ -1,14 +1,16 @@
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from '../../../common/constants/routes'
+import { useCallback } from "react";
 
 
 const BackToLogin = () => {
+    const loginRoutePath = ROUTES.LOGIN;
 
     const navigate = useNavigate();
 
-    const navigateToLogin = () => {
-        navigate(ROUTES.LOGIN)
-    }
+    const navigateToLogin = useCallback(() => {
+        navigate(loginRoutePath);
+    }, [loginRoutePath, navigate])
 
     return (
         <div className="w-full">

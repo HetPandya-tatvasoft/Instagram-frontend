@@ -1,26 +1,10 @@
 import { TextField } from '@mui/material'
 import React, { useCallback } from 'react'
 import { useFormik } from "formik";
-import * as Yup from "yup";
 import type { ResetPasswordPayload } from '../types/auth.type';
 import useResetPassword from '../hooks/useResetPassword';
 import { useSearchParams } from 'react-router-dom';
-
-const VALIDATION_SCHEMA = Yup.object({
-    password: Yup.string()
-        .required("Password is required")
-        .matches(
-            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,15}$/,
-            "Password must be 8-15 characters, include uppercase, lowercase, number, and special character"
-        ),
-    confirmPassword: Yup.string()
-        .required("Confirm Password is required")
-        .matches(
-            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,15}$/,
-            "Password must be 8-15 characters, include uppercase, lowercase, number, and special character"
-        )
-        .oneOf([Yup.ref('password')], "Passwords must match"),
-})
+import { resetPasswordValidation } from '../validations/resetPasswordValidation';
 
 const INITIAL_VALUES: ResetPasswordPayload = {
     token: "",
@@ -42,12 +26,12 @@ const ResetPassword: React.FC = () => {
                 onError: () => { }
             }
             )
-        }, [mutate]
+        }, [mutate, token]
     )
 
     const formik = useFormik({
         initialValues: INITIAL_VALUES,
-        validationSchema: VALIDATION_SCHEMA,
+        validationSchema: resetPasswordValidation,
         onSubmit: handleSubmit,
     });
 

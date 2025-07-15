@@ -1,4 +1,3 @@
-
 import ResetPassword from '../components/ResetPassword'
 import BackToLogin from '../components/BackToLogin'
 import AuthFormPage from "../../../layouts/AuthenticationLayout";

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import ProfilePicture from '../components/ProfilePicture';
 import { Settings, Pencil } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -8,19 +8,21 @@ import useLogout from '../../../hooks/useLogout';
 
 const ProfileHeader: React.FC = () => {
 
+    const updateProfileRoute = ROUTES.MAIN_ROUTES.UPDATE_PROFILE;
+
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
     const navigate = useNavigate();
 
     const logout = useLogout();
 
-    const handleLogout = () => {
+    const handleLogout = useCallback(() => {
         logout();
-    }
+    }, [logout])
 
-    const handleEditProfileClick = () => {
-        navigate(ROUTES.MAIN_ROUTES.UPDATE_PROFILE);
-    };
+    const handleEditProfileClick = useCallback(() => {
+        navigate(updateProfileRoute);
+    }, [navigate, updateProfileRoute])
 
     const settingsOptions = [
         'Apps and websites',
@@ -67,6 +69,7 @@ const ProfileHeader: React.FC = () => {
                     </div>
                 </div>
             </div>
+            
             {/* Modal */}
             {isSettingsOpen && (
                 <div className="fixed inset-0 bg-black/50 flex items-end sm:items-center justify-center z-50">

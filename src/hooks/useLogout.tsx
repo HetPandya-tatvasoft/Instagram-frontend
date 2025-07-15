@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useCallback } from "react";
-import { logout as logoutUser } from "../features/authentication/authSlice"
+import { logout as logoutUser } from "../features/authentication/slice/authSlice"
 import { ROUTES } from "../common/constants/routes";
 import { useAppDispatch } from "../app/redux/hooks";
 

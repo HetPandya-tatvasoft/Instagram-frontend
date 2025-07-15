@@ -1,16 +1,28 @@
-import type { ForgotPasswordPayload, LoginPayload, LoginResponse, RegisterUserPayload, SendResetLinkResponse, RegisterUserResponse, User, ResetPasswordPayload, stringResponseGeneral } from './types/auth.type';
-import API from '../../utils/axios.utils';
-import { postRequest } from '../../utils/httpClient.utils';
+import type {
+  ForgotPasswordPayload,
+  LoginPayload,
+  LoginResponse,
+  RegisterUserPayload,
+  SendResetLinkResponse,
+  RegisterUserResponse,
+  User,
+  ResetPasswordPayload,
+  stringResponseGeneral,
+} from "./types/auth.type";
+import API from "../../utils/axios.utils";
+import { postRequest } from "../../utils/httpClient.utils";
+import { ERROR_CODES } from "../../common/constants/error";
 
 const ENDPOINTS = {
-    LOGIN: '/auth/login',
-    REGISTER_USER: '/auth/register',
-    SEND_RESET_LINK: '/auth/forgot-password',
-    RESET_PASSWORD: '/auth/reset-password',
-    CURRENT_USER: '/user/get-logged-in-user',
-    UNIQUE_USERNAME_CHECK: '/auth/is-unique-username',
-    UNIQUE_EMAIL_CHECK: '/auth/is-unique-email',
-    UNIQUE_CONTACT_CHECK: '/auth/is-unique-contact-number'
+  LOGIN: "/auth/login",
+  REGISTER_USER: "/auth/register",
+  SEND_RESET_LINK: "/auth/forgot-password",
+  RESET_PASSWORD: "/auth/reset-password",
+  CURRENT_USER: "/user/get-logged-in-user",
+  UNIQUE_USERNAME_CHECK: "/auth/is-unique-username",
+  UNIQUE_EMAIL_CHECK: "/auth/is-unique-email",
+  UNIQUE_CONTACT_CHECK: "/auth/is-unique-contact-number",
+  GET_LOGGED_IN_USER: "/user/get-logged-in-user",
 };
 
 // export const loginUser = async (data: LoginPayload): Promise<LoginResponse> => {
@@ -19,18 +31,25 @@ const ENDPOINTS = {
 // };
 
 export const loginUser = (payload: LoginPayload) =>
-    postRequest<LoginResponse, LoginPayload>(ENDPOINTS.LOGIN, payload);
+  postRequest<LoginResponse, LoginPayload>(ENDPOINTS.LOGIN, payload);
 
-export const registerUser = (payload : RegisterUserPayload) => 
-    postRequest<RegisterUserResponse, RegisterUserPayload>(ENDPOINTS.REGISTER_USER, payload);
+export const registerUser = (payload: RegisterUserPayload) =>
+  postRequest<RegisterUserResponse, RegisterUserPayload>(
+    ENDPOINTS.REGISTER_USER,
+    payload
+  );
 
-export const sendResetLink = (payload : ForgotPasswordPayload) => 
-    postRequest<stringResponseGeneral, ForgotPasswordPayload>(ENDPOINTS.SEND_RESET_LINK, payload);
+export const sendResetLink = (payload: ForgotPasswordPayload) =>
+  postRequest<stringResponseGeneral, ForgotPasswordPayload>(
+    ENDPOINTS.SEND_RESET_LINK,
+    payload
+  );
 
-export const resetPassword = (payload : ResetPasswordPayload) =>
-    postRequest<stringResponseGeneral, ResetPasswordPayload>(ENDPOINTS.RESET_PASSWORD, payload);
-
-
+export const resetPassword = (payload: ResetPasswordPayload) =>
+  postRequest<stringResponseGeneral, ResetPasswordPayload>(
+    ENDPOINTS.RESET_PASSWORD,
+    payload
+  );
 
 // export const registerUser = async (data: RegisterUserPayload): Promise<RegisterUserResponse> => {
 //     const response = await API.post<RegisterUserResponse>(ENDPOINTS.REGISTER_USER, data);
@@ -51,46 +70,47 @@ export const resetPassword = (payload : ResetPasswordPayload) =>
 // }
 
 export const checkUniqueEmail = async (email: string) => {
-    try {
-        const response = await API.get(ENDPOINTS.UNIQUE_EMAIL_CHECK, {
-            params: { email },
-        });
-        return response.data;
+  try {
+    const response = await API.get(ENDPOINTS.UNIQUE_EMAIL_CHECK, {
+      params: { email },
+    });
+    return response.data;
 
-        // Remove this try catch block as it is already being handled in the test method in the formik
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-        if (error.response && error.response.status === 400) {
-            const message = error.response.data?.message || "Email already exists";
-            return Promise.reject(new Error(message));
-        }
-        // Generic fallback
-        return Promise.reject(new Error("Something went wrong during email validation"));
+    // Remove this try catch block as it is already being handled in the test method in the formik
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    if (error.response && error.response.status === 400) {
+      const message =
+        error.response.data?.message || ERROR_CODES.ALREADY_EXISTS.EMAIL;
+      return Promise.reject(new Error(message));
     }
+    // Generic fallback
+    return Promise.reject(
+      new Error(ERROR_CODES.internalServer.emailValidation)
+    );
+  }
 };
 
 export const checkUniqueContact = async (contactNumber: string) => {
+  const response = await API.get(ENDPOINTS.UNIQUE_CONTACT_CHECK, {
+    params: { contactNumber },
+  });
 
-    const response = await API.get(ENDPOINTS.UNIQUE_CONTACT_CHECK, {
-        params: { contactNumber },
-    });
-
-    return response.data;
-}
+  return response.data;
+};
 
 export const checkUniqueUsername = async (username: string) => {
-    try {
-        const response = await API.get(ENDPOINTS.UNIQUE_USERNAME_CHECK, {
-            params: { username },
-        });
-        return response.data;
-    }
-    catch (error) {
-        console.warn(error)
-    }
-}
+  try {
+    const response = await API.get(ENDPOINTS.UNIQUE_USERNAME_CHECK, {
+      params: { username },
+    });
+    return response.data;
+  } catch (error) {
+    console.warn(error);
+  }
+};
 
 export const fetchCurrentUser = async (): Promise<User> => {
-    const response = await API.get<User>('/user/get-logged-in-user');
-    return response.data;
-}
+  const response = await API.get<User>(ENDPOINTS.GET_LOGGED_IN_USER);
+  return response.data;
+};
