@@ -1,3 +1,5 @@
+// import MainLayout from "../../../layouts/MainLayout";
+
 import MainLayout from "../../../layouts/MainLayout";
 
 const HomePage: React.FC = () => {
