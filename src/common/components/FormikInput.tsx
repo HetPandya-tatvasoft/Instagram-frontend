@@ -9,8 +9,6 @@ export interface FormikInputProps extends React.InputHTMLAttributes<HTMLInputEle
     helperText?: string;
 }
 
-
-
 const FormikInput: React.FC<FormikInputProps> = ({
     label,
     id,

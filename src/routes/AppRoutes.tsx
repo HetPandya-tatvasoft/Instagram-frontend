@@ -13,7 +13,6 @@ import HomePage from '../features/home/pages/HomePage';
 const AppRoutes = () => {
     return (
         <>
-            <AuthInitializer />
             <Routes>
                 <Route path={ROUTES.LOGIN} element={<LoginPage />} />
                 <Route path={ROUTES.REGISTER} element={<RegisterPage />} />

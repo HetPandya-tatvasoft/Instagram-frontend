@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useCallback } from "react";
 
 interface ModalProps {
   isOpen: boolean;
@@ -13,8 +13,8 @@ const CenterModalLayout: React.FC<ModalProps> = ({
 }) => {
   const modalRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
+  const handleClickOutside = useCallback(
+    (event: MouseEvent) => {
       if (
         modalRef.current &&
         !modalRef.current.contains(event.target as Node)
@@ -22,16 +22,18 @@ const CenterModalLayout: React.FC<ModalProps> = ({
         console.log("Modal is set to be closed");
         onClose();
       }
+    },
+    [onClose]
+  );
 
-      if (isOpen) {
-        document.addEventListener("mousedown", handleClickOutside);
-      }
-
+  useEffect(() => {
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
       return () => {
         document.removeEventListener("mousedown", handleClickOutside);
       };
-    };
-  }, [isOpen, onClose]);
+    }
+  }, [isOpen, handleClickOutside]);
 
   if (!isOpen) return null;
 
@@ -39,11 +41,12 @@ const CenterModalLayout: React.FC<ModalProps> = ({
     <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/60">
       <div
         ref={modalRef}
-        className="bg-white rounded-xl shadow-lg p-6 w-full max-w-md"
+        className="bg-white rounded-xl shadow-lg p-6 w-full max-w-3xl"
       >
         {children}
       </div>
     </div>
   );
 };
+
 export default CenterModalLayout;

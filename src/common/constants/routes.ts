@@ -6,7 +6,6 @@ export const PUBLIC_ROUTES = {
     REGISTER: `${API_URL}/auth/register`
 };
 
-
 export const PRIVATE_ROUTES = {
 
 };

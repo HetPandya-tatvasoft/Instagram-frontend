@@ -9,6 +9,7 @@ import { MESSAGES } from "../../../common/constants/messages";
 import { handleApiError } from "../../../utils/error.utils";
 
 export const useUpdateProfile = () => {
+    
     const navigate = useNavigate();
 
     return useMutation<ApiResponse<UserProfileResponse>, Error, UpdateUserProfilePayload>({
@@ -23,7 +24,10 @@ export const useUpdateProfile = () => {
             toast.success(MESSAGES.PROFILE.UPDATE_SUCCESS);
         },
         onError: (error) => {
-            handleApiError(error);
+            console.log(error)
+            // eslint-disable-next-line no-debugger
+            debugger;
+            // handleApiError(error);
         },
     });
 };

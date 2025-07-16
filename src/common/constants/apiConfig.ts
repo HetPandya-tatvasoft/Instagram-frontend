@@ -6,6 +6,9 @@ export const API_CONFIG = {
     HEADERS: {
       "Content-Type": "application/json",
     },
+    FORM_DATA_HEADERS: {
+      // Browser will detect by itself
+    },
   };
 
 export const AUTH_ENDPOINTS = {

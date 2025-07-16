@@ -1,7 +1,8 @@
-import API from "./axios.utils";
+import axiosUtils from "./axios.utils";
 import type { ApiResponse } from "./../@core/api/apiResponse.type";
 import type { AxiosRequestConfig } from "axios";
 
+const { API, APIFormData } = axiosUtils;
 class HttpError extends Error {
   errorCode?: string;
   constructor(message: string, errorCode?: string) {
@@ -14,9 +15,9 @@ class HttpError extends Error {
 export const getRequest = async <T>(url: string): Promise<T> => {
   const res = await API.get<ApiResponse<T>>(url);
   console.log(res.data.isSuccess);
-//   if (!res.data.isSuccess) {
-//     throw new HttpError(res.data.message, res.data.errorCode);
-//   }
+  //   if (!res.data.isSuccess) {
+  //     throw new HttpError(res.data.message, res.data.errorCode);
+  //   }
 
   return res.data.data;
 };
@@ -32,6 +33,20 @@ export const postRequest = async <TResponse, TPayload>(
   config?: AxiosRequestConfig
 ): Promise<ApiResponse<TResponse>> => {
   const res = await API.post<ApiResponse<TResponse>>(url, payload, config);
+  console.log(res);
+  return res.data;
+};
+
+export const postRequestFormData = async <TResponse>(
+  url: string,
+  payload: FormData,
+  config?: AxiosRequestConfig
+): Promise<ApiResponse<TResponse>> => {
+  const res = await APIFormData.post<ApiResponse<TResponse>>(
+    url,
+    payload,
+    config
+  );
   console.log(res);
   return res.data;
 };

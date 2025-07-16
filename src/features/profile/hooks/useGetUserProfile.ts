@@ -18,9 +18,10 @@ export const useGetUserProfile = () => {
   
   useEffect(() => {
     if (queryResult.isSuccess && queryResult.data) {
+      console.log(queryResult)
       dispatch(setUserProfile(queryResult.data));
     }
-  }, [queryResult.isSuccess, queryResult.data, dispatch]);
+  }, [queryResult.isSuccess, queryResult.data, dispatch, queryResult]);
 
   useEffect(() => {
     if (queryResult.isError && queryResult.error) {
