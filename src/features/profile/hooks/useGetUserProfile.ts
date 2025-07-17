@@ -14,11 +14,11 @@ export const useGetUserProfile = () => {
     queryFn: getUserProfile,
     staleTime: 5 * 60 * 1000,
     retry: 1,
-  }); 
-  
+  });
+
   useEffect(() => {
     if (queryResult.isSuccess && queryResult.data) {
-      console.log(queryResult)
+      console.log(queryResult);
       dispatch(setUserProfile(queryResult.data));
     }
   }, [queryResult.isSuccess, queryResult.data, dispatch, queryResult]);

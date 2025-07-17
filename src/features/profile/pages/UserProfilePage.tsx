@@ -1,14 +1,11 @@
 import React, { useState } from "react";
 import MainLayout from "../../../layouts/MainLayout";
-import { Settings, Pencil, Plus, Heart, MessageCircle } from "lucide-react";
 import ProfileHeader from "../components/ProfileHeader";
 import ProfileBio from "../components/ProfileBio";
 import StoryHighlights from "../components/StoryHighlights";
 import ProfilePostsSection from "../components/ProfilePostsSection";
 
 const ProfilePage: React.FC = () => {
-  
-
   return (
     <MainLayout>
       {/* <h2>This will be the main profile page</h2> */}

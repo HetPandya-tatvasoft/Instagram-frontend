@@ -18,17 +18,22 @@ import instaLogo from "../assets/images/henstagram-logo.png";
 import { ROUTES } from "../common/constants/routes";
 import { Link } from "react-router-dom";
 import CreatePostModal from "../common/components/CreatePostModal";
+import SearchPanel from "../common/components/SearchPanel";
 
 interface MainLayoutProps {
   children: React.ReactNode;
 }
 
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
+  console.log("MainLayout re-rendered");
+
   const [isCreatePostModalOpen, setIsCreatePostModalOpen] = useState(false);
 
   const [files, setFiles] = useState<File[]>([]);
 
   const [caption, setCaption] = useState("");
+
+  const [showSearch, setShowSearch] = useState(false);
 
   const handlePost = () => {
     if (files.length === 0) return;
@@ -60,6 +65,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
       active: false,
       linkTo: "",
       shouldCreatePostModalOpen: false,
+      shouldSearchSidebarOpen: true,
     },
     {
       icon: Compass,
@@ -67,6 +73,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
       active: false,
       linkTo: "",
       shouldCreatePostModalOpen: false,
+      shouldSearchSidebarOpen: false,
     },
     {
       icon: PlaySquare,
@@ -74,6 +81,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
       active: false,
       linkTo: "",
       shouldCreatePostModalOpen: false,
+      shouldSearchSidebarOpen: false,
     },
     {
       icon: MessageCircle,
@@ -81,6 +89,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
       active: false,
       linkTo: "",
       shouldCreatePostModalOpen: false,
+      shouldSearchSidebarOpen: false,
     },
     {
       icon: Heart,
@@ -88,6 +97,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
       active: false,
       linkTo: "",
       shouldCreatePostModalOpen: false,
+      shouldSearchSidebarOpen: false,
     },
     {
       icon: Plus,
@@ -95,6 +105,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
       active: false,
       linkTo: "",
       shouldCreatePostModalOpen: true,
+      shouldSearchSidebarOpen: false,
     },
     {
       icon: User,
@@ -102,6 +113,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
       active: true,
       linkTo: ROUTES.MAIN_ROUTES.PROFILE,
       shouldCreatePostModalOpen: false,
+      shouldSearchSidebarOpen: false,
     },
   ];
 
@@ -122,14 +134,39 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
             </div>
 
             <nav className="space-y-2">
-              {sidebarModules.map((item, index) =>
-                item.shouldCreatePostModalOpen ? (
+              {sidebarModules.map((item, index) => {
+                if (item.shouldSearchSidebarOpen) {
+                  return (
+                    <button
+                      type="button"
+                      key={index}
+                      onClick={() => setShowSearch(true)}
+                      className={`flex items-center space-x-3 p-3 w-full text-left rounded-lg cursor-pointer transition-all
+          ${item.active ? "bg-gray-100 font-semibold" : "hover:bg-gray-100"}
+        `}
+                    >
+                      <item.icon
+                        size={24}
+                        className={item.active ? "text-black" : "text-gray-700"}
+                      />
+                      <span
+                        className={`text-base ${
+                          item.active ? "text-black" : "text-gray-700"
+                        } hidden lg:inline`}
+                      >
+                        {item.label}
+                      </span>
+                    </button>
+                  );
+                }
+
+                return item.shouldCreatePostModalOpen ? (
                   <button
                     key={index}
                     onClick={handleCreatePostButtonClick}
                     className={`flex items-center space-x-3 p-3 w-full text-left rounded-lg cursor-pointer transition-all
-              ${item.active ? "bg-gray-100 font-semibold" : "hover:bg-gray-100"}
-            `}
+        ${item.active ? "bg-gray-100 font-semibold" : "hover:bg-gray-100"}
+      `}
                   >
                     <item.icon
                       size={24}
@@ -148,8 +185,8 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
                     key={index}
                     to={item.linkTo}
                     className={`flex items-center space-x-3 p-3 rounded-lg cursor-pointer transition-all
-              ${item.active ? "bg-gray-100 font-semibold" : "hover:bg-gray-100"}
-            `}
+        ${item.active ? "bg-gray-100 font-semibold" : "hover:bg-gray-100"}
+      `}
                   >
                     <item.icon
                       size={24}
@@ -163,8 +200,8 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
                       {item.label}
                     </span>
                   </Link>
-                )
-              )}
+                );
+              })}
             </nav>
           </div>
 
@@ -253,6 +290,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
                     </div>
                 </div>
             } */}
+      <SearchPanel isOpen={showSearch} onClose={() => setShowSearch(false)} />
       <CreatePostModal
         isOpen={isCreatePostModalOpen}
         onClose={() => setIsCreatePostModalOpen(false)}
