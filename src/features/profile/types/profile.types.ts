@@ -32,4 +32,6 @@ export interface UserProfileResponse {
   link?: string;
   bio: string;
   isPrivate: boolean;
+  isVerified : boolean;
+  followStatus : string;
 }

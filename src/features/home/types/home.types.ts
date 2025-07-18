@@ -26,7 +26,7 @@ export interface Post {
 
 export interface FileResponse {
   base64String?: string;
-  mimeType?: false;
+  mimeType?: string;
 }
 
 export interface PostMedia {
@@ -71,20 +71,32 @@ export interface PostResponse {
 }
 
 export interface UserResponse {
-  userId : number;
-  userName : string;
-  email : string;
-  fullName : string;
-  dob : string;
-  contactNumber : string;
-  gender : string;
-  profilePicture : string;
-  profilePictureBase64 : FileResponse;
-  avatarUrl : string;
-  link : string;
-  bio : string;
-  isActive : boolean;
-  isPrivate : boolean;
-  isVerified : boolean;
+  userId: number;
+  userName: string;
+  email: string;
+  fullName: string;
+  dob: string;
+  contactNumber: string;
+  gender: string;
+  profilePicture: string;
+  profilePictureBase64: FileResponse;
+  avatarUrl: string;
+  link: string;
+  bio: string;
+  isActive: boolean;
+  isPrivate: boolean;
+  isVerified: boolean;
+  followStatus: string;
+}
+
+export interface UserConnectionData {
+  followersCount: number;
+  followingCount: number;
+  mutualsCount: number;
   followStatus : string;
+}
+
+export interface UserProfileHeader {
+  userHeaderInfo? : UserResponse;
+  userConnectionData : UserConnectionData
 }

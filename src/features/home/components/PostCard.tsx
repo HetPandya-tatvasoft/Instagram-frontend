@@ -95,7 +95,7 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
       </div>
 
       {/* Post Image */}
-      <div className="relative">
+      <div className="relative flex w-full justify-center ">
         <img
           src={postImageSrc}
           alt={`post.`}

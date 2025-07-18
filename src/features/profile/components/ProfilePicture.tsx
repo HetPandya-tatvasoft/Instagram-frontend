@@ -2,17 +2,19 @@ import { useRef, useState, useCallback } from "react";
 import { useUpdateProfilePicture } from "../hooks/useUpdateProfilePicture";
 
 interface ProfilePictureProps {
-  ProfilePictureUrl?: string;
+  ProfilePictureUrlBase64?: string;
+  ProfilePictureBase64MimeType: string;
 }
 
 const ProfilePicture: React.FC<ProfilePictureProps> = ({
-  ProfilePictureUrl,
+  ProfilePictureUrlBase64,
+  ProfilePictureBase64MimeType,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [isPhotoModalOpen, setIsPhotoModalOpen] = useState(false);
 
-  const [profilePic, setProfilePic] = useState(ProfilePictureUrl);
+  const [profilePic, setProfilePic] = useState(ProfilePictureUrlBase64);
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -48,8 +50,8 @@ const ProfilePicture: React.FC<ProfilePictureProps> = ({
 
   const handleFileChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-        // eslint-disable-next-line no-debugger
-        debugger;
+      // eslint-disable-next-line no-debugger
+      debugger;
       const file = e.target.files?.[0];
 
       if (file) {
@@ -69,7 +71,7 @@ const ProfilePicture: React.FC<ProfilePictureProps> = ({
       <div className="flex items-center justify-center mt-10">
         <div onClick={handleProfileClick} className="cursor-pointer relative">
           <img
-            src={profilePic}
+            src={`data:${ProfilePictureBase64MimeType};base64,${ProfilePictureUrlBase64}`}
             alt="Profile Picture Image"
             className="rounded-full w-32 h-32 object-cover border-2 border-gray-300 hover:opacity-80 transition"
           />

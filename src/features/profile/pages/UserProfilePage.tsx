@@ -4,8 +4,26 @@ import ProfileHeader from "../components/ProfileHeader";
 import ProfileBio from "../components/ProfileBio";
 import StoryHighlights from "../components/StoryHighlights";
 import ProfilePostsSection from "../components/ProfilePostsSection";
+import { useParams } from "react-router-dom";
+import { useUserProfile } from "../hooks/useUserProfile";
 
-const ProfilePage: React.FC = () => {
+const UserProfilePage: React.FC = () => {
+  const { userId } = useParams<{ userId: string }>();
+
+  console.log("Hello the user Id is : ", userId);
+
+  const { userHeaderData, isLoading, isError } = useUserProfile(userId ?? "");
+
+  if (isLoading) return <p>Loading...</p>;
+
+  if (isError || !userHeaderData) return <p>Something went wrong.</p>;
+
+  if (!userHeaderData) return null;
+
+  console.log("The user data is as follows : ");
+
+  console.log(userHeaderData);
+
   return (
     <MainLayout>
       {/* <h2>This will be the main profile page</h2> */}
@@ -13,9 +31,9 @@ const ProfilePage: React.FC = () => {
         <div className="flex justify-center ">
           <div className="sm:px-4 py-6 w-full">
             {/* Profile Header */}
-            <ProfileHeader />
-            {/* Bio */}
+            <ProfileHeader userInfo={userHeaderData} />
 
+            {/* Bio */}
             <ProfileBio />
 
             {/* Story Highlights */}
@@ -30,4 +48,4 @@ const ProfilePage: React.FC = () => {
   );
 };
 
-export default ProfilePage;
+export default UserProfilePage;

@@ -5,5 +5,5 @@ export const generalConsts = {
     uniqueContact : "unique-contactNumber",
     entityConsts : {
         profilePic : "Profile Picture",
-    }
+    },
 }

@@ -95,7 +95,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
       icon: Heart,
       label: "Notifications",
       active: false,
-      linkTo: "",
+      linkTo: ROUTES.MAIN_ROUTES.notifications,
       shouldCreatePostModalOpen: false,
       shouldSearchSidebarOpen: false,
     },

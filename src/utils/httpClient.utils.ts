@@ -15,11 +15,20 @@ class HttpError extends Error {
 export const getRequest = async <T>(url: string): Promise<T> => {
   const res = await API.get<ApiResponse<T>>(url);
   console.log(res.data.isSuccess);
-  //   if (!res.data.isSuccess) {
-  //     throw new HttpError(res.data.message, res.data.errorCode);
-  //   }
-
   return res.data.data;
+};
+
+export const getRequestWithParams = async <TResponse, TPayload>(
+  url: string,
+  payload: TPayload,
+  config?: AxiosRequestConfig
+): Promise<ApiResponse<TResponse>> => {
+  const res = await API.get<ApiResponse<TResponse>>(url, {
+    ...config,
+    params: payload,
+  });
+
+  return res.data;
 };
 
 /**

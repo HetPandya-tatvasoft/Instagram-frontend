@@ -8,6 +8,8 @@ import ProfilePostsSection from "../components/ProfilePostsSection";
 
 const ProfilePage: React.FC = () => {
   
+console.log("Profile page is being called")
+
 
   return (
     <MainLayout>
@@ -16,7 +18,7 @@ const ProfilePage: React.FC = () => {
         <div className="flex justify-center ">
           <div className="sm:px-4 py-6 w-full">
             {/* Profile Header */}
-            <ProfileHeader />
+            {/* <ProfileHeader /> */}
             {/* Bio */}
 
             <ProfileBio />

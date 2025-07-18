@@ -43,7 +43,7 @@ export const useLogin = () => {
 
             toast.success(MESSAGES.AUTH.LOGIN_SUCCESS);
             console.log("PROFILE route constant:", ROUTES.MAIN_ROUTES.PROFILE);
-            navigate(ROUTES.MAIN_ROUTES.PROFILE);
+            navigate(ROUTES.MAIN_ROUTES.HOME);
         }, 
         onError: (error) => {
             handleApiError(error);

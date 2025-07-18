@@ -24,6 +24,8 @@ export const ROUTES = {
     MAIN_ROUTES : {
         HOME : '/home/en-home',
         PROFILE : '/het-pandya/profile',
-        UPDATE_PROFILE : '/het-pandya/update-profile'
+        UPDATE_PROFILE : '/het-pandya/update-profile',
+        userProfile : '/profile/:userId',
+        notifications : '/notifications'
     }
 }

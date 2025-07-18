@@ -17,14 +17,18 @@ const SearchPanel: React.FC<SearchPanelProps> = ({ isOpen, onClose }) => {
 
   const navigate = useNavigate();
 
-  const handleProfileClick = () => {
-    navigate(ROUTES.MAIN_ROUTES.PROFILE);
+  const handleProfileClick = (id: number) => {
+    const route = ROUTES.MAIN_ROUTES.userProfile.replace(
+      ":userId",
+      id.toString()
+    );
+    navigate(route);
   };
 
   return (
     <div
       className={`fixed top-0 left-0 h-full w-full md:w-[400px] bg-white shadow-lg transform transition-transform duration-300 ease-in-out z-50 ${
-        isOpen ? "translate-x-72" : "-translate-x-full"
+        isOpen ? "translate-x-60" : "-translate-x-full"
       }`}
     >
       {/* Header */}
@@ -54,7 +58,7 @@ const SearchPanel: React.FC<SearchPanelProps> = ({ isOpen, onClose }) => {
           ) : users?.data.records.length ? (
             users?.data.records.map((user: UserResponse) => (
               <div
-                onClick={handleProfileClick}
+                onClick={() => handleProfileClick(user.userId)}
                 key={user.userId}
                 className="flex items-center gap-3 px-4 py-2 hover:bg-gray-100 cursor-pointer"
               >
