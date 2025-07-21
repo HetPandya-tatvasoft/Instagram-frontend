@@ -27,7 +27,7 @@ const ConnectionButton: React.FC<ConnectionBtnProps> = ({
   } = useSendFollowRequest();
 
   const handleToggleFollow = (userId: number, followStatus: string) => {
-    if (followStatus == FollowStatus.follow) {
+    if (followStatus == FollowStatus.follow || followStatus == FollowStatus.followBack) {
       follow(userId);
     } else if (followStatus == FollowStatus.following) {
       unfollow(userId);
@@ -48,7 +48,7 @@ const ConnectionButton: React.FC<ConnectionBtnProps> = ({
             : "bg-blue-500 text-white hover:bg-blue-600"
         }`}
     >
-        {followStatus}
+      {followStatus}
       {/* {followStatus == "Follow"
         ? followStatus
         : isHovered

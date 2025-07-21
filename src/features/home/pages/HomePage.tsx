@@ -2,12 +2,11 @@ import MainLayout from "../../../layouts/MainLayout";
 import HomePageStories from "../components/HomePageStories";
 import PostCard from "../components/PostCard";
 import { useHomeFeed } from "../hooks/useHomeFeedPosts";
-import type { User, Post } from "../types/home.types";
 import type { PostResponse } from "../types/home.types";
 import { useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { HubConnectionState } from "@microsoft/signalr";
-import { postHubConnection } from "../../../utils/signalR.utils";
+import { createPostHubConnection } from "../../../utils/signalR.utils";
 
 const HomePage: React.FC = () => {
   console.log("HomePage mounted");
@@ -18,34 +17,37 @@ const HomePage: React.FC = () => {
 
   const queryClient = useQueryClient();
 
+  useEffect(() => {
+    const connection = createPostHubConnection();
 
-    useEffect(() => {
-      const startConnection = async () => {
-        if (postHubConnection.state === HubConnectionState.Disconnected) {
-          try {
-            await postHubConnection.start();
-            console.log("✅ Connected to SignalR Hub");
-            console.log("✅ Connected to SignalR Hub");
-            console.log("✅ Connected to SignalR Hub");
-  
-            postHubConnection.on("ReceivedPosts", () => {
-              console.log("📨 ReceivedPosts event triggered from backend!");
-              queryClient.invalidateQueries({ queryKey: ["home-feed"] });
-            });
-          } catch (error) {
-            console.error("❌ Error connecting to hub: ", error);
-          }
-        } else {
-          console.warn("⚠️ Hub already connected or connecting...");
+    const startConnection = async () => {
+      if (connection.state === HubConnectionState.Disconnected) {
+        try {
+          await connection.start();
+          console.log("Signal R connected");
+        } catch (err) {
+          console.error("Signal R error:", err);
         }
-      };
-  
-      startConnection();
-  
-      return () => {
-        postHubConnection.stop();
-      };
-    }, [queryClient]);
+      }
+
+      connection.on("ReceivedPosts", () => {
+        console.log("📨 ReceivedPosts triggered");
+        queryClient.invalidateQueries({ queryKey: ["home-feed"] });
+      });
+
+      connection.on("PostInteraction", (postId: number) => {
+        console.log("🔁 PostInteraction for:", postId);
+        queryClient.invalidateQueries({ queryKey: ["home-feed"] });
+      });
+    };
+
+    startConnection();
+
+    return () => {
+      connection.off("ReceivedPosts");
+      connection.off("PostInteraction");
+    };
+  }, [queryClient]);
 
   return (
     <>

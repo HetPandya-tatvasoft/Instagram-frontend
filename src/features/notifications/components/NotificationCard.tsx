@@ -1,0 +1,82 @@
+// src/features/notifications/components/NotificationCard.tsx
+
+import type { NotificationResponse } from "../../../common/types/notificationResponse.type";
+import { generateNotificationMessage } from "../../../utils/notification.utils";
+import { NotificationType } from "../../../common/enums/notification.enum";
+import { getBase64ImageUrl } from "../../../utils/getBase64Image";
+
+interface Props {
+  notification: NotificationResponse;
+  onRespond?: (senderId: number, isAccepted: boolean) => void;
+}
+
+const NotificationCard: React.FC<Props> = ({ notification, onRespond }) => {
+  const {
+    senderUsername,
+    senderProfilePicture,
+    senderProfilePictureBase64,
+    sentDate,
+    notificationTypeId,
+    senderId,
+    postId,
+    storyId,
+    commentId,
+    thumbnail,
+  } = notification;
+
+  const showActions = notificationTypeId === NotificationType.FollowRequest;
+
+  return (
+    <div className="bg-white shadow rounded p-4 flex items-start gap-4">
+      <img
+        src={getBase64ImageUrl(senderProfilePictureBase64)}
+        alt={senderUsername}
+        className="w-10 h-10 rounded-full object-cover"
+      />
+      <div className="flex-1">
+        <p className="text-sm font-medium">
+          {generateNotificationMessage(notification)}
+        </p>
+        <p className="text-xs text-gray-500">
+          {new Date(sentDate).toLocaleString()}
+        </p>
+
+        {showActions && onRespond && (
+          <div className="flex gap-2 mt-2">
+            <button
+              onClick={() => onRespond(senderId, true)}
+              className="px-3 py-1 text-sm bg-blue-500 text-white rounded"
+            >
+              Accept
+            </button>
+            <button
+              onClick={() => onRespond(senderId, false)}
+              className="px-3 py-1 text-sm bg-gray-300 rounded"
+            >
+              Decline
+            </button>
+          </div>
+        )}
+
+        {/* Optional preview for post/story/comment if available */}
+        {(thumbnail || postId || storyId || commentId) && (
+          <div className="mt-2">
+            {thumbnail ? (
+              <img
+                src={getBase64ImageUrl(thumbnail)}
+                alt="Thumbnail"
+                className="w-20 h-20 object-cover rounded"
+              />
+            ) : (
+              <span className="text-xs italic text-gray-400">
+                No preview available
+              </span>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default NotificationCard;

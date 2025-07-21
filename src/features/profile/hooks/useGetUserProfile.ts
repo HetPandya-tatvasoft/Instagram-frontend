@@ -5,11 +5,12 @@ import { setUserProfile } from "../profileSlice";
 import type { UserProfileResponse } from "../types/profile.types";
 import { useEffect } from "react";
 import { handleApiError } from "../../../utils/error.utils";
+import type { UserResponse } from "../../home/types/home.types";
 
 export const useGetUserProfile = () => {
   const dispatch = useAppDispatch();
 
-  const queryResult = useQuery<UserProfileResponse, Error>({
+  const queryResult = useQuery<UserResponse, Error>({
     queryKey: ["getUserProfile"],
     queryFn: getUserProfile,
     staleTime: 5 * 60 * 1000,

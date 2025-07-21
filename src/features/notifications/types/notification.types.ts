@@ -1,11 +1,10 @@
-import type { FileResponse } from "../../common/types/fileResponseType.type";
+import type { FileResponse } from "../../../common/types/fileResponseType.type";
 
 export interface NotificationResponse {
   notificationId: number;
   notificationTypeId: number;
-  sender: number;
+  senderId: number;
   receiverId: number;
-  senderId : number;
   senderUsername: string;
   senderProfilePicture: string;
   senderProfilePictureBase64: FileResponse;
@@ -15,6 +14,6 @@ export interface NotificationResponse {
   connectionId: number;
   message: string;
   sentDate: string;
-  thumbnail: FileResponse;
+  Thumbnail: FileResponse;
   isSeen: boolean;
 }

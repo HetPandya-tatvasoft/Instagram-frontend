@@ -7,16 +7,22 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import type { User, PostResponse } from "../types/home.types";
+import { usePostLike } from "../hooks/usePostLike";
+import { getUserIdFromToken } from "../../../utils/jwt.utils";
+import CommentModal from "../../posts/components/CommentModal";
 
 interface PostCardProps {
   post: PostResponse;
 }
 
 const PostCard: React.FC<PostCardProps> = ({ post }) => {
-  console.log(post);
-  const firstImageUrl = post.mediaUrls[0]?.mediaUrl;
-
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const {
+    likePost,
+    isLoading: isLoadingLikePost,
+    error: errorLikePost,
+  } = usePostLike();
 
   const mediaList = post.mediaUrls || [];
 
@@ -25,6 +31,11 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
       prev === 0 ? mediaList.length - 1 : prev - 1
     );
   };
+
+  const decodedToken = getUserIdFromToken();
+
+  const hasLiked =
+    post.like?.some((like) => like.likedByUserId === decodedToken) ?? false;
 
   // Or here that % logic you can apply like the logic we applied on creating a post in the modal, see it afterwards
   // I think that will be more good
@@ -37,13 +48,18 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
 
   const currentMedia = mediaList[currentImageIndex];
 
+  const handleLikeClick = (postId: number) => {
+    console.log("Post to be liked is of id : ", postId);
+    likePost(postId);
+  };
+
   const postImageSrc =
     currentMedia?.mediaUrlBase64?.base64String &&
     currentMedia?.mediaUrlBase64?.mimeType
       ? `data:${currentMedia.mediaUrlBase64.mimeType};base64,${currentMedia.mediaUrlBase64.base64String}`
-      : "/fallback-image.jpg";
+      : "/src/assets/images/default_profile.webp";
 
-  let imgSrc = "/default-user.png";
+  let imgSrc = "/src/assets/images/default_profile.webp";
 
   if (
     post.postedByUserProfilePictureBase64 &&
@@ -64,6 +80,12 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
   const [isSaved, setIsSaved] = useState();
 
   const [likes, setLikes] = useState();
+
+  const [openCommentModal, setOpenCommentModal] = useState(false);
+
+  const handleCommentBtnClick = () => {
+    setOpenCommentModal((prev) => !prev);
+  }
 
   const [showAllComments, setShowAllComments] = useState(false);
 
@@ -124,13 +146,19 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center space-x-4">
             <button
-              className={`p-1 hover:bg-gray-100 rounded-full  space-x-1 ${
-                isLiked ? "text-red-500" : "text-black"
+              onClick={() => handleLikeClick(post.postId)}
+              className={`p-1 hover:bg-gray-100 rounded-full space-x-1 ${
+                hasLiked ? "text-red-500" : "text-black"
               }`}
             >
-              <Heart size={24} fill={isLiked ? "currentColor" : "none"} />
+              <Heart
+                size={24}
+                fill={hasLiked ? "currentColor" : "none"}
+                stroke={hasLiked ? "currentColor" : "black"} 
+              />
             </button>
-            <button className="p-1 hover:bg-gray-100 rounded-full">
+
+            <button onClick={() => handleCommentBtnClick()} className="p-1 hover:bg-gray-100 rounded-full">
               <MessageCircle size={24} />
             </button>
             <button className="p-1 hover:bg-gray-100 rounded-full">
@@ -145,7 +173,7 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
         {/* Likes Section */}
         <div>
           <span className="font-medium text-sm">
-            {post.likes?.length} likes
+            {post.like?.length ?? 0} likes
           </span>
         </div>
 
@@ -183,6 +211,7 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
           </div>
         )}
       </div>
+      <CommentModal isOpen={openCommentModal} onClose={() => setOpenCommentModal(false)} post={post} />
     </div>
   );
 };

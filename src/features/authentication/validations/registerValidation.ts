@@ -14,68 +14,70 @@ const today = new Date();
 export const registerStepOneSchema = Yup.object().shape({
   email: Yup.string()
     .email(validationMessages.invalidValidation.emailInvalid)
-    .required(validationMessages.requiredValidation.emailRequired)
-    .test(
-      generalConsts.uniqueEmail,
-      validationMessages.alreadyExists.emailExists,
-      async function (value) {
-        if (!value) return false;
-        try {
-          await checkUniqueEmail(value);
-          return true;
-        } catch {
-          return this.createError({
-            message: ERROR_CODES.ALREADY_EXISTS.EMAIL,
-          });
-        }
-      }
-    ),
+    .required(validationMessages.requiredValidation.emailRequired),
+  // .test(
+  //   generalConsts.uniqueEmail,
+  //   validationMessages.alreadyExists.emailExists,
+  //   async function (value) {
+  //     if (!value) return false;
+  //     try {
+  //       await checkUniqueEmail(value);
+  //       return true;
+  //     } catch {
+  //       return this.createError({
+  //         message: ERROR_CODES.ALREADY_EXISTS.EMAIL,
+  //       });
+  //     }
+  //   }
+  // ),
   password: Yup.string()
     .required(validationMessages.requiredValidation.passwordRequired)
     .matches(
       regexConsts.passwordRegex,
       validationMessages.regexValidation.passwordRegexValidation
     ),
-  fullName: Yup.string().required(validationMessages.requiredValidation.fullNameRequired),
+  fullName: Yup.string().required(
+    validationMessages.requiredValidation.fullNameRequired
+  ),
   username: Yup.string()
     .min(3, validationMessages.regexValidation.usernameValidation)
-    .required(validationMessages.requiredValidation.usernameRequired)
-    .test(
-      generalConsts.uniqueUsername,
-      validationMessages.alreadyExists.usernameExists,
-      async function (value) {
-        if (!value) return false;
-        try {
-          await checkUniqueUsername(value);
-          return true;
-        } catch {
-          return this.createError({
-            message: ERROR_CODES.ALREADY_EXISTS.USERNAME,
-          });
-        }
-      }
-    ),
+    .required(validationMessages.requiredValidation.usernameRequired),
+  // .test(
+  //   generalConsts.uniqueUsername,
+  //   validationMessages.alreadyExists.usernameExists,
+  //   async function (value) {
+  //     if (!value) return false;
+  //     try {
+  //       await checkUniqueUsername(value);
+  //       return true;
+  //     } catch {
+  //       return this.createError({
+  //         message: ERROR_CODES.ALREADY_EXISTS.USERNAME,
+  //       });
+  //     }
+  //   }
+  // ),
   contactNumber: Yup.string()
     .matches(
       regexConsts.contactNumberRegex,
       validationMessages.regexValidation.contactRegexValidation
     )
-    .required(validationMessages.requiredValidation.contactNumberRequired)
-    .test(
-      generalConsts.uniqueContact,
-      validationMessages.alreadyExists.contactExists,
-      async function (value) {
-        if (!value) return false;
-        try {
-          await checkUniqueContact(value);
-          return true;
-        } catch {
-          return this.createError({
-            message: ERROR_CODES.ALREADY_EXISTS.CONTACT_NUMBER,
-          });
-        }
-      }
-    ),
+    .required(validationMessages.requiredValidation.contactNumberRequired),
+  // .test(
+  //   generalConsts.uniqueContact,
+  //   validationMessages.alreadyExists.contactExists,
+  //   async function (value) {
+  //     if (!value) return false;
+  //     try {
+  //       await checkUniqueContact(value);
+  //       return true;
+  //     } catch {
+  //       return this.createError({
+  //         message: ERROR_CODES.ALREADY_EXISTS.CONTACT_NUMBER,
+  //       });
+  //     }
+  //   }
+  // ),
 });
 
 export const registerStepTwoSchema = Yup.object({

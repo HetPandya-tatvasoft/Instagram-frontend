@@ -9,6 +9,7 @@ import type {
   UserProfileHeader,
 } from "../../home/types/home.types";
 import ConnectionButton from "../components/ConnectionButton";
+import { generalConsts } from "../../../common/constants/generalConsts";
 
 interface ProfileHeaderProps {
   userInfo: UserProfileHeader;
@@ -18,6 +19,18 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ userInfo }) => {
   const updateProfileRoute = ROUTES.MAIN_ROUTES.UPDATE_PROFILE;
 
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+
+  console.log("This is for the custom data logging.");
+
+  console.log(userInfo);
+
+  console.log(
+    userInfo?.userHeaderInfo?.profilePictureBase64?.base64String ?? "Het"
+  );
+
+  const ownProfile =
+    userInfo.userConnectionData.followStatus ==
+    generalConsts.entityConsts.updateProfile;
 
   const navigate = useNavigate();
 
@@ -47,11 +60,11 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ userInfo }) => {
         <div className="min-w-[80px]">
           <ProfilePicture
             ProfilePictureUrlBase64={
-              userInfo?.userHeaderInfo?.profilePictureBase64.base64String
+              userInfo?.userHeaderInfo?.profilePictureBase64?.base64String
             }
             ProfilePictureBase64MimeType={
-              userInfo?.userHeaderInfo?.profilePictureBase64.mimeType ??
-              "application/octet-stream"
+              userInfo?.userHeaderInfo?.profilePictureBase64?.mimeType ??
+              "image/webp"
             }
           />
         </div>
@@ -63,16 +76,23 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ userInfo }) => {
             </h2>
 
             <div className="flex  flex-wrap gap-3 lg:gap-6">
-              {/* <button
-                onClick={handleEditProfileClick}
-                className="bg-gray-100 hover:bg-gray-200 text-sm px-2 sm:px-4 py-1 rounded-md font-medium"
-              >
-                <span className="sm:hidden flex items-center gap-2">
-                  <Pencil size={16} /> Profile{" "}
-                </span>
-                <span className="hidden sm:block">Edit Profile</span>
-              </button> */}
-              <ConnectionButton  userId={userInfo.userHeaderInfo?.userId ?? 0} followStatus={userInfo.userConnectionData.followStatus} />
+              {ownProfile ? (
+                <button
+                  onClick={handleEditProfileClick}
+                  className="bg-gray-100 hover:bg-gray-200 text-sm px-2 sm:px-4 py-1 rounded-md font-medium"
+                >
+                  <span className="sm:hidden flex items-center gap-2">
+                    <Pencil size={16} /> Profile{" "}
+                  </span>
+                  <span className="hidden sm:block">Edit Profile</span>
+                </button>
+              ) : (
+                <ConnectionButton
+                  userId={userInfo.userHeaderInfo?.userId ?? 0}
+                  followStatus={userInfo.userConnectionData.followStatus}
+                />
+              )}
+
               <button className="bg-gray-100 hover:bg-gray-200 text-sm px-4 py-1 rounded-md font-medium">
                 Archive
               </button>

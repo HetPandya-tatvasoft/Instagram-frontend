@@ -4,8 +4,6 @@ import { handleApiError } from "../../../utils/error.utils";
 import { useMutation } from "@tanstack/react-query";
 
 export const useUnfollowUser = () => {
-  // eslint-disable-next-line no-debugger
-  debugger;
   const mutation = useMutation({
     mutationFn: (receiverId: number) => UnfollowUser(receiverId),
     onSuccess: (response) => {

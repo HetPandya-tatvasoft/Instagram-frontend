@@ -49,6 +49,10 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
     setCaption("");
   };
 
+  const route = ROUTES.MAIN_ROUTES.userProfile.replace(
+    ":userId",
+    (-1).toString()
+  );
   // if (!isModalOpen) return null;
 
   const sidebarModules = [
@@ -111,7 +115,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
       icon: User,
       label: "Profile",
       active: true,
-      linkTo: ROUTES.MAIN_ROUTES.PROFILE,
+      linkTo: route,
       shouldCreatePostModalOpen: false,
       shouldSearchSidebarOpen: false,
     },

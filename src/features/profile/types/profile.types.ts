@@ -7,7 +7,7 @@ export interface UpdateUserProfilePayload {
   contactNumber: string;
   dateOfBirth: string;
   bio: string;
-  isProfilePrivate?: boolean;
+  isPrivate?: boolean;
   gender: GenderEnum;
   link?: string;
 }

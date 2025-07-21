@@ -65,7 +65,7 @@ const EditProfilePage: React.FC = () => {
     dateOfBirth: userData?.dob ? userData.dob.slice(0, 10) : "",
     contactNumber: userData?.contactNo || "",
     gender: getSafeGender(userData?.gender),
-    isProfilePrivate: userData?.isPrivate || false,
+    isPrivate: userData?.isPrivate || false,
     bio: userData?.bio || "",
     link: userData?.link || "",
   };
@@ -81,28 +81,6 @@ const EditProfilePage: React.FC = () => {
     validateOnBlur: true,
     onSubmit: handleProfileSubmit,
   });
-
-  // const handleChange = (
-  //     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  // ) => {
-  //     const { name, value, type } = e.target;
-
-  //     const newValue =
-  //         type === "checkbox"
-  //             ? (e.target as HTMLInputElement).checked
-  //             : value;
-
-  //     setFormData(prev => ({
-  //         ...prev,
-  //         [name]: newValue,
-  //     }));
-  // };
-
-  // const handleSubmit = (e: React.FormEvent) => {
-  //     e.preventDefault();
-  //     console.log("Form Data: ", formData);
-  //     // Send this to backend via mutation / API
-  // };
 
   return (
     <>
@@ -260,10 +238,10 @@ const EditProfilePage: React.FC = () => {
                 {/* Profile Privacy */}
                 <div className="flex items-center mt-2">
                   <input
-                    id="isProfilePrivate"
-                    name="isProfilePrivate"
+                    id="isPrivate"
+                    name="isPrivate"
                     type="checkbox"
-                    checked={formik.values.isProfilePrivate}
+                    checked={formik.values.isPrivate}
                     onChange={formik.handleChange}
                     className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
                   />

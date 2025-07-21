@@ -51,8 +51,6 @@ API.interceptors.response.use(
   (response) => response,
   (error) => {
     const status = error?.response?.status;
-    // // eslint-disable-next-line no-debugger
-    // debugger;
     // handleApiError(error);
     if (status === 401) {
       toast.error(ERROR_CODES.sessionExpired.sessionExpired);

@@ -12,6 +12,8 @@ const UserProfilePage: React.FC = () => {
 
   console.log("Hello the user Id is : ", userId);
 
+  
+
   const { userHeaderData, isLoading, isError } = useUserProfile(userId ?? "");
 
   if (isLoading) return <p>Loading...</p>;

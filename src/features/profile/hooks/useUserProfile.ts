@@ -1,5 +1,6 @@
 import { useQueries } from "@tanstack/react-query";
 import {
+  getUserProfile,
   getUserInfo,
   getUserFollowing,
   getUserFollowers,
@@ -12,24 +13,33 @@ import type {
   UserProfileHeader,
   UserConnectionData,
 } from "../../home/types/home.types";
+import { getAuthToken } from "../../../utils/cookie.utils";
+import { decodeToken } from "../../../utils/jwt.utils";
+import { generalConsts } from "../../../common/constants/generalConsts";
 
 export const useUserProfile = (userId: string) => {
-  const idInt = Number(userId);
+  const id = Number(userId);
+  const jwt_token = getAuthToken();
+  let idInt = Number(id);
+  if (Number(userId) === -1) {
+    const decodedData = decodeToken(jwt_token ?? "");
+    idInt = decodedData?.UserId ?? idInt;
+  }
 
   console.log("hello the id converted to string and all and is : ", idInt);
 
   const results = useQueries({
     queries: [
       {
-        queryKey: ["user-info", userId],
-        queryFn: () => getUserInfo(idInt),
+        queryKey: ["user-info", id],
+        queryFn: () => (id <= 0 ? getUserProfile() : getUserInfo(idInt)),
         refetchOnWindowFocus: false,
         refetchOnMount: false,
         refetchOnReconnect: false,
         staleTime: 1000 * 60 * 5,
       },
       {
-        queryKey: ["user-following", userId],
+        queryKey: ["user-following", id],
         queryFn: () => getUserFollowing(idInt),
         refetchOnWindowFocus: false,
         refetchOnMount: false,
@@ -37,7 +47,7 @@ export const useUserProfile = (userId: string) => {
         staleTime: 1000 * 60 * 5,
       },
       {
-        queryKey: ["user-followers", userId],
+        queryKey: ["user-followers", id],
         queryFn: () => getUserFollowers(idInt),
         refetchOnWindowFocus: false,
         refetchOnMount: false,
@@ -45,16 +55,8 @@ export const useUserProfile = (userId: string) => {
         staleTime: 1000 * 60 * 5,
       },
       {
-        queryKey: ["user-mutuals", userId],
-        queryFn: () => getMutualCount(idInt),
-        refetchOnWindowFocus: false,
-        refetchOnMount: false,
-        refetchOnReconnect: false,
-        staleTime: 1000 * 60 * 5,
-      },
-      {
-        queryKey: ["follow-status", userId],
-        queryFn: () => getFollowStatus(idInt),
+        queryKey: ["follow-status", id],
+        queryFn: () => (id <= 0 ? generalConsts.entityConsts.updateProfile : getFollowStatus(idInt)),
         refetchOnWindowFocus: false,
         refetchOnMount: false,
         refetchOnReconnect: false,
@@ -75,12 +77,11 @@ export const useUserProfile = (userId: string) => {
     });
   }, [results]);
 
-  const [userInfo, following, followers, mutuals, followStatus] = results;
+  const [userInfo, following, followers, followStatus] = results;
 
   const userConnectionData: UserConnectionData = {
     followersCount: followers.data ?? 0,
     followingCount: following.data ?? 0,
-    mutualsCount: mutuals.data ?? 0,
     followStatus: followStatus.data ?? "",
   };
 

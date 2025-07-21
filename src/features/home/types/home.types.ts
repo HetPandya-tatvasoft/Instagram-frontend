@@ -66,7 +66,7 @@ export interface PostResponse {
   isPostSaved: boolean;
   savedInCollectionIds?: number[] | null;
   mediaUrls: PostMedia[];
-  likes: PostLike[] | null;
+  like: PostLike[] | null;
   comments: PostComment[];
 }
 
@@ -76,7 +76,7 @@ export interface UserResponse {
   email: string;
   fullName: string;
   dob: string;
-  contactNumber: string;
+  contactNo: string;
   gender: string;
   profilePicture: string;
   profilePictureBase64: FileResponse;
@@ -92,7 +92,6 @@ export interface UserResponse {
 export interface UserConnectionData {
   followersCount: number;
   followingCount: number;
-  mutualsCount: number;
   followStatus : string;
 }
 

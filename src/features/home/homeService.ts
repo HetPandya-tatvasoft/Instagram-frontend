@@ -5,10 +5,12 @@ import {
   defaultPaginationRequest,
   type PaginationRequest,
 } from "../../common/types/paginationRequest.type";
+import type { ApiResponse } from "../../@core/api/apiResponse.type";
 
 const ENDPOINTS = {
   getHomeFeed: "/post/get-post-feed",
   searchUser: "/user/get-user-list",
+  likePost: (postId: number) => `/post/post-like-unlike/${postId}`,
 };
 
 export const getHomeFeedService = async () =>
@@ -22,3 +24,6 @@ export const searchUserService = async (payload: PaginationRequest) =>
     ENDPOINTS.searchUser,
     payload
   );
+
+export const likePost = async (postId: number) =>
+  postRequest<ApiResponse<string>, object>(ENDPOINTS.likePost(postId), {});

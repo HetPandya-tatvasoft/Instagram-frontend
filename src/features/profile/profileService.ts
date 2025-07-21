@@ -19,12 +19,12 @@ const ENDPOINTS = {
   getMutualCount: (id: number) => `/connection/get-mutual-count/${id}`,
   getFollowStatus: (id: number) => `/connection/get-follow-status/${id}`,
   unfollowUserFunc: (id: number) => `/connection/unfollow/${id}`,
-  sendFollowRequest : (id : number) => `/connection/send-follow-request/${id}`,
+  sendFollowRequest: (id: number) => `/connection/send-follow-request/${id}`,
   unfollowUser: "/connection/unfollow",
 };
 
 export const getUserProfile = () =>
-  getRequest<UserProfileResponse>(ENDPOINTS.GET_PROFILE_DATA);
+  getRequest<UserResponse>(ENDPOINTS.GET_PROFILE_DATA);
 
 export const updateUserProfile = (payload: UpdateUserProfilePayload) =>
   postRequest<UserProfileResponse, UpdateUserProfilePayload>(
@@ -48,10 +48,13 @@ export const getFollowStatus = (userId: number) =>
   getRequest<string>(ENDPOINTS.getFollowStatus(userId));
 
 export const UnfollowUser = (receiverId: number) =>
-  postRequest<string, { receiverId: number }>(ENDPOINTS.unfollowUserFunc(receiverId), { receiverId });
+  postRequest<string, { receiverId: number }>(
+    ENDPOINTS.unfollowUserFunc(receiverId),
+    { receiverId }
+  );
 
 export const sendFollowRequest = (receiverId: number) =>
-  postRequest<string, object>(ENDPOINTS.sendFollowRequest(receiverId), { });
+  postRequest<string, object>(ENDPOINTS.sendFollowRequest(receiverId), {});
 
 export const updateProfilePicture = async (
   file: File | null
