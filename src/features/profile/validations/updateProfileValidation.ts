@@ -4,7 +4,7 @@ import {
   checkUniqueEmail,
   checkUniqueUsername,
 } from "../../authentication/authService";
-import { ERROR_CODES } from "../../../common/constants/error";
+import { errorCodes } from "../../../common/constants/error";
 import { validationMessages } from "../../../common/constants/validationMessages";
 import { generalConsts } from "../../../common/constants/generalConsts";
 import { regexConsts } from "../../../common/constants/regexConsts";
@@ -28,7 +28,7 @@ export const getUpdateProfileValidationSchema = (
           return true;
         } catch {
           return this.createError({
-            message: ERROR_CODES.ALREADY_EXISTS.EMAIL,
+            message: errorCodes.alreadyExists.EMAIL,
           });
         }
       }),
@@ -49,7 +49,7 @@ export const getUpdateProfileValidationSchema = (
             return true;
           } catch {
             return this.createError({
-              message: ERROR_CODES.ALREADY_EXISTS.USERNAME,
+              message: errorCodes.alreadyExists.USERNAME,
             });
           }
         }
@@ -73,7 +73,7 @@ export const getUpdateProfileValidationSchema = (
             return true;
           } catch {
             return this.createError({
-              message: ERROR_CODES.ALREADY_EXISTS.CONTACT_NUMBER,
+              message: errorCodes.alreadyExists.CONTACT_NUMBER,
             });
           }
         }

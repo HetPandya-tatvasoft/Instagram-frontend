@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useUnfollowUser } from "../hooks/useUnfollowUser";
 import { useSendFollowRequest } from "../hooks/useSendFollowRequest";
-import { FollowStatus } from "../../../common/enums/followStatus.enum";
+import { followStatus as FollowStatus } from "../../../common/enums/followStatus.enum";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface ConnectionBtnProps {
   userId: number;
@@ -13,34 +14,33 @@ const ConnectionButton: React.FC<ConnectionBtnProps> = ({
   followStatus,
 }) => {
   const [isFollowing, setIsFollowing] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
-  const {
-    unfollow,
-    isLoading: isLoadingUnfollow,
-    error: errorUnfollow,
-  } = useUnfollowUser();
 
-  const {
-    follow,
-    isLoading: isLoadingFollowRequest,
-    error: errorFollow,
-  } = useSendFollowRequest();
+  const queryClient = useQueryClient();
 
-  const handleToggleFollow = (userId: number, followStatus: string) => {
-    if (followStatus == FollowStatus.follow || followStatus == FollowStatus.followBack) {
-      follow(userId);
-    } else if (followStatus == FollowStatus.following) {
-      unfollow(userId);
-    }
-    setIsFollowing((prev) => !prev);
-    // Call your follow/unfollow API here
-  };
+  queryClient.invalidateQueries({queryKey : ["follow-status"]})
+
+  const { unfollow } = useUnfollowUser();
+
+  const { follow } = useSendFollowRequest();
+
+  const handleToggleFollow = useCallback(
+    (userId: number, followStatus: string) => {
+      if (
+        followStatus == FollowStatus.follow ||
+        followStatus == FollowStatus.followBack
+      ) {
+        follow(userId);
+      } else if (followStatus == FollowStatus.following) {
+        unfollow(userId);
+      }
+      setIsFollowing((prev) => !prev);
+    },
+    [follow, unfollow]
+  );
 
   return (
     <button
       onClick={() => handleToggleFollow(userId, followStatus)}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
       className={`px-4 py-1 rounded-md font-medium text-sm transition-all duration-200 
         ${
           isFollowing
@@ -49,12 +49,6 @@ const ConnectionButton: React.FC<ConnectionBtnProps> = ({
         }`}
     >
       {followStatus}
-      {/* {followStatus == "Follow"
-        ? followStatus
-        : isHovered
-        ? "Unfollow"
-        : "Following"} */}
-      {/* {isFollowing ? (isHovered ? "Unfollow" : "Following") : "Follow"} */}
     </button>
   );
 };

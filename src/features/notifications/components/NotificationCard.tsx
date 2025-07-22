@@ -1,9 +1,9 @@
-// src/features/notifications/components/NotificationCard.tsx
-
 import type { NotificationResponse } from "../../../common/types/notificationResponse.type";
 import { generateNotificationMessage } from "../../../utils/notification.utils";
-import { NotificationType } from "../../../common/enums/notification.enum";
+import { notificationType } from "../../../common/enums/notification.enum";
 import { getBase64ImageUrl } from "../../../utils/getBase64Image";
+import { useQueryClient } from "@tanstack/react-query";
+
 
 interface Props {
   notification: NotificationResponse;
@@ -24,7 +24,9 @@ const NotificationCard: React.FC<Props> = ({ notification, onRespond }) => {
     thumbnail,
   } = notification;
 
-  const showActions = notificationTypeId === NotificationType.FollowRequest;
+
+
+  const showActions = notificationTypeId === notificationType.followRequest;
 
   return (
     <div className="bg-white shadow rounded p-4 flex items-start gap-4">

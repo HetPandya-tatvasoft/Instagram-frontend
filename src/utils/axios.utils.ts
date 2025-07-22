@@ -1,22 +1,22 @@
 import axios, { type AxiosInstance } from "axios";
-import { API_CONFIG } from "../common/constants/apiConfig";
+import { apiConfig } from "../common/constants/apiConfig";
 import { handleApiError } from "./error.utils";
 import { getAuthToken } from "./cookie.utils";
 import toast from "react-hot-toast";
-import { ERROR_CODES } from "../common/constants/error";
-import PerformLogout from "./logout.utils";
+import { errorCodes } from "../common/constants/error";
+import performLogout from "./logout.utils";
 
-const API: AxiosInstance = axios.create({
-  baseURL: API_CONFIG.BASE_URL,
-  headers: API_CONFIG.HEADERS,
+const api: AxiosInstance = axios.create({
+  baseURL: apiConfig.baseUrl,
+  headers: apiConfig.headers,
 });
 
-const APIFormData: AxiosInstance = axios.create({
-  baseURL: API_CONFIG.BASE_URL,
-  headers: API_CONFIG.FORM_DATA_HEADERS,
+const apiFormData: AxiosInstance = axios.create({
+  baseURL: apiConfig.baseUrl,
+  headers: apiConfig.formDataHeaders,
 });
 
-APIFormData.interceptors.request.use((config) => {
+apiFormData.interceptors.request.use((config) => {
   const token = getAuthToken();
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
@@ -24,14 +24,14 @@ APIFormData.interceptors.request.use((config) => {
   return config;
 });
 
-APIFormData.interceptors.response.use(
+apiFormData.interceptors.response.use(
   (response) => response,
   (error) => {
     const status = error?.response?.status;
     if (status === 401) {
-      toast.error(ERROR_CODES.sessionExpired.sessionExpired);
+      toast.error(errorCodes.sessionExpired.sessionExpired);
       setTimeout(() => {
-        PerformLogout();
+        performLogout();
       }, 1000);
       return;
     }
@@ -39,7 +39,7 @@ APIFormData.interceptors.response.use(
   }
 );
 
-API.interceptors.request.use((config) => {
+api.interceptors.request.use((config) => {
   const token = getAuthToken();
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
@@ -47,15 +47,15 @@ API.interceptors.request.use((config) => {
   return config;
 });
 
-API.interceptors.response.use(
+api.interceptors.response.use(
   (response) => response,
   (error) => {
     const status = error?.response?.status;
     // handleApiError(error);
     if (status === 401) {
-      toast.error(ERROR_CODES.sessionExpired.sessionExpired);
+      toast.error(errorCodes.sessionExpired.sessionExpired);
       setTimeout(() => {
-        PerformLogout();
+        performLogout();
       }, 1000);
       return;
     }
@@ -65,4 +65,4 @@ API.interceptors.response.use(
 
 // export default API;
 
-export default { API, APIFormData };
+export default { api, apiFormData };

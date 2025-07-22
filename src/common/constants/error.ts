@@ -1,8 +1,8 @@
-export const ERROR_CODES = {
-    ALREADY_EXISTS : {
-        EMAIL : "Email Already exists",
-        USERNAME : "Username Already exists",
-        CONTACT_NUMBER: "Contact Number Already exists",
+export const errorCodes = {
+    alreadyExists : {
+        email : "Email Already exists",
+        userName : "Username Already exists",
+        contactNumber: "Contact Number Already exists",
     },
     internalServer : {
         emailValidation : "Something went wrong during email validation"

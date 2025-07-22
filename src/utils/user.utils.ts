@@ -1,6 +1,6 @@
 // This does the thing of extracting decoded token details and mapping it to the User type Object
 
-import { CLAIMS } from "../common/constants/keys";
+import { claims } from "../common/constants/keys";
 import type { DecodedToken, User } from "../features/authentication/types/auth.type";
 
 
@@ -10,7 +10,7 @@ export const buildUserFromToken = (
 ): User => ({
     token,
     username: decoded.Username,
-    email: decoded[CLAIMS.EMAIL] as string,
+    email: decoded[claims.email] as string,
     contactNumber: decoded.ContactNumber,
     fullName: decoded.FullName,
     dateOfBirth: decoded.DateOfBirth,

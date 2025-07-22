@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSearchUsers } from "../../features/home/hooks/useSearchUsers";
-import type { PaginationRequest } from "../types/paginationRequest.type";
 import type { UserResponse } from "../../features/home/types/home.types";
-import { ROUTES } from "../../common/constants/routes";
+import { routes } from "../../common/constants/routes";
+import { getBase64ImageUrl } from "../../utils/getBase64Image";
 
 interface SearchPanelProps {
   isOpen: boolean;
@@ -18,7 +18,7 @@ const SearchPanel: React.FC<SearchPanelProps> = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
 
   const handleProfileClick = (id: number) => {
-    const route = ROUTES.MAIN_ROUTES.userProfile.replace(
+    const route = routes.mainRoutes.userProfile.replace(
       ":userId",
       id.toString()
     );
@@ -50,7 +50,6 @@ const SearchPanel: React.FC<SearchPanelProps> = ({ isOpen, onClose }) => {
       </div>
 
       {/* You can later map search results here */}
-      {/* <div className="px-4 py-2 text-gray-500">Start typing to search...</div> */}
       {search && (
         <div className="absolute z-10 mt-1 w-full bg-white border rounded-md shadow-md max-h-60 overflow-y-auto">
           {isLoading ? (
@@ -64,9 +63,7 @@ const SearchPanel: React.FC<SearchPanelProps> = ({ isOpen, onClose }) => {
               >
                 <img
                   src={
-                    user.profilePicture
-                      ? `data:${user.profilePictureBase64.mimeType};base64,${user.profilePictureBase64.base64String}`
-                      : "/default-user.png"
+                    getBase64ImageUrl(user.profilePictureBase64)
                   }
                   alt={user.userName}
                   className="w-8 h-8 rounded-full object-cover"

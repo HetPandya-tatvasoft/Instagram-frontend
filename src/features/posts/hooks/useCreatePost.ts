@@ -3,7 +3,7 @@ import { createPostService, type CreatePostResponse } from "../postService";
 import type { ApiResponse } from "../../../@core/api/apiResponse.type";
 import { AxiosError } from "axios";
 import toast from "react-hot-toast";
-import { MESSAGES } from "../../../common/constants/messages"
+import { messages } from "../../../common/constants/messages"
 import { handleApiError } from "../../../utils/error.utils";
 
 export const useCreatePost = () => {
@@ -12,7 +12,7 @@ export const useCreatePost = () => {
   return useMutation<ApiResponse<CreatePostResponse>, Error, FormData>({
     mutationFn: createPostService,
     onSuccess: (data) => {
-      toast.success(MESSAGES.POSTS.postCreatedSuccess);
+      toast.success(messages.posts.postCreatedSuccess);
     },
     onError: (error) => {
       handleApiError(error);

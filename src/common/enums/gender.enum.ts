@@ -1,6 +1,6 @@
-export enum GenderEnum {
-    MALE = "male",
-    FEMALE = "female",
-    CUSTOM = "custom",
-    PREFER_NOT_TO_SAY = "Prefer not to say"
+export enum genderEnum {
+    male = "male",
+    female = "female",
+    custom = "custom",
+    preferNotToSay = "Prefer not to say"
 }

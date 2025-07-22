@@ -6,15 +6,14 @@ import StoryHighlights from "../components/StoryHighlights";
 import ProfilePostsSection from "../components/ProfilePostsSection";
 import { useParams } from "react-router-dom";
 import { useUserProfile } from "../hooks/useUserProfile";
+import { useGetUserMedia } from "../hooks/useGetUserMedia";
 
 const UserProfilePage: React.FC = () => {
   const { userId } = useParams<{ userId: string }>();
 
-  console.log("Hello the user Id is : ", userId);
-
-  
-
   const { userHeaderData, isLoading, isError } = useUserProfile(userId ?? "");
+
+  const { userMedia } = useGetUserMedia(userHeaderData.userHeaderInfo?.userId ?? 0);
 
   if (isLoading) return <p>Loading...</p>;
 
@@ -22,9 +21,9 @@ const UserProfilePage: React.FC = () => {
 
   if (!userHeaderData) return null;
 
-  console.log("The user data is as follows : ");
+  console.log("Hello het the profile data is as follows : ");
 
-  console.log(userHeaderData);
+  console.log(userMedia);
 
   return (
     <MainLayout>

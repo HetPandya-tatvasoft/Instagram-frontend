@@ -26,8 +26,6 @@ export const useUserProfile = (userId: string) => {
     idInt = decodedData?.UserId ?? idInt;
   }
 
-  console.log("hello the id converted to string and all and is : ", idInt);
-
   const results = useQueries({
     queries: [
       {
@@ -92,8 +90,6 @@ export const useUserProfile = (userId: string) => {
 
   const isLoading = results.some((r) => r.isLoading);
   const isError = results.some((r) => r.isError);
-
-  console.log(userInfo);
 
   return {
     userHeaderData: userHeaderData,

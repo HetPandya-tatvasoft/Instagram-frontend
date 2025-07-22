@@ -5,7 +5,7 @@ import AuthInitializer from "../common/components/AuthInitializer";
 import RegisterPage from "../features/authentication/pages/RegisterPage";
 import ForgotPasswordPage from "../features/authentication/pages/ForgotPasswordPage";
 import ResetPasswordPage from "../features/authentication/pages/ResetPasswordPage";
-import { ROUTES } from "../common/constants/routes";
+import { routes } from "../common/constants/routes";
 import ProfilePage from "../features/profile/pages/ProfilePage";
 import UserProfilePage from "../features/profile/pages/UserProfilePage";
 import EditProfilePage from "../features/profile/pages/EditProfilePage";
@@ -16,13 +16,13 @@ const AppRoutes = () => {
   return (
     <>
       <Routes>
-        <Route path={ROUTES.LOGIN} element={<LoginPage />} />
-        <Route path={ROUTES.REGISTER} element={<RegisterPage />} />
-        <Route path={ROUTES.FORGOT_PASSWORD} element={<ForgotPasswordPage />} />
-        <Route path={ROUTES.RESET_PASSWORD} element={<ResetPasswordPage />} />
+        <Route path={routes.login} element={<LoginPage />} />
+        <Route path={routes.register} element={<RegisterPage />} />
+        <Route path={routes.forgotPassword} element={<ForgotPasswordPage />} />
+        <Route path={routes.resetPassword} element={<ResetPasswordPage />} />
 
         <Route
-          path={ROUTES.MAIN_ROUTES.HOME}
+          path={routes.mainRoutes.home}
           element={
             <PrivateRoute>
               <HomePage />
@@ -31,7 +31,7 @@ const AppRoutes = () => {
         />
 
         <Route
-          path={ROUTES.MAIN_ROUTES.userProfile}
+          path={routes.mainRoutes.userProfile}
           element={
             <PrivateRoute>
               <UserProfilePage />
@@ -40,7 +40,7 @@ const AppRoutes = () => {
         />
 
         <Route
-          path={ROUTES.MAIN_ROUTES.PROFILE}
+          path={routes.mainRoutes.profile}
           element={
             <PrivateRoute>
               <ProfilePage />
@@ -49,7 +49,7 @@ const AppRoutes = () => {
         />
 
         <Route
-          path={ROUTES.MAIN_ROUTES.notifications}
+          path={routes.mainRoutes.notifications}
           element={
             <PrivateRoute>
               <NotificationsPage />
@@ -58,7 +58,7 @@ const AppRoutes = () => {
         />
 
         <Route
-          path={ROUTES.MAIN_ROUTES.UPDATE_PROFILE}
+          path={routes.mainRoutes.updateProfile}
           element={
             <PrivateRoute>
               <EditProfilePage />
@@ -66,7 +66,7 @@ const AppRoutes = () => {
           }
         />
 
-        <Route path="*" element={<Navigate to={ROUTES.LOGIN} replace />} />
+        <Route path="*" element={<Navigate to={routes.login} replace />} />
       </Routes>
     </>
   );

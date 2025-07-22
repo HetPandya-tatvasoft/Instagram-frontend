@@ -5,53 +5,65 @@ import {
   Send,
   Bookmark,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import type { User, PostResponse } from "../types/home.types";
 import { usePostLike } from "../hooks/usePostLike";
 import { getUserIdFromToken } from "../../../utils/jwt.utils";
 import CommentModal from "../../posts/components/CommentModal";
+import LikesModal from "../../posts/components/likedByUsersModal";
 
 interface PostCardProps {
   post: PostResponse;
 }
 
 const PostCard: React.FC<PostCardProps> = ({ post }) => {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [showLikesModal, setShowLikesModal] = useState(false);
 
-  const {
-    likePost,
-    isLoading: isLoadingLikePost,
-    error: errorLikePost,
-  } = usePostLike();
+  const [likesData, setLikesData] = useState([
+    {
+      userId: 1,
+      username: "harsh_dev",
+      profilePicBase64: "https://randomuser.me/api/portraits/men/32.jpg",
+      isFollowing: true,
+    },
+    {
+      userId: 2,
+      username: "het_pandya",
+      profilePicBase64: "https://randomuser.me/api/portraits/men/15.jpg",
+      isFollowing: false,
+    },
+    {
+      userId: 3,
+      username: "shruti.codes",
+      profilePicBase64: "https://randomuser.me/api/portraits/women/45.jpg",
+      isFollowing: false,
+    },
+  ]);
 
-  const mediaList = post.mediaUrls || [];
-
-  const handlePrev = () => {
-    setCurrentImageIndex((prev) =>
-      prev === 0 ? mediaList.length - 1 : prev - 1
+  const toggleFollow = (userId: number, isFollowing: boolean) => {
+    setLikesData((prev) =>
+      prev.map((user) =>
+        user.userId === userId ? { ...user, isFollowing: !isFollowing } : user
+      )
     );
   };
+
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const [openCommentModal, setOpenCommentModal] = useState(false);
+
+  const [showAllComments, setShowAllComments] = useState(false);
+
+  const { likePost } = usePostLike();
+
+  const mediaList = post.mediaUrls || [];
 
   const decodedToken = getUserIdFromToken();
 
   const hasLiked =
     post.like?.some((like) => like.likedByUserId === decodedToken) ?? false;
 
-  // Or here that % logic you can apply like the logic we applied on creating a post in the modal, see it afterwards
-  // I think that will be more good
-  // Also handle button things like last then no next and if first then no prev button should be visible
-  const handleNext = () => {
-    setCurrentImageIndex((prev) =>
-      prev === mediaList.length - 1 ? 0 : prev + 1
-    );
-  };
-
   const currentMedia = mediaList[currentImageIndex];
-
-  const handleLikeClick = (postId: number) => {
-    console.log("Post to be liked is of id : ", postId);
-    likePost(postId);
-  };
 
   const postImageSrc =
     currentMedia?.mediaUrlBase64?.base64String &&
@@ -75,21 +87,28 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
     imgSrc = `data:${mimeType};base64,${post.postedByUserProfilePictureBase64.base64String}`;
   }
 
-  const [isLiked, setIsLiked] = useState();
+  const handlePrev = useCallback(() => {
+    setCurrentImageIndex((prev) =>
+      prev === 0 ? mediaList.length - 1 : prev - 1
+    );
+  }, [mediaList.length]);
 
-  const [isSaved, setIsSaved] = useState();
+  const handleNext = useCallback(() => {
+    setCurrentImageIndex((prev) =>
+      prev === mediaList.length - 1 ? 0 : prev + 1
+    );
+  }, [mediaList.length]);
 
-  const [likes, setLikes] = useState();
+  const handleLikeClick = useCallback(
+    (postId: number) => {
+      likePost(postId);
+    },
+    [likePost]
+  );
 
-  const [openCommentModal, setOpenCommentModal] = useState(false);
-
-  const handleCommentBtnClick = () => {
+  const handleCommentBtnClick = useCallback(() => {
     setOpenCommentModal((prev) => !prev);
-  }
-
-  const [showAllComments, setShowAllComments] = useState(false);
-
-  const [newComment, setNewComment] = useState("");
+  }, [setOpenCommentModal]);
 
   return (
     <div className="bg-white border border-gray-200 rounded-lg mb-4">
@@ -154,11 +173,14 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
               <Heart
                 size={24}
                 fill={hasLiked ? "currentColor" : "none"}
-                stroke={hasLiked ? "currentColor" : "black"} 
+                stroke={hasLiked ? "currentColor" : "black"}
               />
             </button>
 
-            <button onClick={() => handleCommentBtnClick()} className="p-1 hover:bg-gray-100 rounded-full">
+            <button
+              onClick={() => handleCommentBtnClick()}
+              className="p-1 hover:bg-gray-100 rounded-full"
+            >
               <MessageCircle size={24} />
             </button>
             <button className="p-1 hover:bg-gray-100 rounded-full">
@@ -166,13 +188,13 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
             </button>
           </div>
           <button className="p-1 hover:bg-gray-100 rounded-fill">
-            <Bookmark size={24} fill={isSaved ? "currentColor" : "none"} />
+            <Bookmark size={24} />
           </button>
         </div>
 
         {/* Likes Section */}
         <div>
-          <span className="font-medium text-sm">
+          <span className="font-medium text-sm" onClick={() => setShowLikesModal(true)}>
             {post.like?.length ?? 0} likes
           </span>
         </div>
@@ -190,7 +212,7 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
           <div className="space-y-1 mb-2">
             {!showAllComments && post.comments.length > 2 && (
               <button
-                onClick={() => setShowAllComments(true)}
+                onClick={() => setOpenCommentModal(true)}
                 className="text-gray-500 text-sm hover:text-gray-700"
               >
                 View all {post.comments.length} comments
@@ -211,7 +233,17 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
           </div>
         )}
       </div>
-      <CommentModal isOpen={openCommentModal} onClose={() => setOpenCommentModal(false)} post={post} />
+      <CommentModal
+        isOpen={openCommentModal}
+        onClose={() => setOpenCommentModal(false)}
+        post={post}
+      />
+      {/* <LikesModal
+        isOpen={showLikesModal}
+        onClose={() => setShowLikesModal(false)}
+        users={likesData}
+        onToggleFollow={toggleFollow}
+      /> */}
     </div>
   );
 };

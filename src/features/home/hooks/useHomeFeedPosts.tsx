@@ -5,7 +5,6 @@ import { getHomeFeedService } from "../homeService"
 import type { ApiResponse } from "../../../@core/api/apiResponse.type";
 
 export const useHomeFeed = () => {
-    console.log("Home page api is being called")
     return useQuery<ApiResponse<PaginationResponse<PostResponse>>>({
         queryKey : ["home-feed"],
         queryFn : getHomeFeedService,

@@ -1,29 +1,35 @@
-export const MESSAGES = {
-  AUTH: {
-    LOGIN_SUCCESS: "Login Successful",
-    LOGIN_FAILED: "Failed to login in. Please try again later.",
-    FETCH_USER_FAILED: "Failed to fetch user data.",
-    INVALID_TOKEN: "Invalid Authentication Token",
-    INVALID_CREDENTIALS: "Invalid Credentials",
+export const messages = {
+  auth: {
+    loginSuccess: "Login Successful",
+    loginFailed : "Failed to login in. Please try again later.",
+    fetchUserFailed: "Failed to fetch user data.",
+    invalidToken : "Invalid Authentication Token",
+    invalidCredentials : "Invalid Credentials",
 
-    SIGNUP_FAILED: "Failed to sign up, Please try again later",
-    SIGNUP_SUCCESS: "Signup Successfull, Please Log in.",
+    signupFailed : "Failed to sign up, Please try again later",
+    signupSuccess : "Signup Successfull, Please Log in.",
 
-    RESET_LINK_SUCCESS: "Reset Link Successfully, Please check your email",
-    RESET_LINK_FAILED: "Failed to send Reset Link ! Please try again later",
+    resetLinkSuccess : "Reset Link Successfully, Please check your email",
+    resetLinkFailed : "Failed to send Reset Link ! Please try again later",
 
-    RESET_PASSWORD_SUCCESS: "Password resetted Successfully.",
-    RESET_PASSWORD_FAILED: "Failed to reset password ! Please try again later.",
+    resetPasswordSuccess : "Password resetted Successfully.",
+    resetPasswordFailed : "Failed to reset password ! Please try again later.",
   },
-  PROFILE: {
-    UPDATE_SUCCESS: "Profile updated successfully",
+  profile : {
+    updateSuccess: "Profile updated successfully",
   },
-  ERROR: {
-    INTERNAL_SERVER_ERROR: "Something went wrong! Please try again later.",
+  error : {
+    internalServerError: "Something went wrong! Please try again later.",
   },
-  POSTS : {
-    postCreatedSuccess: "Post(s) created successfully",
+  posts : {
+    postCreatedSuccess : "Post(s) created successfully",
     postCreationError : "Error in Post(s) creation"
+  },
+  connections : {
+    requestSentSuccess : "Follow Request Sent Successfully",
+    requestSentFailed : "Failed to send Follow request",
+    postLikedSuccess : "Post Liked Successfully",
+    commentAddSuccess : "Comment Added Successfully"
   }
 };
 

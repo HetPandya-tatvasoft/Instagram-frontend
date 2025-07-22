@@ -2,6 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { acceptRejectFollowRequest } from "../services/notificationService";
 import toast from "react-hot-toast";
 import { handleApiError } from "../../../utils/error.utils";
+import { messages } from "../../../common/constants/messages";
 
 type FollowRequestPayload = {
   senderId: number;
@@ -13,7 +14,7 @@ export const useAcceptRejectFollowRequest = () => {
     mutationFn: ({ senderId, isAccepted }: FollowRequestPayload) =>
       acceptRejectFollowRequest(senderId, isAccepted),
     onSuccess: (response) => {
-      toast.success("Request Saved Successfully");
+      toast.success(messages.connections.requestSentSuccess);
     },
     onError: (error) => {
       handleApiError(error);

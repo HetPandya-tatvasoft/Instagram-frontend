@@ -1,4 +1,5 @@
-import { GenderEnum } from "../../../common/enums/gender.enum";
+import { genderEnum } from "../../../common/enums/gender.enum";
+import type { PostResponse } from "../../home/types/home.types";
 
 export interface UpdateUserProfilePayload {
   email: string;
@@ -8,7 +9,7 @@ export interface UpdateUserProfilePayload {
   dateOfBirth: string;
   bio: string;
   isPrivate?: boolean;
-  gender: GenderEnum;
+  gender: genderEnum;
   link?: string;
 }
 
@@ -34,4 +35,9 @@ export interface UserProfileResponse {
   isPrivate: boolean;
   isVerified : boolean;
   followStatus : string;
+}
+
+
+export interface UserMedia {
+  userPosts? : PostResponse,
 }

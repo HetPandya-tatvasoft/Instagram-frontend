@@ -19,7 +19,6 @@ export const useGetUserProfile = () => {
 
   useEffect(() => {
     if (queryResult.isSuccess && queryResult.data) {
-      console.log(queryResult);
       dispatch(setUserProfile(queryResult.data));
     }
   }, [queryResult.isSuccess, queryResult.data, dispatch, queryResult]);

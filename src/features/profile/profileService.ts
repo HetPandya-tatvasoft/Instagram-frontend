@@ -8,6 +8,7 @@ import type {
   UpdateUserProfilePayload,
   UserProfileResponse,
 } from "../profile/types/profile.types";
+import type { PostResponse } from "../home/types/home.types";
 
 const ENDPOINTS = {
   GET_PROFILE_DATA: "/user/get-logged-in-user",
@@ -21,6 +22,7 @@ const ENDPOINTS = {
   unfollowUserFunc: (id: number) => `/connection/unfollow/${id}`,
   sendFollowRequest: (id: number) => `/connection/send-follow-request/${id}`,
   unfollowUser: "/connection/unfollow",
+  getPosts: (id: number) => `/post/get-post/${id}`,
 };
 
 export const getUserProfile = () =>
@@ -55,6 +57,9 @@ export const UnfollowUser = (receiverId: number) =>
 
 export const sendFollowRequest = (receiverId: number) =>
   postRequest<string, object>(ENDPOINTS.sendFollowRequest(receiverId), {});
+
+export const getPosts = (userId: number) =>
+  getRequest<PostResponse>(ENDPOINTS.getPosts(userId));
 
 export const updateProfilePicture = async (
   file: File | null

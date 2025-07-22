@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import { ROUTES } from '../../../common/constants/routes'
+import { routes } from '../../../common/constants/routes'
 import { useCallback } from "react";
 
 
 const BackToLogin = () => {
-    const loginRoutePath = ROUTES.LOGIN;
+    const loginRoutePath = routes.login;
 
     const navigate = useNavigate();
 

@@ -1,18 +1,18 @@
-export const BASE_API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:5259";
+export const baseAPIUrl = import.meta.env.viteAPIUrl ?? "http://localhost:5259";
 
 // Common API configuration for all services
-export const API_CONFIG = {
-    BASE_URL: import.meta.env.VITE_API_URL || "http://localhost:5259",
-    HEADERS: {
+export const apiConfig = {
+    baseUrl: import.meta.env.viteAPIUrl || "http://localhost:5259",
+    headers: {
       "Content-Type": "application/json",
     },
-    FORM_DATA_HEADERS: {
+    formDataHeaders: {
       // Browser will detect by itself
     },
   };
 
 export const AUTH_ENDPOINTS = {
-    LOGIN: () => `/auth/login`,
-    CURRENT_USER: () => `/user/get-logged-in-user`,
+    login: () => `/auth/login`,
+    currentUser: () => `/user/get-logged-in-user`,
 };
 

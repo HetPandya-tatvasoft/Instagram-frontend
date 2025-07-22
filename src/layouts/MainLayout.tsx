@@ -15,7 +15,7 @@ import {
   Menu,
 } from "lucide-react";
 import instaLogo from "../assets/images/henstagram-logo.png";
-import { ROUTES } from "../common/constants/routes";
+import { routes } from "../common/constants/routes";
 import { Link } from "react-router-dom";
 import CreatePostModal from "../common/components/CreatePostModal";
 import SearchPanel from "../common/components/SearchPanel";
@@ -25,7 +25,6 @@ interface MainLayoutProps {
 }
 
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
-  console.log("MainLayout re-rendered");
 
   const [isCreatePostModalOpen, setIsCreatePostModalOpen] = useState(false);
 
@@ -40,8 +39,6 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
     const formData = new FormData();
     files.forEach((file) => formData.append("images", file));
     formData.append("caption", caption);
-    // formData.append("image", file);
-    console.log("Post Submitted", formData);
 
     // TODO: Submit with mutation here
     // closeModal();
@@ -49,7 +46,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
     setCaption("");
   };
 
-  const route = ROUTES.MAIN_ROUTES.userProfile.replace(
+  const route = routes.mainRoutes.userProfile.replace(
     ":userId",
     (-1).toString()
   );
@@ -60,7 +57,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
       icon: Home,
       label: "Home",
       active: false,
-      linkTo: ROUTES.MAIN_ROUTES.HOME,
+      linkTo: routes.mainRoutes.home,
       shouldCreatePostModalOpen: false,
     },
     {
@@ -99,7 +96,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
       icon: Heart,
       label: "Notifications",
       active: false,
-      linkTo: ROUTES.MAIN_ROUTES.notifications,
+      linkTo: routes.mainRoutes.notifications,
       shouldCreatePostModalOpen: false,
       shouldSearchSidebarOpen: false,
     },
@@ -124,8 +121,6 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   const handleCreatePostButtonClick = () => {
     setIsCreatePostModalOpen((prev) => !prev);
   };
-
-  console.log("The main layout component get called");
 
   return (
     <>

@@ -10,8 +10,11 @@ import type {
   stringResponseGeneral,
 } from "./types/auth.type";
 import API from "../../utils/axios.utils";
-import { postRequest } from "../../utils/httpClient.utils";
-import { ERROR_CODES } from "../../common/constants/error";
+import {
+  postRequest,
+  getRequestWithParams,
+} from "../../utils/httpClient.utils";
+import { errorCodes } from "../../common/constants/error";
 
 const ENDPOINTS = {
   LOGIN: "/auth/login",
@@ -51,6 +54,30 @@ export const resetPassword = (payload: ResetPasswordPayload) =>
     payload
   );
 
+export const checkUniqueEmail = async (email: string) =>
+  getRequestWithParams<boolean, { email: string }>(
+    ENDPOINTS.UNIQUE_EMAIL_CHECK,
+    { email }
+  );
+
+export const checkUniqueContact = (contactNumber: string) =>
+  getRequestWithParams<boolean, { contactNumber: string }>(
+    ENDPOINTS.UNIQUE_CONTACT_CHECK,
+    { contactNumber }
+  );
+
+export const checkUniqueUsername = async (username: string) =>
+  getRequestWithParams<boolean, { username: string }>(
+    ENDPOINTS.UNIQUE_USERNAME_CHECK,
+    { username }
+  );
+
+// Convert this to use generic one later
+export const fetchCurrentUser = async (): Promise<User> => {
+  const response = await API.api.get<User>(ENDPOINTS.GET_LOGGED_IN_USER);
+  return response.data;
+};
+
 // export const registerUser = async (data: RegisterUserPayload): Promise<RegisterUserResponse> => {
 //     const response = await API.post<RegisterUserResponse>(ENDPOINTS.REGISTER_USER, data);
 
@@ -69,48 +96,41 @@ export const resetPassword = (payload: ResetPasswordPayload) =>
 //     return response.data;
 // }
 
-export const checkUniqueEmail = async (email: string) => {
-  try {
-    const response = await API.get(ENDPOINTS.UNIQUE_EMAIL_CHECK, {
-      params: { email },
-    });
-    return response.data;
+// export const checkUniqueEmail = async (email: string) => {
+//   try {
+//     const response = await API.api.get(ENDPOINTS.UNIQUE_EMAIL_CHECK, {
+//       params: { email },
+//     });
+//     return response.data;
 
-    // Remove this try catch block as it is already being handled in the test method in the formik
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error: any) {
-    if (error.response && error.response.status === 400) {
-      const message =
-        error.response.data?.message || ERROR_CODES.ALREADY_EXISTS.EMAIL;
-      return Promise.reject(new Error(message));
-    }
-    // Generic fallback
-    return Promise.reject(
-      new Error(ERROR_CODES.internalServer.emailValidation)
-    );
-  }
-};
+//     // Remove this try catch block as it is already being handled in the test method in the formik
+//     // eslint-disable-next-line @typescript-eslint/no-explicit-any
+//   } catch (error: any) {
+//     if (error.response && error.response.status === 400) {
+//       const message =
+//         error.response.data?.message || errorCodes.alreadyExists.email;
+//       return Promise.reject(new Error(message));
+//     }
+//     // Generic fallback
+//     return Promise.reject(new Error(errorCodes.internalServer.emailValidation));
+//   }
+// };
 
-export const checkUniqueContact = async (contactNumber: string) => {
-  const response = await API.get(ENDPOINTS.UNIQUE_CONTACT_CHECK, {
-    params: { contactNumber },
-  });
+// export const checkUniqueContact = async (contactNumber: string) => {
+//   const response = await API.api.get(ENDPOINTS.UNIQUE_CONTACT_CHECK, {
+//     params: { contactNumber },
+//   });
 
-  return response.data;
-};
+//   return response.data;
+// };
 
-export const checkUniqueUsername = async (username: string) => {
-  try {
-    const response = await API.get(ENDPOINTS.UNIQUE_USERNAME_CHECK, {
-      params: { username },
-    });
-    return response.data;
-  } catch (error) {
-    console.warn(error);
-  }
-};
-
-export const fetchCurrentUser = async (): Promise<User> => {
-  const response = await API.get<User>(ENDPOINTS.GET_LOGGED_IN_USER);
-  return response.data;
-};
+// export const checkUniqueUsername = async (username: string) => {
+//   try {
+//     const response = await API.api.get(ENDPOINTS.UNIQUE_USERNAME_CHECK, {
+//       params: { username },
+//     });
+//     return response.data;
+//   } catch (error) {
+//     console.warn(error);
+//   }
+// };

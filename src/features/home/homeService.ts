@@ -6,24 +6,39 @@ import {
   type PaginationRequest,
 } from "../../common/types/paginationRequest.type";
 import type { ApiResponse } from "../../@core/api/apiResponse.type";
+import type { addCommentPayload } from "./types/payload.types";
 
-const ENDPOINTS = {
+const endPoints = {
   getHomeFeed: "/post/get-post-feed",
   searchUser: "/user/get-user-list",
   likePost: (postId: number) => `/post/post-like-unlike/${postId}`,
+  commentInPost: "/post/add-edit-comment",
+  likeComment: (commentId: number) => `post/like-unlike-comment/${commentId}`,
 };
 
 export const getHomeFeedService = async () =>
   postRequest<PaginationResponse<PostResponse>, PaginationRequest>(
-    ENDPOINTS.getHomeFeed,
+    endPoints.getHomeFeed,
     defaultPaginationRequest
   );
 
 export const searchUserService = async (payload: PaginationRequest) =>
   postRequest<PaginationResponse<UserResponse>, PaginationRequest>(
-    ENDPOINTS.searchUser,
+    endPoints.searchUser,
     payload
   );
 
 export const likePost = async (postId: number) =>
-  postRequest<ApiResponse<string>, object>(ENDPOINTS.likePost(postId), {});
+  postRequest<ApiResponse<string>, object>(endPoints.likePost(postId), {});
+
+export const commentInPost = async (payload: addCommentPayload) =>
+  postRequest<ApiResponse<number>, addCommentPayload>(
+    endPoints.commentInPost,
+    payload
+  );
+
+export const likeComment = async (commentId: number) =>
+  postRequest<ApiResponse<string>, object>(
+    endPoints.likeComment(commentId),
+    {}
+  );

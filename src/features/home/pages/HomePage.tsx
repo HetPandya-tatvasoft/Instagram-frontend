@@ -9,11 +9,7 @@ import { HubConnectionState } from "@microsoft/signalr";
 import { createPostHubConnection } from "../../../utils/signalR.utils";
 
 const HomePage: React.FC = () => {
-  console.log("HomePage mounted");
-
-  const { data: paginatedPosts, isLoading, error } = useHomeFeed();
-
-  console.log(paginatedPosts);
+  const { data: paginatedPosts } = useHomeFeed();
 
   const queryClient = useQueryClient();
 

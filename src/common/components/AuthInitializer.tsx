@@ -9,6 +9,7 @@ import {
 } from "../../features/authentication/slice/authSlice";
 import { getAuthToken } from "../../utils/cookie.utils";
 import useLogout from "../../hooks/useLogout";
+import { removeAuthToken } from "../../utils/cookie.utils";
 
 interface DecodedToken extends User {
   exp: number;
@@ -32,13 +33,13 @@ const AuthInitializer = () => {
       if (isValid) {
         dispatch(setUser({ ...decoded, token }));
       } else {
-        Cookies.remove("token");
+        removeAuthToken();
         logout();
         dispatch(setInitialised());
       }
     } catch (err) {
       logout();
-      Cookies.remove("token");
+      removeAuthToken();
     }
   }, [dispatch, logout]);
 

@@ -3,7 +3,7 @@ import type { ForgotPasswordPayload } from "../types/auth.type";
 import { useFormik } from "formik";
 import useSendResetPasswordLink from "../hooks/useForgotPassword";
 import { Link } from "react-router-dom";
-import { ROUTES } from "../../../common/constants/routes";
+import { routes } from "../../../common/constants/routes";
 import { useCallback } from "react";
 import { forgotPasswordValidation } from '../validations/forgotPasswordValidation';
 
@@ -113,7 +113,7 @@ const ForgotPasswordForm: React.FC = () => {
           <div className="flex-1 h-px bg-gray-300" />
         </div>
         <div className="flex justify-center">
-          <Link to={ROUTES.REGISTER} className="text-black font-semibold">
+          <Link to={routes.register} className="text-black font-semibold">
             Create new account
           </Link>
         </div>

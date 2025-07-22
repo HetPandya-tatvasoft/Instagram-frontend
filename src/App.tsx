@@ -3,7 +3,6 @@ import toast, { Toaster } from 'react-hot-toast';
 import AppRoutes from './routes/AppRoutes';
 
 function App() {
-  console.log("App mounted");
 
   return (
     <>

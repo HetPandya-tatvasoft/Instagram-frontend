@@ -1,4 +1,4 @@
-export enum FollowStatus {
+export enum followStatus {
     follow = "Follow",
     following = "Following",
     followBack = "Follow Back",

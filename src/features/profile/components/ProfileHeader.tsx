@@ -2,7 +2,7 @@ import React, { useState, useCallback } from "react";
 import ProfilePicture from "../components/ProfilePicture";
 import { Settings, Pencil } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { ROUTES } from "../../../common/constants/routes";
+import { routes } from "../../../common/constants/routes";
 import useLogout from "../../../hooks/useLogout";
 import type {
   UserResponse,
@@ -16,17 +16,10 @@ interface ProfileHeaderProps {
 }
 
 const ProfileHeader: React.FC<ProfileHeaderProps> = ({ userInfo }) => {
-  const updateProfileRoute = ROUTES.MAIN_ROUTES.UPDATE_PROFILE;
+
+  const updateProfileRoute = routes.mainRoutes.updateProfile;
 
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-
-  console.log("This is for the custom data logging.");
-
-  console.log(userInfo);
-
-  console.log(
-    userInfo?.userHeaderInfo?.profilePictureBase64?.base64String ?? "Het"
-  );
 
   const ownProfile =
     userInfo.userConnectionData.followStatus ==

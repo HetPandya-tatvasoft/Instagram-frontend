@@ -1,6 +1,6 @@
 import type React from "react"
 import { Link, useLocation } from "react-router-dom"
-import { PATHNAME_PORTION } from "../common/constants/routes";
+import { pathnamePortion } from "../common/constants/routes";
 
 
 interface AuthFormPageProps {
@@ -9,7 +9,7 @@ interface AuthFormPageProps {
 
 const AuthFormPage: React.FC<AuthFormPageProps> = ({ children }) => {
     const location = useLocation();
-    const isLogin = location.pathname.includes(PATHNAME_PORTION.LOGIN_PART);
+    const isLogin = location.pathname.includes(pathnamePortion.loginPart);
 
     return (
         <div className="flex justify-center items-center min-h-screen">

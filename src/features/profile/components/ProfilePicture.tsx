@@ -16,8 +16,6 @@ const ProfilePicture: React.FC<ProfilePictureProps> = ({
 
   const [isPhotoModalOpen, setIsPhotoModalOpen] = useState(false);
 
-  // const [profilePic, setProfilePic] = useState(ProfilePictureUrlBase64);
-
   const [profilePic, setProfilePic] = useState<FileResponse | null>(
     ProfilePictureUrlBase64
       ? {
@@ -53,7 +51,7 @@ const ProfilePicture: React.FC<ProfilePictureProps> = ({
   }, []);
 
   const handleRemovePhoto = useCallback(() => {
-    setProfilePic(null); // sets to null, fallback image will show
+    setProfilePic(null);
     handleCloseModal();
   }, [handleCloseModal]);
 

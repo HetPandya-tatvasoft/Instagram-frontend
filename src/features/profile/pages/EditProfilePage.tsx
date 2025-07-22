@@ -13,7 +13,7 @@ import { useGetUserProfile } from "../hooks/useGetUserProfile";
 import { useUpdateProfile } from "../hooks/useUpdateProfile";
 import { getUpdateProfileValidationSchema } from "../validations/updateProfileValidation";
 import { useAppSelector } from "../../../app/redux/hooks";
-import { GenderEnum } from "../../../common/enums/gender.enum";
+import { genderEnum } from "../../../common/enums/gender.enum";
 
 type UpdateProfileFormContext = {
   currentUserEmail?: string;
@@ -28,14 +28,14 @@ type UpdateProfileFormContext = {
 //   "prefer not to say",
 // ] as const;
 
-const allowedGenders = Object.values(GenderEnum);
+const allowedGenders = Object.values(genderEnum);
 
 type GenderType = (typeof allowedGenders)[number];
 
-const getSafeGender = (value?: string): GenderEnum => {
-  return (Object.values(GenderEnum) as string[]).includes(value ?? "")
-    ? (value as GenderEnum)
-    : GenderEnum.MALE; // default
+const getSafeGender = (value?: string): genderEnum => {
+  return (Object.values(genderEnum) as string[]).includes(value ?? "")
+    ? (value as genderEnum)
+    : genderEnum.male; // default
 };
 
 const EditProfilePage: React.FC = () => {
@@ -186,9 +186,9 @@ const EditProfilePage: React.FC = () => {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                   >
-                    <MenuItem value={GenderEnum.MALE}>Male</MenuItem>
-                    <MenuItem value={GenderEnum.FEMALE}>Female</MenuItem>
-                    <MenuItem value={GenderEnum.PREFER_NOT_TO_SAY}>
+                    <MenuItem value={genderEnum.male}>Male</MenuItem>
+                    <MenuItem value={genderEnum.female}>Female</MenuItem>
+                    <MenuItem value={genderEnum.preferNotToSay}>
                       Other
                     </MenuItem>
                   </Select>

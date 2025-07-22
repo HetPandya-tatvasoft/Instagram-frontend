@@ -46,8 +46,10 @@ export interface PostComment {
   commentId: number;
   commentedByUserId: number;
   content: string;
-  commentedByUserProfilePictureBase64: string;
+  commentedByUserProfilePictureBase64: FileResponse;
   commentedByUserUsername?: string;
+  totalCommentLikes : number,
+  isCommentLikedByCurrentUser : boolean,
   createdDate: string;
 }
 
@@ -98,4 +100,8 @@ export interface UserConnectionData {
 export interface UserProfileHeader {
   userHeaderInfo? : UserResponse;
   userConnectionData : UserConnectionData
+}
+
+export interface addCommentInputProps {
+  postId : number;
 }

@@ -8,9 +8,6 @@ import ProfilePostsSection from "../components/ProfilePostsSection";
 
 const ProfilePage: React.FC = () => {
   
-console.log("Profile page is being called")
-
-
   return (
     <MainLayout>
       {/* <h2>This will be the main profile page</h2> */}

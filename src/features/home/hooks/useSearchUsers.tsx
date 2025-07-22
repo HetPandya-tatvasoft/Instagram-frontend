@@ -9,12 +9,6 @@ import { useQuery } from "@tanstack/react-query";
 export const useSearchUsers = (searchText: string) => {
   const debouncedQuery = useDebounce(searchText, 100);
 
-  //   const request: PaginationRequest = {
-  //     pageNumber: 1,
-  //     pageSize: 10,
-  //     searchText: debouncedQuery,
-  //   };
-
   const payloadForUserSearch = defaultPaginationRequest;
   payloadForUserSearch.searchText = debouncedQuery;
 

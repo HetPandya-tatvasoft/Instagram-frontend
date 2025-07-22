@@ -5,13 +5,13 @@ import { setUser } from "../slice/authSlice";
 import { loginUser } from "../authService";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { MESSAGES } from "../../../common/constants/messages";
+import { messages } from "../../../common/constants/messages";
 import { setAuthToken } from "../../../utils/cookie.utils";
 import { decodeToken } from "../../../utils/jwt.utils";
 import { buildUserFromToken } from "../../../utils/user.utils";
 import { handleApiError } from "../../../utils/error.utils";
 import type { ApiResponse } from "../../../@core/api/apiResponse.type";
-import { ROUTES } from "../../../common/constants/routes";
+import { routes } from "../../../common/constants/routes";
 
 export const useLogin = () => {
     const dispatch = useAppDispatch();
@@ -21,8 +21,7 @@ export const useLogin = () => {
         mutationFn: loginUser,
         onSuccess: (response) => {
             if (!response.isSuccess) {
-                toast.error(MESSAGES.AUTH.INVALID_CREDENTIALS);
-                toast.error(response.message)
+                toast.error(messages.auth.invalidCredentials);
                 return;
             }
 
@@ -41,13 +40,12 @@ export const useLogin = () => {
 
             dispatch(setUser(user));
 
-            toast.success(MESSAGES.AUTH.LOGIN_SUCCESS);
-            console.log("PROFILE route constant:", ROUTES.MAIN_ROUTES.PROFILE);
-            navigate(ROUTES.MAIN_ROUTES.HOME);
+            toast.success(messages.auth.loginSuccess);
+            console.log("PROFILE route constant:", routes.mainRoutes.profile);
+            navigate(routes.mainRoutes.home);
         }, 
         onError: (error) => {
             handleApiError(error);
-            console.error("Login failed:", error);
         }
 
     })

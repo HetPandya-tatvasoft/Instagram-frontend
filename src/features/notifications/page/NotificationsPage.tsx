@@ -1,35 +1,30 @@
 import type { NotificationResponse } from "../../../common/types/notificationResponse.type";
 import MainLayout from "../../../layouts/MainLayout";
-import { useGetNotifications } from "../hooks/useGetNotifications";
+import {
+  useGetNotifications,
+  useGetNotificationsQuery,
+} from "../hooks/useGetNotifications";
 import { useAcceptRejectFollowRequest } from "../hooks/useAcceptRejectFollowRequest";
 import { useEffect } from "react";
 import NotificationCard from "../components/NotificationCard";
+import { useQueryClient } from "@tanstack/react-query";
 
 const NotificationsPage: React.FC = () => {
-  // const notifications = mockNotifications;
-  // const isLoading = false;
+  // const { getNotifications, notifications, isLoading } = useGetNotifications();
 
-  const { getNotifications, notifications, isLoading, error } =
-    useGetNotifications();
+  const { data: notifications, isLoading } = useGetNotificationsQuery();
 
-  const {
-    respondToFollowRequest,
-    isLoading: respondToFollowRequestLoading,
-    error: respondToFollowRequestError,
-  } = useAcceptRejectFollowRequest();
+  const { respondToFollowRequest } = useAcceptRejectFollowRequest();
 
-  useEffect(() => {
-    getNotifications();
-  }, [getNotifications]);
+  const queryClient = useQueryClient();
 
   const handleRespondToFollowRequest = (
     senderId: number,
     isAccepted: boolean
   ) => {
     respondToFollowRequest({ senderId, isAccepted });
+    queryClient.invalidateQueries({ queryKey: ["notifications-list-forPage"]});
   };
-
-  console.log(notifications);
 
   return (
     <MainLayout>
@@ -38,10 +33,10 @@ const NotificationsPage: React.FC = () => {
 
         {isLoading ? (
           <p>Loading...</p>
-        ) : notifications?.length === 0 || !notifications ? (
+        ) : notifications?.data.records.length === 0 || !notifications ? (
           <p>No notifications yet.</p>
         ) : (
-          notifications.map((notification: NotificationResponse) =>
+          notifications.data.records.map((notification: NotificationResponse) =>
             notification ? (
               <NotificationCard
                 key={notification.notificationId}

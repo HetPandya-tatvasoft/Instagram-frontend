@@ -1,5 +1,7 @@
-export enum NotificationType {
-    FollowRequest = 1,
-    FollowAccepted = 2,
-    PostLiked = 3,
+export enum notificationType {
+    followRequest = 1,
+    folllowAccepted = 2,
+    postLiked = 3,
+    commentedInPost = 4,
+    commentLike = 5
 }

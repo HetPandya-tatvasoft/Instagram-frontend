@@ -3,6 +3,7 @@ import type { PostResponse } from "../../home/types/home.types";
 import { getBase64ImageUrl } from "../../../utils/getBase64Image";
 import CenterModalLayout from "../../../layouts/CenterModalLayout";
 import AddCommentInput from "../components/AddCommentInput";
+import CommentComponent from "../components/CommentComponent";
 
 interface CommentModalProps {
   isOpen: boolean;
@@ -15,7 +16,6 @@ const CommentModal: React.FC<CommentModalProps> = ({
   onClose,
   post,
 }) => {
-  console.log(post);
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -62,27 +62,12 @@ const CommentModal: React.FC<CommentModalProps> = ({
           {/* Comments */}
           <div className="flex-1 overflow-y-auto p-4 space-y-4">
             {post.comments.map((comment) => (
-              <div key={comment.commentId} className="flex gap-3 items-start">
-                <img
-                  src={getBase64ImageUrl(post.postedByUserProfilePictureBase64)}
-                  alt="User"
-                  className="w-8 h-8 rounded-full"
-                />
-                <div>
-                  <span className="font-medium mr-2">
-                    {comment.commentedByUserUsername}
-                  </span>
-                  <span>{comment.content}</span>
-                  <div className="text-xs text-gray-400 mt-1">
-                    {comment.createdDate.toString()}
-                  </div>
-                </div>
-              </div>
+              <CommentComponent key={comment.commentId} comment={comment} />
             ))}
           </div>
 
           {/* Input  */}
-          <AddCommentInput />
+          <AddCommentInput postId={post.postId} />
         </div>
       </div>
     </CenterModalLayout>

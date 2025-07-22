@@ -7,8 +7,8 @@ import type {
 } from "../types/profile.types";
 import toast from "react-hot-toast";
 import { updateUserProfile } from "../profileService";
-import { ROUTES } from "../../../common/constants/routes";
-import { MESSAGES } from "../../../common/constants/messages";
+import { routes } from "../../../common/constants/routes";
+import { messages } from "../../../common/constants/messages";
 import { handleApiError } from "../../../utils/error.utils";
 
 export const useUpdateProfile = () => {
@@ -25,16 +25,15 @@ export const useUpdateProfile = () => {
         toast.error(response.message);
         return;
       }
-      const route = ROUTES.MAIN_ROUTES.userProfile.replace(
+      const route = routes.mainRoutes.userProfile.replace(
         ":userId",
         (-1).toString()
       );
       navigate(route);
-      toast.success(MESSAGES.PROFILE.UPDATE_SUCCESS);
+      toast.success(messages.profile.updateSuccess);
     },
     onError: (error) => {
-      console.log(error);
-      // handleApiError(error);
+      handleApiError(error);
     },
   });
 };

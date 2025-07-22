@@ -1,19 +1,23 @@
-import { NotificationType } from "../common/enums/notification.enum";
+import { notificationType } from "../common/enums/notification.enum";
 import type { NotificationResponse } from "../common/types/notificationResponse.type";
 
 
 export function generateNotificationMessage(
   notification: NotificationResponse
 ): string {
-  const { senderUsername, notificationTypeId } = notification;
+  const { senderUsername, notificationTypeId, message } = notification;
 
   switch (notificationTypeId) {
-    case NotificationType.FollowRequest:
+    case notificationType.followRequest:
       return `${senderUsername} has requested to follow you`;
-    case NotificationType.FollowAccepted:
+    case notificationType.folllowAccepted:
       return `${senderUsername} started following you`;
-    case NotificationType.PostLiked:
+    case notificationType.postLiked:
       return `${senderUsername} liked your post`;
+    case notificationType.commentedInPost:
+      return `${message}`
+    case notificationType.commentLike : 
+      return `${senderUsername} liked your comment.`
     default:
       return "You have a new notification";
   }
