@@ -11,6 +11,7 @@ import UserProfilePage from "../features/profile/pages/UserProfilePage";
 import EditProfilePage from "../features/profile/pages/EditProfilePage";
 import HomePage from "../features/home/pages/HomePage";
 import NotificationsPage from "../features/notifications/page/NotificationsPage"
+import PostDetails from "../features/posts/pages/PostDetails";
 
 const AppRoutes = () => {
   return (
@@ -62,6 +63,15 @@ const AppRoutes = () => {
           element={
             <PrivateRoute>
               <EditProfilePage />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path={routes.mainRoutes.postDetails}
+          element={
+            <PrivateRoute>
+              <PostDetails />
             </PrivateRoute>
           }
         />

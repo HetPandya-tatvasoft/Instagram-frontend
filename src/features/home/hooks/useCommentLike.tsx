@@ -6,9 +6,14 @@ export const useCommentLike = () => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
-    mutationFn: (commentId: number) => likeComment(commentId),
-    onSuccess: (response) => {
+    mutationFn: ({ commentId }: { commentId: number }) =>
+      likeComment(commentId),
+
+    onSuccess: (response, variables) => {
       queryClient.invalidateQueries({ queryKey: ["home-feed"] });
+      queryClient.invalidateQueries({
+        predicate: (query) => query.queryKey.includes("post-details"),
+      });
     },
     onError: (error) => {
       handleApiError(error);

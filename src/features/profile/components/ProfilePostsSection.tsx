@@ -1,53 +1,42 @@
-import { Heart, MessageCircle } from "lucide-react";
-import { useState } from "react";
+import { useCallback, useState } from "react";
+import { UserMedia } from "../types/profile.types";
+import ProfilePostCard from "./ProfilePostCard";
+import { usePostLike } from "../../home/hooks/usePostLike";
+import { useNavigate } from "react-router-dom";
+import { routes } from "../../../common/constants/routes";
 
-const ProfilePostsSection: React.FC = () => {
+interface ProfilePostsProps {
+  posts: UserMedia;
+}
+
+const ProfilePostsSection: React.FC<ProfilePostsProps> = ({ posts }) => {
+  const navigate = useNavigate();
+
+  // const hasUserLiked = posts.userPosts.?.some(
+  //   (like: PostLike) => like.likedByUserId === loggedInUserId
+  // );
+
+  const { likePost } = usePostLike();
+
+  const handleLikeClick = useCallback(
+    (postId: number) => {
+      likePost(postId);
+    },
+    [likePost]
+  );
+
+  const handlePostDetailsNavigation = useCallback(
+    (postId: number) => {
+      const route = routes.mainRoutes.postDetails.replace(
+        ":postId",
+        postId.toString()
+      );
+      navigate(route);
+    },
+    [navigate]
+  );
+
   const [activeTab, setActiveTab] = useState("posts");
-
-  const posts = [
-    {
-      id: 1,
-      image:
-        "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300&h=300&fit=crop",
-      likes: 234,
-      comments: 12,
-    },
-    {
-      id: 2,
-      image:
-        "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=300&h=300&fit=crop",
-      likes: 567,
-      comments: 23,
-    },
-    {
-      id: 3,
-      image:
-        "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=300&h=300&fit=crop",
-      likes: 890,
-      comments: 45,
-    },
-    {
-      id: 4,
-      image:
-        "https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=300&h=300&fit=crop",
-      likes: 123,
-      comments: 8,
-    },
-    {
-      id: 5,
-      image:
-        "https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=300&h=300&fit=crop",
-      likes: 456,
-      comments: 34,
-    },
-    {
-      id: 6,
-      image:
-        "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300&h=300&fit=crop",
-      likes: 789,
-      comments: 56,
-    },
-  ];
 
   const tabs = ["posts", "reels", "tagged"];
 
@@ -75,28 +64,13 @@ const ProfilePostsSection: React.FC = () => {
 
       {/* Tabs Content */}
       <div className="grid grid-cols-3 gap-5">
-        {posts.map((post) => (
-          <div key={post.id}>
-            <div className=" aspect-square relative group cursor-pointer">
-              <img
-                src={post.image}
-                alt={`Post ${post.id}`}
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center gap-6">
-                <div className="flex justify-center items-center">
-                  <Heart size={28} fill="white" />
-                  <span className="font-semibold text-white">{post.likes}</span>
-                </div>
-                <div className="flex justify-center items-center">
-                  <MessageCircle size={28} fill="white" />
-                  <span className="font-semibold text-white">
-                    {post.comments}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
+        {posts?.userPosts?.map((post) => (
+          <ProfilePostCard
+            key={post.postId}
+            post={post}
+            handleLikeClick={handleLikeClick}
+            handlePostDetailsNavigation={handlePostDetailsNavigation}
+          />
         ))}
       </div>
     </div>

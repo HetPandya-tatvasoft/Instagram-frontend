@@ -4,7 +4,6 @@ import { notificationType } from "../../../common/enums/notification.enum";
 import { getBase64ImageUrl } from "../../../utils/getBase64Image";
 import { useQueryClient } from "@tanstack/react-query";
 
-
 interface Props {
   notification: NotificationResponse;
   onRespond?: (senderId: number, isAccepted: boolean) => void;
@@ -24,7 +23,7 @@ const NotificationCard: React.FC<Props> = ({ notification, onRespond }) => {
     thumbnail,
   } = notification;
 
-
+  console.log(notification);
 
   const showActions = notificationTypeId === notificationType.followRequest;
 
@@ -37,8 +36,22 @@ const NotificationCard: React.FC<Props> = ({ notification, onRespond }) => {
       />
       <div className="flex-1">
         <p className="text-sm font-medium">
-          {generateNotificationMessage(notification)}
-        </p>
+
+            {/* This split thing and all is for comment like message */}
+            {(() => {
+              const message = generateNotificationMessage(notification);
+              const [beforeContent, commentContent] = message.split(":-");
+
+              return (
+                <>
+                  {beforeContent}
+                  {commentContent && (
+                    <span className="text-gray-500"> :-{commentContent}</span>
+                  )}
+                </>
+              );
+            })()}
+          </p>
         <p className="text-xs text-gray-500">
           {new Date(sentDate).toLocaleString()}
         </p>

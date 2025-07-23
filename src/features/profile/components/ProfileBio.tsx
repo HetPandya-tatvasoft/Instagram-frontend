@@ -1,9 +1,14 @@
-const ProfileBio: React.FC = () => {
+import { UserBio } from "../types/profile.types";
+
+interface ProfileBioProps {
+  profileBio: UserBio;
+}
+
+const ProfileBio: React.FC<ProfileBioProps> = ({ profileBio }) => {
   return (
     <div className="mt-4 text-sm">
-      <p className="font-semibold">Het Pandya</p>
-      <p>Professional Procrastinator</p>
-      <p>Always working towards building a better life, Onto Next 💪.</p>
+      <p className="font-semibold">{profileBio.name}</p>
+      {profileBio != null && <p>{profileBio.profileBio}</p>}
     </div>
   );
 };

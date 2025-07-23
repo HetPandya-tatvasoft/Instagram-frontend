@@ -1,14 +1,13 @@
-import {
-  getRequest,
-  postRequest,
-  getRequestWithParams,
-} from "../../utils/httpClient.utils";
+import { getRequest, postRequest } from "../../utils/httpClient.utils";
+import type { PaginationRequestGeneric } from "../../common/types/paginationRequest.type";
 import type { UserResponse } from "../home/types/home.types";
+import type { PostRequestPayload } from "../home/types/payload.types";
 import type {
   UpdateUserProfilePayload,
   UserProfileResponse,
 } from "../profile/types/profile.types";
 import type { PostResponse } from "../home/types/home.types";
+import { PaginationResponse } from "../../common/types/paginationResponse.type";
 
 const ENDPOINTS = {
   GET_PROFILE_DATA: "/user/get-logged-in-user",
@@ -22,7 +21,7 @@ const ENDPOINTS = {
   unfollowUserFunc: (id: number) => `/connection/unfollow/${id}`,
   sendFollowRequest: (id: number) => `/connection/send-follow-request/${id}`,
   unfollowUser: "/connection/unfollow",
-  getPosts: (id: number) => `/post/get-post/${id}`,
+  getPosts: `/post/get-post-list`,
 };
 
 export const getUserProfile = () =>
@@ -58,8 +57,13 @@ export const UnfollowUser = (receiverId: number) =>
 export const sendFollowRequest = (receiverId: number) =>
   postRequest<string, object>(ENDPOINTS.sendFollowRequest(receiverId), {});
 
-export const getPosts = (userId: number) =>
-  getRequest<PostResponse>(ENDPOINTS.getPosts(userId));
+export const getPosts = (
+  payload: PaginationRequestGeneric<PostRequestPayload>
+) =>
+  postRequest<
+    PaginationResponse<PostResponse[]>,
+    PaginationRequestGeneric<PostRequestPayload>
+  >(ENDPOINTS.getPosts, payload);
 
 export const updateProfilePicture = async (
   file: File | null

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import MainLayout from "../../../layouts/MainLayout";
 import ProfileHeader from "../components/ProfileHeader";
 import ProfileBio from "../components/ProfileBio";
@@ -7,13 +7,22 @@ import ProfilePostsSection from "../components/ProfilePostsSection";
 import { useParams } from "react-router-dom";
 import { useUserProfile } from "../hooks/useUserProfile";
 import { useGetUserMedia } from "../hooks/useGetUserMedia";
+import { usePostLike } from "../../home/hooks/usePostLike";
+import { UserBio } from "../types/profile.types";
 
 const UserProfilePage: React.FC = () => {
   const { userId } = useParams<{ userId: string }>();
 
   const { userHeaderData, isLoading, isError } = useUserProfile(userId ?? "");
 
-  const { userMedia } = useGetUserMedia(userHeaderData.userHeaderInfo?.userId ?? 0);
+  const { userMedia } = useGetUserMedia(
+    userHeaderData.userHeaderInfo?.userId ?? 0
+  );
+
+  const userProfileBio: UserBio = {
+    name: userHeaderData.userHeaderInfo?.fullName ?? "",
+    profileBio: userHeaderData.userHeaderInfo?.bio,
+  };
 
   if (isLoading) return <p>Loading...</p>;
 
@@ -35,13 +44,13 @@ const UserProfilePage: React.FC = () => {
             <ProfileHeader userInfo={userHeaderData} />
 
             {/* Bio */}
-            <ProfileBio />
+            <ProfileBio profileBio={userProfileBio} />
 
             {/* Story Highlights */}
             <StoryHighlights />
 
             {/* Tab Navigation */}
-            <ProfilePostsSection />
+            <ProfilePostsSection posts={userMedia} />
           </div>
         </div>
       </div>

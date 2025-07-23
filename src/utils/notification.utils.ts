@@ -17,7 +17,7 @@ export function generateNotificationMessage(
     case notificationType.commentedInPost:
       return `${message}`
     case notificationType.commentLike : 
-      return `${senderUsername} liked your comment.`
+      return `${message}.`
     default:
       return "You have a new notification";
   }

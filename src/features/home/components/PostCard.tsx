@@ -11,6 +11,7 @@ import { usePostLike } from "../hooks/usePostLike";
 import { getUserIdFromToken } from "../../../utils/jwt.utils";
 import CommentModal from "../../posts/components/CommentModal";
 import LikesModal from "../../posts/components/likedByUsersModal";
+import SavePostModal from "./SavePostModal";
 
 interface PostCardProps {
   post: PostResponse;
@@ -18,6 +19,10 @@ interface PostCardProps {
 
 const PostCard: React.FC<PostCardProps> = ({ post }) => {
   const [showLikesModal, setShowLikesModal] = useState(false);
+
+  const [showSaveModal, setShowSaveModal] = useState(false);
+
+  const [collections, setCollections] = useState(["Favorites", "Inspo"]);
 
   const [likesData, setLikesData] = useState([
     {
@@ -54,6 +59,8 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
 
   const [showAllComments, setShowAllComments] = useState(false);
 
+  const [isZoomed, setIsZoomed] = useState(false);
+
   const { likePost } = usePostLike();
 
   const mediaList = post.mediaUrls || [];
@@ -72,6 +79,15 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
       : "/src/assets/images/default_profile.webp";
 
   let imgSrc = "/src/assets/images/default_profile.webp";
+
+  const handleSaveToCollection = (collection: string) => {
+    // Logic to save post to that collection
+    console.log(`Saved to ${collection}`);
+  };
+
+  const handleCreateCollection = (newName: string) => {
+    setCollections((prev) => [...prev, newName]);
+  };
 
   if (
     post.postedByUserProfilePictureBase64 &&
@@ -110,6 +126,11 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
     setOpenCommentModal((prev) => !prev);
   }, [setOpenCommentModal]);
 
+  const handlePostImageClick = useCallback(() => {
+    console.log("This image has been clicked");
+    setIsZoomed((prev) => !prev);
+  }, [setIsZoomed]);
+
   return (
     <div className="bg-white border border-gray-200 rounded-lg mb-4">
       {/* Post Header */}
@@ -119,7 +140,8 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
             <img
               src={imgSrc}
               alt={` ${post.postedByUserName}'s profile picture.`}
-              className="w-8 h-8 rounded-full object-cover  "
+              className={`w-8 h-8 rounded-full object-cover `}
+              onClick={() => handlePostImageClick()}
             />
           </div>
           <div className="flex items-center space-x-1">
@@ -140,7 +162,7 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
         <img
           src={postImageSrc}
           alt={`post.`}
-          className="w-[500px] h-[360px] object-cover relative"
+          className={"w-[500px] h-[360px] object-cover relative"}
         />
         {mediaList.length > 1 && (
           <>
@@ -165,6 +187,7 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center space-x-4">
             <button
+              type="button"
               onClick={() => handleLikeClick(post.postId)}
               className={`p-1 hover:bg-gray-100 rounded-full space-x-1 ${
                 hasLiked ? "text-red-500" : "text-black"
@@ -178,6 +201,7 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
             </button>
 
             <button
+              type="button"
               onClick={() => handleCommentBtnClick()}
               className="p-1 hover:bg-gray-100 rounded-full"
             >
@@ -187,14 +211,21 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
               <Send size={24} />
             </button>
           </div>
-          <button className="p-1 hover:bg-gray-100 rounded-fill">
+          <button
+            type="button"
+            onClick={() => setShowSaveModal(true)}
+            className="p-1 hover:bg-gray-100 rounded-fill"
+          >
             <Bookmark size={24} />
           </button>
         </div>
 
         {/* Likes Section */}
         <div>
-          <span className="font-medium text-sm" onClick={() => setShowLikesModal(true)}>
+          <span
+            className="font-medium text-sm"
+            onClick={() => setShowLikesModal(true)}
+          >
             {post.like?.length ?? 0} likes
           </span>
         </div>
@@ -244,6 +275,14 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
         users={likesData}
         onToggleFollow={toggleFollow}
       /> */}
+      {showSaveModal && (
+        <SavePostModal
+          onClose={() => setShowSaveModal(false)}
+          collections={collections}
+          onSaveToCollection={handleSaveToCollection}
+          onCreateCollection={handleCreateCollection}
+        />
+      )}
     </div>
   );
 };

@@ -39,5 +39,10 @@ export interface UserProfileResponse {
 
 
 export interface UserMedia {
-  userPosts? : PostResponse,
+  userPosts? : PostResponse[],
+}
+
+export interface UserBio {
+  name : string;
+  profileBio? : string;
 }

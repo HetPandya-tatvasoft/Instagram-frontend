@@ -11,6 +11,7 @@ interface CommentCompProps {
 const CommentComponent: React.FC<CommentCompProps> = (commentProps) => {
   const comment = commentProps.comment;
 
+
   const { likeComment } = useCommentLike();
 
   const [commentLiked, setCommentLiked] = useState(false);
@@ -21,7 +22,7 @@ const CommentComponent: React.FC<CommentCompProps> = (commentProps) => {
 
   const handleLikeComment = useCallback(
     (commentId: number) => {
-      likeComment(commentId);
+      likeComment({commentId});
       setCommentLiked(!comment.isCommentLikedByCurrentUser);
     },
     [likeComment]
