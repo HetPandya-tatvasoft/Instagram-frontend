@@ -1,14 +1,14 @@
 import { useRef, useState, useCallback } from "react";
 import { useUpdateProfilePicture } from "../hooks/useUpdateProfilePicture";
 import { getBase64ImageUrl } from "../../../utils/getBase64Image";
-import type { FileResponse } from "../../home/types/home.types";
+import type { IFileResponse } from "../../../common/types/fileResponseType.type";
 
-interface ProfilePictureProps {
+interface IProfilePictureProps {
   ProfilePictureUrlBase64?: string;
   ProfilePictureBase64MimeType: string;
 }
 
-const ProfilePicture: React.FC<ProfilePictureProps> = ({
+const ProfilePicture: React.FC<IProfilePictureProps> = ({
   ProfilePictureUrlBase64,
   ProfilePictureBase64MimeType,
 }) => {
@@ -16,7 +16,7 @@ const ProfilePicture: React.FC<ProfilePictureProps> = ({
 
   const [isPhotoModalOpen, setIsPhotoModalOpen] = useState(false);
 
-  const [profilePic, setProfilePic] = useState<FileResponse | null>(
+  const [profilePic, setProfilePic] = useState<IFileResponse | null>(
     ProfilePictureUrlBase64
       ? {
           base64String: ProfilePictureUrlBase64,
@@ -66,7 +66,7 @@ const ProfilePicture: React.FC<ProfilePictureProps> = ({
           const base64String = (reader.result as string).split(",")[1];
           const mimeType = file.type;
 
-          const imageData: FileResponse = {
+          const imageData: IFileResponse = {
             base64String,
             mimeType,
           };

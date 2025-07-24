@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
-import type { stringResponseGeneral, ResetPasswordPayload } from '../types/auth.type';
+import type { IStringResponseGeneral, IResetPasswordPayload } from '../types/auth.type';
 import { resetPassword } from '../authService';
 import { messages } from '../../../common/constants/messages';
 import toast from 'react-hot-toast';
@@ -12,7 +12,7 @@ const useResetPassword = () => {
 
     const navigate = useNavigate();
 
-    return useMutation<ApiResponse<stringResponseGeneral>, Error, ResetPasswordPayload>({
+    return useMutation<ApiResponse<IStringResponseGeneral>, Error, IResetPasswordPayload>({
         mutationFn: resetPassword,
         onSuccess: (response) => {
             toast.success(messages.auth.resetPasswordSuccess);

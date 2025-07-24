@@ -1,7 +1,7 @@
-import { useDebounce } from "../hooks/useDebounce";
+import { useDebounce } from "./useDebounce";
 import { searchUserService } from "../homeService";
 import {
-  type PaginationRequest,
+  type IPaginationRequest,
   defaultPaginationRequest,
 } from "../../../common/types/paginationRequest.type";
 import { useQuery } from "@tanstack/react-query";

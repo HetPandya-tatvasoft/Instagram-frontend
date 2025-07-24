@@ -5,17 +5,17 @@ import { useNavigate } from "react-router-dom";
 import { routes } from "../../../common/constants/routes";
 import useLogout from "../../../hooks/useLogout";
 import type {
-  UserResponse,
-  UserProfileHeader,
+  IUserResponse,
+  IUserProfileHeader,
 } from "../../home/types/home.types";
 import ConnectionButton from "../components/ConnectionButton";
 import { generalConsts } from "../../../common/constants/generalConsts";
 
-interface ProfileHeaderProps {
-  userInfo: UserProfileHeader;
+interface IProfileHeaderProps {
+  userInfo: IUserProfileHeader;
 }
 
-const ProfileHeader: React.FC<ProfileHeaderProps> = ({ userInfo }) => {
+const ProfileHeader: React.FC<IProfileHeaderProps> = ({ userInfo }) => {
 
   const updateProfileRoute = routes.mainRoutes.updateProfile;
 

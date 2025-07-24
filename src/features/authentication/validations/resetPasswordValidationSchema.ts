@@ -3,7 +3,8 @@ import { regexConsts } from "../../../common/constants/regexConsts";
 import { validationMessages } from "../../../common/constants/validationMessages";
 import { generalConsts } from "../../../common/constants/generalConsts";
 
-export const resetPasswordValidation = Yup.object({
+export const resetPasswordValidationSchema
+ = Yup.object({
   password: Yup.string()
     .required(validationMessages.requiredValidation.passwordRequired)
     .matches(

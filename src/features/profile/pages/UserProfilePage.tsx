@@ -8,7 +8,7 @@ import { useParams } from "react-router-dom";
 import { useUserProfile } from "../hooks/useUserProfile";
 import { useGetUserMedia } from "../hooks/useGetUserMedia";
 import { usePostLike } from "../../home/hooks/usePostLike";
-import { UserBio } from "../types/profile.types";
+import { IUserBio } from "../types/profile.types";
 
 const UserProfilePage: React.FC = () => {
   const { userId } = useParams<{ userId: string }>();
@@ -19,7 +19,7 @@ const UserProfilePage: React.FC = () => {
     userHeaderData.userHeaderInfo?.userId ?? 0
   );
 
-  const userProfileBio: UserBio = {
+  const userProfileBio: IUserBio = {
     name: userHeaderData.userHeaderInfo?.fullName ?? "",
     profileBio: userHeaderData.userHeaderInfo?.bio,
   };

@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import MainLayout from "../../../layouts/MainLayout";
-import type { UpdateUserProfilePayload } from "../types/profile.types";
+import type { IUpdateUserProfilePayload } from "../types/profile.types";
 import { useFormik, type FormikHelpers } from "formik";
 import { FormHelperText } from "@mui/material";
 import FormikTextField from "../../../common/components/FormikTextField";
@@ -11,7 +11,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { useGetUserProfile } from "../hooks/useGetUserProfile";
 import { useUpdateProfile } from "../hooks/useUpdateProfile";
-import { getUpdateProfileValidationSchema } from "../validations/updateProfileValidation";
+import { getUpdateProfileValidationSchema } from "../validations/updateProfileValidationSchema";
 import { useAppSelector } from "../../../app/redux/hooks";
 import { genderEnum } from "../../../common/enums/gender.enum";
 
@@ -52,13 +52,13 @@ const EditProfilePage: React.FC = () => {
   const { mutate, isPending } = useUpdateProfile();
 
   const handleProfileSubmit = useCallback(
-    (values: UpdateUserProfilePayload) => {
+    (values: IUpdateUserProfilePayload) => {
       mutate(values);
     },
     [mutate]
   );
 
-  const INITIAL_VALUES: UpdateUserProfilePayload = {
+  const INITIAL_VALUES: IUpdateUserProfilePayload = {
     fullName: userData?.fullName || "",
     email: userData?.email || "",
     username: userData?.userName || "",

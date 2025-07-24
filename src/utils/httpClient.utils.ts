@@ -58,14 +58,3 @@ export const postRequestFormData = async <TResponse>(
   console.log(res);
   return res.data;
 };
-
-// export const postRequest = async <T, D>(url: string, data: D): Promise<T> => {
-//     const res = await API.post<ApiResponse<T>>(url, data);
-//     console.log(res.data.isSuccess)
-
-//     if (!res.data.isSuccess) {
-//         throw new HttpError(res.data.message, res.data.errorCode);
-//     }
-
-//     return res.data.data;
-// }

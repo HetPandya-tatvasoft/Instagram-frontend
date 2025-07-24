@@ -1,18 +1,18 @@
 import { getRequest, postRequest } from "../../utils/httpClient.utils";
-import type { PaginationRequestGeneric } from "../../common/types/paginationRequest.type";
-import type { UserResponse } from "../home/types/home.types";
-import type { PostRequestPayload } from "../home/types/payload.types";
+import type { IPaginationRequestGeneric } from "../../common/types/paginationRequest.type";
+import type { IUserResponse } from "../home/types/home.types";
+import type { IPostRequestPayload } from "../home/types/payload.types";
 import type {
-  UpdateUserProfilePayload,
-  UserProfileResponse,
+  IUpdateUserProfilePayload,
+  IUserProfileResponse,
 } from "../profile/types/profile.types";
-import type { PostResponse } from "../home/types/home.types";
-import { PaginationResponse } from "../../common/types/paginationResponse.type";
+import type { IPostResponse } from "../home/types/home.types";
+import { IPaginationResponse } from "../../common/types/paginationResponse.type";
 
-const ENDPOINTS = {
-  GET_PROFILE_DATA: "/user/get-logged-in-user",
-  UPDATE_PROFILE: "/user/update-profile",
-  UPDATE_PROFILE_PICTURE: "/user/edit-profile-picture",
+const endPoints = {
+  getProfileData: "/user/get-logged-in-user",
+  updateProfile: "/user/update-profile",
+  updateProfilePicture: "/user/edit-profile-picture",
   getUserInfoData: (id: number) => `/user/get-user/${id}`,
   getUserFollowing: (id: number) => `/connection/get-following-count/${id}`,
   getUserFollower: (id: number) => `/connection/get-follower-count/${id}`,
@@ -25,45 +25,45 @@ const ENDPOINTS = {
 };
 
 export const getUserProfile = () =>
-  getRequest<UserResponse>(ENDPOINTS.GET_PROFILE_DATA);
+  getRequest<IUserResponse>(endPoints.getProfileData);
 
-export const updateUserProfile = (payload: UpdateUserProfilePayload) =>
-  postRequest<UserProfileResponse, UpdateUserProfilePayload>(
-    ENDPOINTS.UPDATE_PROFILE,
+export const updateUserProfile = (payload: IUpdateUserProfilePayload) =>
+  postRequest<IUserProfileResponse, IUpdateUserProfilePayload>(
+    endPoints.updateProfile,
     payload
   );
 
 export const getUserInfo = (userId: number) =>
-  getRequest<UserResponse>(ENDPOINTS.getUserInfoData(userId));
+  getRequest<IUserResponse>(endPoints.getUserInfoData(userId));
 
 export const getUserFollowing = (userId: number) =>
-  getRequest<number>(ENDPOINTS.getUserFollowing(userId));
+  getRequest<number>(endPoints.getUserFollowing(userId));
 
 export const getUserFollowers = (userId: number) =>
-  getRequest<number>(ENDPOINTS.getUserFollower(userId));
+  getRequest<number>(endPoints.getUserFollower(userId));
 
 export const getMutualCount = (userId: number) =>
-  getRequest<number>(ENDPOINTS.getMutualCount(userId));
+  getRequest<number>(endPoints.getMutualCount(userId));
 
 export const getFollowStatus = (userId: number) =>
-  getRequest<string>(ENDPOINTS.getFollowStatus(userId));
+  getRequest<string>(endPoints.getFollowStatus(userId));
 
 export const UnfollowUser = (receiverId: number) =>
   postRequest<string, { receiverId: number }>(
-    ENDPOINTS.unfollowUserFunc(receiverId),
+    endPoints.unfollowUserFunc(receiverId),
     { receiverId }
   );
 
 export const sendFollowRequest = (receiverId: number) =>
-  postRequest<string, object>(ENDPOINTS.sendFollowRequest(receiverId), {});
+  postRequest<string, object>(endPoints.sendFollowRequest(receiverId), {});
 
 export const getPosts = (
-  payload: PaginationRequestGeneric<PostRequestPayload>
+  payload: IPaginationRequestGeneric<IPostRequestPayload>
 ) =>
   postRequest<
-    PaginationResponse<PostResponse[]>,
-    PaginationRequestGeneric<PostRequestPayload>
-  >(ENDPOINTS.getPosts, payload);
+    IPaginationResponse<IPostResponse[]>,
+    IPaginationRequestGeneric<IPostRequestPayload>
+  >(endPoints.getPosts, payload);
 
 export const updateProfilePicture = async (
   file: File | null
@@ -74,7 +74,7 @@ export const updateProfilePicture = async (
   }
 
   const response = await postRequest<Blob, FormData>(
-    ENDPOINTS.UPDATE_PROFILE_PICTURE,
+    endPoints.updateProfilePicture,
     formData,
     {
       headers: {

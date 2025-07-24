@@ -1,17 +1,17 @@
 import { useEffect } from "react";
-import type { PostResponse } from "../../home/types/home.types";
+import type { IPostResponse } from "../../home/types/home.types";
 import { getBase64ImageUrl } from "../../../utils/getBase64Image";
 import CenterModalLayout from "../../../layouts/CenterModalLayout";
 import AddCommentInput from "../components/AddCommentInput";
 import CommentComponent from "../components/CommentComponent";
 
-interface CommentModalProps {
+interface ICommentModalProps {
   isOpen: boolean;
   onClose: () => void;
-  post: PostResponse;
+  post: IPostResponse;
 }
 
-const CommentModal: React.FC<CommentModalProps> = ({
+const CommentModal: React.FC<ICommentModalProps> = ({
   isOpen,
   onClose,
   post,

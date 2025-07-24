@@ -6,19 +6,17 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  Grid,
-  Stack,
 } from "@mui/material";
 import instaLogo from "../../../assets/images/henstagram-logo.png";
 import { useFormik } from "formik";
-import type { RegisterUserPayload } from "../types/auth.type";
+import type { IRegisterUserPayload } from "../types/auth.type";
 import React, { useCallback, useState } from "react";
 import useRegister from "../hooks/useRegister";
 import dayjs from "dayjs";
 import {
-  registerStepOneSchema,
-  registerStepTwoSchema,
-} from "../validations/registerValidation";;
+  registerStepOneValidationSchema,
+  registerStepTwoValidationSchema,
+} from "../validations/registerValidationSchema";;
 
 const MONTHS = [
   "January",
@@ -62,7 +60,7 @@ const RegisterForm: React.FC = () => {
 
       const formattedDOB = dayjs(dateOfBirth).format("YYYY-MM-DD");
 
-      const payload: RegisterUserPayload = {
+      const payload: IRegisterUserPayload = {
         email: values.email,
         fullName: values.fullName,
         username: values.username,
@@ -79,7 +77,7 @@ const RegisterForm: React.FC = () => {
   const formik = useFormik({
     initialValues: INITIAL_VALUES,
     validationSchema:
-      step === 1 ? registerStepOneSchema : registerStepTwoSchema,
+      step === 1 ? registerStepOneValidationSchema : registerStepTwoValidationSchema,
     validateOnBlur: true,
     onSubmit: handleRegisterSubmit,
   });

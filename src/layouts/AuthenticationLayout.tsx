@@ -3,11 +3,11 @@ import { Link, useLocation } from "react-router-dom"
 import { pathnamePortion } from "../common/constants/routes";
 
 
-interface AuthFormPageProps {
+interface IAuthFormPageProps {
     children: React.ReactNode,
 }
 
-const AuthFormPage: React.FC<AuthFormPageProps> = ({ children }) => {
+const AuthFormPage: React.FC<IAuthFormPageProps> = ({ children }) => {
     const location = useLocation();
     const isLogin = location.pathname.includes(pathnamePortion.loginPart);
 

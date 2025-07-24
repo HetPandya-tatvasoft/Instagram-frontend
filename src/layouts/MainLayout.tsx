@@ -20,12 +20,11 @@ import { Link } from "react-router-dom";
 import CreatePostModal from "../common/components/CreatePostModal";
 import SearchPanel from "../common/components/SearchPanel";
 
-interface MainLayoutProps {
+interface IMainLayoutProps {
   children: React.ReactNode;
 }
 
-const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
-
+const MainLayout: React.FC<IMainLayoutProps> = ({ children }) => {
   const [isCreatePostModalOpen, setIsCreatePostModalOpen] = useState(false);
 
   const [files, setFiles] = useState<File[]>([]);
@@ -40,8 +39,6 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
     files.forEach((file) => formData.append("images", file));
     formData.append("caption", caption);
 
-    // TODO: Submit with mutation here
-    // closeModal();
     setFiles([]);
     setCaption("");
   };
@@ -234,61 +231,6 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
         </div>
       </div>
 
-      {/* Create Post Modal */}
-      {/* {
-                isCreatePostModalOpen &&
-                <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/60">
-                    <div className="bg-white rounded-xl w-full max-w-md mx-4 overflow-hidden">
-                        <div className="border-b px-4 py-3 text-center font-semibold">
-                            Create New Post
-                        </div>
-
-                        {!file ? (
-                            <div className="p-6 text-center">
-                                <label className="cursor-pointer block">
-                                    <input
-                                        type="file"
-                                        accept="image/*"
-                                        hidden
-                                    />
-                                    <div className="border border-dashed border-gray-400 p-10 rounded-lg">
-                                        <p className="text-gray-600">Click to upload image</p>
-                                    </div>
-                                </label>
-                            </div>
-                        ) : (
-                            <div className="p-4">
-                                <img
-                                    src={URL.createObjectURL(file)}
-                                    alt="preview"
-                                    className="w-full h-64 object-cover rounded"
-                                />
-                                <textarea
-                                    placeholder="Write a caption..."
-                                    className="w-full mt-3 p-2 border rounded focus:outline-none"
-                                    rows={3}
-                                    value={caption}
-                                    onChange={(e) => setCaption(e.target.value)}
-                                ></textarea>
-
-                                <div className="mt-4 flex justify-between">
-                                    <button
-                                        className="px-4 py-2 bg-gray-200 text-gray-700 rounded"
-                                    >
-                                        Cancel
-                                    </button>
-                                    <button
-                                        onClick={handlePost}
-                                        className="px-4 py-2 bg-blue-500 text-white rounded"
-                                    >
-                                        Share
-                                    </button>
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                </div>
-            } */}
       <SearchPanel isOpen={showSearch} onClose={() => setShowSearch(false)} />
       <CreatePostModal
         isOpen={isCreatePostModalOpen}

@@ -28,7 +28,7 @@ export const getUpdateProfileValidationSchema = (
           return true;
         } catch {
           return this.createError({
-            message: errorCodes.alreadyExists.EMAIL,
+            message: errorCodes.alreadyExists.email,
           });
         }
       }),
@@ -49,7 +49,7 @@ export const getUpdateProfileValidationSchema = (
             return true;
           } catch {
             return this.createError({
-              message: errorCodes.alreadyExists.USERNAME,
+              message: errorCodes.alreadyExists.userName,
             });
           }
         }
@@ -73,7 +73,7 @@ export const getUpdateProfileValidationSchema = (
             return true;
           } catch {
             return this.createError({
-              message: errorCodes.alreadyExists.CONTACT_NUMBER,
+              message: errorCodes.alreadyExists.contactNumber,
             });
           }
         }

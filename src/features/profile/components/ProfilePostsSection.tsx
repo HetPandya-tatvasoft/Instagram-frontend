@@ -1,20 +1,16 @@
 import { useCallback, useState } from "react";
-import { UserMedia } from "../types/profile.types";
+import { IUserMedia } from "../types/profile.types";
 import ProfilePostCard from "./ProfilePostCard";
 import { usePostLike } from "../../home/hooks/usePostLike";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../../../common/constants/routes";
 
-interface ProfilePostsProps {
-  posts: UserMedia;
+interface IProfilePostsProps {
+  posts: IUserMedia;
 }
 
-const ProfilePostsSection: React.FC<ProfilePostsProps> = ({ posts }) => {
+const ProfilePostsSection: React.FC<IProfilePostsProps> = ({ posts }) => {
   const navigate = useNavigate();
-
-  // const hasUserLiked = posts.userPosts.?.some(
-  //   (like: PostLike) => like.likedByUserId === loggedInUserId
-  // );
 
   const { likePost } = usePostLike();
 

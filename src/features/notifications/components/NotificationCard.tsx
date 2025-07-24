@@ -1,11 +1,11 @@
-import type { NotificationResponse } from "../../../common/types/notificationResponse.type";
+import type { INotificationResponse } from "../../../common/types/notificationResponse.type";
 import { generateNotificationMessage } from "../../../utils/notification.utils";
 import { notificationType } from "../../../common/enums/notification.enum";
 import { getBase64ImageUrl } from "../../../utils/getBase64Image";
 import { useQueryClient } from "@tanstack/react-query";
 
 interface Props {
-  notification: NotificationResponse;
+  notification: INotificationResponse;
   onRespond?: (senderId: number, isAccepted: boolean) => void;
 }
 
@@ -22,8 +22,6 @@ const NotificationCard: React.FC<Props> = ({ notification, onRespond }) => {
     commentId,
     thumbnail,
   } = notification;
-
-  console.log(notification);
 
   const showActions = notificationTypeId === notificationType.followRequest;
 

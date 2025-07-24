@@ -1,7 +1,7 @@
-import type { FileResponse } from "../common/types/fileResponseType.type";
+import type { IFileResponse } from "../common/types/fileResponseType.type";
 
 export const getBase64ImageUrl = (
-  file?: FileResponse | null,
+  file?: IFileResponse | null,
   fallback: string = "/src/assets/images/default_profile.webp"
 ): string => {
   if (!file || !file.base64String) {

@@ -1,29 +1,49 @@
 import { Plus } from "lucide-react";
 import StoryItem from "../components/StoryItem";
+import { useState } from "react";
+import CreateStoryModal from "../../../common/components/CreateStoryModal";
+import { IStoryFollowingList, IStoryResponse } from "../types/home.types";
+import StoryViewer from "./StoryViewer";
 
-interface User {
+interface IUser {
   id: string;
   username: string;
   profilePicture: string;
   isVerified?: boolean;
 }
 
-interface Story {
+interface IStory {
   id: string;
-  user: User;
+  user: IUser;
   image: string;
   isViewed: boolean;
 }
 
-const HomePageStories: React.FC = () => {
-  const mockCurrentUser: User = {
+interface StoriesProps {
+  stories: IStoryFollowingList[];
+}
+
+const HomePageStories: React.FC<StoriesProps> = ({ stories }) => {
+  const [openCreateStoryModal, setOpenCreateStoryModal] = useState(false);
+
+  const [openStoryViewer, setOpenStoryViewer] = useState(false);
+
+  const [activeUserStories, setActiveUserStories] =
+    useState<IStoryResponse[] | null>(null);
+
+  const handleStoryClick = (userStories: IStoryResponse[]) => {
+    setActiveUserStories(userStories);
+    setOpenStoryViewer(true);
+  };
+
+  const mockCurrentUser: IUser = {
     id: "1",
     username: "your_username",
     profilePicture:
       "https://images.unsplash.com/photo-1648884266836-517ad583e720?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mjh8fHJhbmRvbSUyMHBlb3BsZXxlbnwwfHwwfHx8MA%3D%3D",
   };
 
-  const mockStories: Story[] = [
+  const mockStories: IStory[] = [
     {
       id: "1",
       user: {
@@ -77,7 +97,10 @@ const HomePageStories: React.FC = () => {
   return (
     <div className="bg-white border border-gray-200 rounded-lg p-4 mb-4 ">
       <div className="flex space-x-4 overflow-x-auto scrollbar-hidden">
-        <div className="flex flex-col items-center space-y-1 cursor-pointer flex-shrink-0">
+        <div
+          onClick={() => setOpenCreateStoryModal(true)}
+          className="flex flex-col items-center space-y-1 cursor-pointer flex-shrink-0"
+        >
           <div className="relative">
             <div className="rounded-full p-0.5 bg-white">
               <img
@@ -93,12 +116,23 @@ const HomePageStories: React.FC = () => {
           <span className="text-xs text-gray-800">Your story</span>
         </div>
 
-        {mockStories.map((story) => (
-          <div key={story.id} className="flex-shrink-0">
-            <StoryItem story={story} />
-          </div>
-        ))}
+        {stories &&
+          stories.map((story: IStoryFollowingList) => (
+            <div key={story.userId} className="flex-shrink-0" onClick={() => handleStoryClick(story.storyResponses)} >
+              <StoryItem story={story}  />
+            </div>
+          ))}
+        {openStoryViewer && activeUserStories && (
+          <StoryViewer
+            stories={activeUserStories}
+            onClose={() => setOpenStoryViewer(false)}
+          />
+        )}
       </div>
+      <CreateStoryModal
+        isOpen={openCreateStoryModal}
+        onClose={() => setOpenCreateStoryModal(false)}
+      />
     </div>
   );
 };

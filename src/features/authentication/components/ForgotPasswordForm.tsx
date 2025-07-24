@@ -1,13 +1,13 @@
 import { TextField } from "@mui/material";
-import type { ForgotPasswordPayload } from "../types/auth.type";
+import type { IForgotPasswordPayload } from "../types/auth.type";
 import { useFormik } from "formik";
 import useSendResetPasswordLink from "../hooks/useForgotPassword";
 import { Link } from "react-router-dom";
 import { routes } from "../../../common/constants/routes";
 import { useCallback } from "react";
-import { forgotPasswordValidation } from '../validations/forgotPasswordValidation';
+import { forgotPasswordValidationSchema } from '../validations/forgotPasswordValidationSchema';
 
-const INITIAL_VALUES: ForgotPasswordPayload = {
+const INITIAL_VALUES: IForgotPasswordPayload = {
   credential: "",
 };
 
@@ -15,7 +15,7 @@ const ForgotPasswordForm: React.FC = () => {
   const { mutate, isPending, error } = useSendResetPasswordLink();
 
   const handleSubmit = useCallback(
-    (values: ForgotPasswordPayload) => {
+    (values: IForgotPasswordPayload) => {
       mutate(values, {});
     },
     [mutate]
@@ -23,7 +23,7 @@ const ForgotPasswordForm: React.FC = () => {
 
   const formik = useFormik({
     initialValues: INITIAL_VALUES,
-    validationSchema: forgotPasswordValidation,
+    validationSchema: forgotPasswordValidationSchema,
     onSubmit: handleSubmit,
   });
 

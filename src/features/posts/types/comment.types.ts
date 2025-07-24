@@ -1,3 +1,3 @@
-export interface addCommentPayload {
+export interface IAddCommentPayload {
     commentContent : string,
 }

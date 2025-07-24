@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { useAppDispatch } from "../../../app/redux/hooks"
-import type { LoginPayload, LoginResponse } from "../types/auth.type";
+import type { ILoginPayload, ILoginResponse } from "../types/auth.type";
 import { setUser } from "../slice/authSlice";
 import { loginUser } from "../authService";
 import toast from "react-hot-toast";
@@ -17,7 +17,7 @@ export const useLogin = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
-    return useMutation<ApiResponse, Error, LoginPayload>({
+    return useMutation<ApiResponse, Error, ILoginPayload>({
         mutationFn: loginUser,
         onSuccess: (response) => {
             if (!response.isSuccess) {

@@ -1,16 +1,15 @@
-import type { PostComment } from "../../home/types/home.types";
+import type { IPostComment } from "../../home/types/home.types";
 import { getBase64ImageUrl } from "../../../utils/getBase64Image";
 import { Heart } from "lucide-react";
 import { useCommentLike } from "../../home/hooks/useCommentLike";
 import { useCallback, useState, useEffect } from "react";
 
-interface CommentCompProps {
-  comment: PostComment;
+interface ICommentCompProps {
+  comment: IPostComment;
 }
 
-const CommentComponent: React.FC<CommentCompProps> = (commentProps) => {
+const CommentComponent: React.FC<ICommentCompProps> = (commentProps) => {
   const comment = commentProps.comment;
-
 
   const { likeComment } = useCommentLike();
 
@@ -18,14 +17,14 @@ const CommentComponent: React.FC<CommentCompProps> = (commentProps) => {
 
   useEffect(() => {
     setCommentLiked(comment.isCommentLikedByCurrentUser);
-  });
+  }, [setCommentLiked, comment.isCommentLikedByCurrentUser]);
 
   const handleLikeComment = useCallback(
     (commentId: number) => {
       likeComment({commentId});
       setCommentLiked(!comment.isCommentLikedByCurrentUser);
     },
-    [likeComment]
+    [likeComment, setCommentLiked, comment.isCommentLikedByCurrentUser]
   );
 
   return (

@@ -1,7 +1,7 @@
 import { genderEnum } from "../../../common/enums/gender.enum";
-import type { PostResponse } from "../../home/types/home.types";
+import type { IPostResponse } from "../../home/types/home.types";
 
-export interface UpdateUserProfilePayload {
+export interface IUpdateUserProfilePayload {
   email: string;
   fullName: string;
   username: string;
@@ -13,13 +13,13 @@ export interface UpdateUserProfilePayload {
   link?: string;
 }
 
-export interface FileResponseDTO {
+export interface IFileResponseDTO {
   fileName: string;
   fileType: string;
   base64: string;
 }
 
-export interface UserProfileResponse {
+export interface IUserProfileResponse {
   userId: number;
   userName: string;
   email: string;
@@ -28,7 +28,7 @@ export interface UserProfileResponse {
   contactNo: string;
   gender: string;
   profilePicture?: string;
-  profilePictureBase64?: FileResponseDTO;
+  profilePictureBase64?: IFileResponseDTO;
   avatarUrl?: string;
   link?: string;
   bio: string;
@@ -38,11 +38,11 @@ export interface UserProfileResponse {
 }
 
 
-export interface UserMedia {
-  userPosts? : PostResponse[],
+export interface IUserMedia {
+  userPosts? : IPostResponse[],
 }
 
-export interface UserBio {
+export interface IUserBio {
   name : string;
   profileBio? : string;
 }

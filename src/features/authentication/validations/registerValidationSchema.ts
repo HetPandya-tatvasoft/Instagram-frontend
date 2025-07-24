@@ -11,7 +11,7 @@ import { regexConsts } from "../../../common/constants/regexConsts";
 
 const today = new Date();
 
-export const registerStepOneSchema = Yup.object().shape({
+export const registerStepOneValidationSchema = Yup.object().shape({
   email: Yup.string()
     .email(validationMessages.invalidValidation.emailInvalid)
     .required(validationMessages.requiredValidation.emailRequired),
@@ -80,7 +80,7 @@ export const registerStepOneSchema = Yup.object().shape({
   // ),
 });
 
-export const registerStepTwoSchema = Yup.object({
+export const registerStepTwoValidationSchema = Yup.object({
   day: Yup.number()
     .required(validationMessages.requiredValidation.dayRequired)
     .min(1, validationMessages.invalidValidation.invalidDay)

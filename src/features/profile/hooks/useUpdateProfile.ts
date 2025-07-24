@@ -2,8 +2,8 @@ import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import type { ApiResponse } from "../../../@core/api/apiResponse.type";
 import type {
-  UpdateUserProfilePayload,
-  UserProfileResponse,
+  IUpdateUserProfilePayload,
+  IUserProfileResponse,
 } from "../types/profile.types";
 import toast from "react-hot-toast";
 import { updateUserProfile } from "../profileService";
@@ -15,9 +15,9 @@ export const useUpdateProfile = () => {
   const navigate = useNavigate();
 
   return useMutation<
-    ApiResponse<UserProfileResponse>,
+    ApiResponse<IUserProfileResponse>,
     Error,
-    UpdateUserProfilePayload
+    IUpdateUserProfilePayload
   >({
     mutationFn: updateUserProfile,
     onSuccess: (response) => {

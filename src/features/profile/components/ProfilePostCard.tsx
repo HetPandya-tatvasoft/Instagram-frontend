@@ -1,18 +1,18 @@
 import { Heart, MessageCircle } from "lucide-react";
 import { getBase64ImageUrl } from "../../../utils/getBase64Image";
-import type { PostResponse } from "../../home/types/home.types";
-import type { PostLike } from "../../home/types/home.types";
+import type { IPostResponse } from "../../home/types/home.types";
+import type { IPostLike } from "../../home/types/home.types";
 import { getUserIdFromToken } from "../../../utils/jwt.utils";
 import { usePostLike } from "../../home/hooks/usePostLike";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 
-interface ProfilePostCardProps {
-  post: PostResponse;
+interface IProfilePostCardProps {
+  post: IPostResponse;
   handleLikeClick: (postId: number) => void;
   handlePostDetailsNavigation: (postId: number) => void;
 }
 
-const ProfilePostCard: React.FC<ProfilePostCardProps> = ({
+const ProfilePostCard: React.FC<IProfilePostCardProps> = ({
   post,
   handleLikeClick,
   handlePostDetailsNavigation,
@@ -21,13 +21,11 @@ const ProfilePostCard: React.FC<ProfilePostCardProps> = ({
 
   const { likePost } = usePostLike();
 
-  const hasUserLiked = post.like?.some(
-    (like: PostLike) => like.likedByUserId === loggedInUserId
-  );
-
-  //   const handleLikeClick = useCallback(() => {
-  //     likePost(post.postId);
-  //   }, [likePost, post.postId]);
+  const hasUserLiked = useMemo(() => {
+    return post.like?.some(
+      (like: IPostLike) => like.likedByUserId === loggedInUserId
+    ) ?? false;
+  }, [post.like, loggedInUserId]);
 
   return (
     <div

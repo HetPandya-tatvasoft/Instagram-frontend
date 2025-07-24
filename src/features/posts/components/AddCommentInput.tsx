@@ -1,14 +1,14 @@
-import type { addCommentPayload } from "../../home/types/payload.types";
+import type { IAddCommentPayload } from "../../home/types/payload.types";
 import FormikTextField from "../../../common/components/FormikTextField";
 import { useFormik } from "formik";
-import { addCommentValidation } from "../validations/addCommentValidations";
-import type { addCommentInputProps } from "../../home/types/home.types";
+import { addCommentValidationSchema } from "../validations/addCommentValidationsSchema";
+import type { IAddCommentInputProps } from "../../home/types/home.types";
 import { useCommentInPost } from "../../home/hooks/useCommentInPost";
 
-const AddCommentInput: React.FC<addCommentInputProps> = ({ postId }) => {
+const AddCommentInput: React.FC<IAddCommentInputProps> = ({ postId }) => {
   const { addComment } = useCommentInPost();
 
-  const initialValues: addCommentPayload = {
+  const initialValues: IAddCommentPayload = {
     content: "",
     postId: postId,
     commentedByUserId: 0,
@@ -17,7 +17,7 @@ const AddCommentInput: React.FC<addCommentInputProps> = ({ postId }) => {
 
   const formik = useFormik({
     initialValues,
-    validationSchema: addCommentValidation,
+    validationSchema: addCommentValidationSchema,
     onSubmit: (values, { resetForm }) => {
       addComment(values);
       resetForm();

@@ -11,7 +11,7 @@ export const apiConfig = {
     },
   };
 
-export const AUTH_ENDPOINTS = {
+export const authEndPoints = {
     login: () => `/auth/login`,
     currentUser: () => `/user/get-logged-in-user`,
 };

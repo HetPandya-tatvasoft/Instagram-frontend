@@ -10,8 +10,8 @@ import {
 import toast from "react-hot-toast";
 import { useEffect } from "react";
 import type {
-  UserProfileHeader,
-  UserConnectionData,
+  IUserProfileHeader,
+  IUserConnectionData,
 } from "../../home/types/home.types";
 import { getAuthToken } from "../../../utils/cookie.utils";
 import { decodeToken } from "../../../utils/jwt.utils";
@@ -77,13 +77,13 @@ export const useUserProfile = (userId: string) => {
 
   const [userInfo, following, followers, followStatus] = results;
 
-  const userConnectionData: UserConnectionData = {
+  const userConnectionData: IUserConnectionData = {
     followersCount: followers.data ?? 0,
     followingCount: following.data ?? 0,
     followStatus: followStatus.data ?? "",
   };
 
-  const userHeaderData: UserProfileHeader = {
+  const userHeaderData: IUserProfileHeader = {
     userHeaderInfo: userInfo.data,
     userConnectionData,
   };

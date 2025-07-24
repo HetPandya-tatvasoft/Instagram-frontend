@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
-import type { ForgotPasswordPayload, stringResponseGeneral } from '../types/auth.type';
+import type { IForgotPasswordPayload, IStringResponseGeneral } from '../types/auth.type';
 import { sendResetLink } from '../authService';
 import { messages } from '../../../common/constants/messages';
 import toast from 'react-hot-toast';
@@ -12,7 +12,7 @@ const useSendResetPasswordLink = () => {
 
     const navigate = useNavigate();
 
-    return useMutation<ApiResponse<stringResponseGeneral>, Error, ForgotPasswordPayload>({
+    return useMutation<ApiResponse<IStringResponseGeneral>, Error, IForgotPasswordPayload>({
         mutationFn: sendResetLink,
         onSuccess: (response) => {
             toast.success(messages.auth.resetLinkSuccess);

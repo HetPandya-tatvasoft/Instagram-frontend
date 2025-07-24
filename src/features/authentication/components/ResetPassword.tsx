@@ -1,12 +1,12 @@
 import { TextField } from '@mui/material'
 import React, { useCallback } from 'react'
 import { useFormik } from "formik";
-import type { ResetPasswordPayload } from '../types/auth.type';
+import type { IResetPasswordPayload } from '../types/auth.type';
 import useResetPassword from '../hooks/useResetPassword';
 import { useSearchParams } from 'react-router-dom';
-import { resetPasswordValidation } from '../validations/resetPasswordValidation';
+import { resetPasswordValidationSchema } from '../validations/resetPasswordValidationSchema';
 
-const INITIAL_VALUES: ResetPasswordPayload = {
+const INITIAL_VALUES: IResetPasswordPayload = {
     token: "",
     password: "",
     confirmPassword: ""
@@ -21,7 +21,7 @@ const ResetPassword: React.FC = () => {
     const { mutate, isPending, error } = useResetPassword();
 
     const handleSubmit = useCallback(
-        (values: ResetPasswordPayload) => {
+        (values: IResetPasswordPayload) => {
             mutate({ ...values, token }, {
                 onError: () => { }
             }
@@ -31,7 +31,7 @@ const ResetPassword: React.FC = () => {
 
     const formik = useFormik({
         initialValues: INITIAL_VALUES,
-        validationSchema: resetPasswordValidation,
+        validationSchema: resetPasswordValidationSchema,
         onSubmit: handleSubmit,
     });
 

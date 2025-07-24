@@ -5,19 +5,20 @@ import {
   Send,
   Bookmark,
 } from "lucide-react";
-import { useState, useCallback } from "react";
-import type { User, PostResponse } from "../types/home.types";
+import React, { useState, useCallback, useMemo, useEffect } from "react";
+import type { IUser, IPostResponse } from "../types/home.types";
 import { usePostLike } from "../hooks/usePostLike";
 import { getUserIdFromToken } from "../../../utils/jwt.utils";
 import CommentModal from "../../posts/components/CommentModal";
-import LikesModal from "../../posts/components/likedByUsersModal";
 import SavePostModal from "./SavePostModal";
+import { motion, AnimatePresence } from "framer-motion";
+import { getBase64ImageUrl } from "../../../utils/getBase64Image";
 
-interface PostCardProps {
-  post: PostResponse;
+interface IPostCardProps {
+  post: IPostResponse;
 }
 
-const PostCard: React.FC<PostCardProps> = ({ post }) => {
+const PostCard: React.FC<IPostCardProps> = React.memo(({ post }) => {
   const [showLikesModal, setShowLikesModal] = useState(false);
 
   const [showSaveModal, setShowSaveModal] = useState(false);
@@ -61,22 +62,31 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
 
   const [isZoomed, setIsZoomed] = useState(false);
 
+  const [fade, setFade] = useState(true);
+
   const { likePost } = usePostLike();
 
-  const mediaList = post.mediaUrls || [];
+  const mediaList = useMemo(() => post.mediaUrls || [], [post.mediaUrls]);
 
-  const decodedToken = getUserIdFromToken();
+  const decodedToken = useMemo(() => getUserIdFromToken(), []);
 
-  const hasLiked =
-    post.like?.some((like) => like.likedByUserId === decodedToken) ?? false;
+  const hasLiked = useMemo(
+    () =>
+      post.like?.some((like) => like.likedByUserId === decodedToken) ?? false,
+    [post.like, decodedToken]
+  );
 
-  const currentMedia = mediaList[currentImageIndex];
+  const currentMedia = useMemo(
+    () => mediaList[currentImageIndex],
+    [mediaList, currentImageIndex]
+  );
 
-  const postImageSrc =
-    currentMedia?.mediaUrlBase64?.base64String &&
-    currentMedia?.mediaUrlBase64?.mimeType
-      ? `data:${currentMedia.mediaUrlBase64.mimeType};base64,${currentMedia.mediaUrlBase64.base64String}`
-      : "/src/assets/images/default_profile.webp";
+  const postImageSrc = useMemo(
+    () =>
+      currentMedia?.mediaUrlBase64?.base64String &&
+      getBase64ImageUrl(currentMedia.mediaUrlBase64),
+    [currentMedia]
+  );
 
   let imgSrc = "/src/assets/images/default_profile.webp";
 
@@ -102,6 +112,12 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
 
     imgSrc = `data:${mimeType};base64,${post.postedByUserProfilePictureBase64.base64String}`;
   }
+
+  useEffect(() => {
+    setFade(false);
+    const timeout = setTimeout(() => setFade(true), 50); 
+    return () => clearTimeout(timeout);
+  }, [postImageSrc]);
 
   const handlePrev = useCallback(() => {
     setCurrentImageIndex((prev) =>
@@ -159,25 +175,53 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
 
       {/* Post Image */}
       <div className="relative flex w-full justify-center ">
-        <img
-          src={postImageSrc}
-          alt={`post.`}
-          className={"w-[500px] h-[360px] object-cover relative"}
-        />
+        <AnimatePresence mode="wait">
+          <motion.img
+            key={postImageSrc}
+            src={postImageSrc}
+            alt="post"
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 1.02 }}
+            transition={{
+              duration: 0.15,
+              ease: [0.43, 0.13, 0.23, 0.96],
+            }}
+            className="w-[500px] h-[360px] object-cover rounded-md"
+          />
+        </AnimatePresence>
+
         {mediaList.length > 1 && (
           <>
-            <button
-              onClick={handlePrev}
-              className="absolute top-1/2 left-2 bg-black bg-opacity-50 text-white px-2 py-1 rounded-full"
-            >
-              ‹
-            </button>
-            <button
-              onClick={handleNext}
-              className="absolute top-1/2 right-2 bg-black bg-opacity-50 text-white px-2 py-1 rounded-full"
-            >
-              ›
-            </button>
+            <div className="flex justify-center mt-2 space-x-2 absolute bottom-3">
+              {mediaList.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setCurrentImageIndex(idx)}
+                  className={`w-3 h-2 rounded-full ${
+                    idx === currentImageIndex ? "bg-blue-500" : "bg-gray-300"
+                  }`}
+                />
+              ))}
+            </div>
+            <>
+              {currentImageIndex > 0 && (
+                <button
+                  onClick={handlePrev}
+                  className="absolute top-1/2 left-2 bg-black bg-opacity-50 text-white px-2 py-1 rounded-full"
+                >
+                  ‹
+                </button>
+              )}
+              {currentImageIndex < mediaList.length - 1 && (
+                <button
+                  onClick={handleNext}
+                  className="absolute top-1/2 right-2 bg-black bg-opacity-50 text-white px-2 py-1 rounded-full"
+                >
+                  ›
+                </button>
+              )}
+            </>
           </>
         )}
       </div>
@@ -285,6 +329,6 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
       )}
     </div>
   );
-};
+});
 
 export default PostCard;

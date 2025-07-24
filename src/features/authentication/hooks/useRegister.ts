@@ -1,7 +1,7 @@
 import { useAppDispatch } from '../../../app/redux/hooks'
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
-import type { RegisterUserPayload, RegisterUserResponse } from '../types/auth.type';
+import type { IRegisterUserPayload, IRegisterUserResponse } from '../types/auth.type';
 import { registerUser } from '../authService';
 import { messages } from '../../../common/constants/messages';
 import toast from 'react-hot-toast';
@@ -13,7 +13,7 @@ const useRegister = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
-    return useMutation<ApiResponse<RegisterUserResponse>, Error, RegisterUserPayload>({
+    return useMutation<ApiResponse<IRegisterUserResponse>, Error, IRegisterUserPayload>({
         mutationFn: registerUser,
         onSuccess: (response) => {
             toast.success(messages.auth.signupSuccess);

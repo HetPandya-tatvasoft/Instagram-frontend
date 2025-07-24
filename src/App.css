@@ -17,6 +17,15 @@
   display: none !important;
 }
 
+@keyframes fillProgress {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
 
 /* #root {
   max-width: 1280px;

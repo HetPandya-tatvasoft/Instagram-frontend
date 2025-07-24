@@ -1,5 +1,5 @@
 import * as Yup from "yup";
 
-export const addCommentValidation = Yup.object({
+export const addCommentValidationSchema = Yup.object({
   comment: Yup.string(),
 });

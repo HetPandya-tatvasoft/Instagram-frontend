@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import type { LoginPayload } from "../types/auth.type";
+import type { ILoginPayload } from "../types/auth.type";
 import { useLogin } from "../hooks/useLogin";
 import { Box } from "@mui/material";
 import instaLogo from "../../../assets/images/henstagram-logo.png";
@@ -7,9 +7,9 @@ import { useFormik } from "formik";
 import { Link } from "react-router-dom";
 import FormButton from "../../../common/components/FormButton";
 import FormikTextField from "../../../common/components/FormikTextField";
-import { LOGIN_VALIDATION_SCHEMA } from "../validations/loginValidation";
+import { loginValidationSchema } from "../validations/loginValidationSchema";
 
-const INITIAL_VALUES: LoginPayload = {
+const INITIAL_VALUES: ILoginPayload = {
   credential: "",
   password: "",
 };
@@ -18,7 +18,7 @@ const LoginForm: React.FC = () => {
   const { mutate, isPending } = useLogin();
 
   const handleSubmit = useCallback(
-    (values: LoginPayload) => {
+    (values: ILoginPayload) => {
       mutate(values);
     },
     [mutate]
@@ -26,7 +26,7 @@ const LoginForm: React.FC = () => {
 
   const formik = useFormik({
     initialValues: INITIAL_VALUES,
-    validationSchema: LOGIN_VALIDATION_SCHEMA,
+    validationSchema: loginValidationSchema,
     onSubmit: handleSubmit,
   });
 

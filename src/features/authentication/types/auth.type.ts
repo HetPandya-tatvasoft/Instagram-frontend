@@ -1,9 +1,9 @@
-export interface LoginPayload {
+export interface ILoginPayload {
   credential: string;
   password: string;
 }
 
-export interface RegisterUserPayload {
+export interface IRegisterUserPayload {
   email: string;
   password: string;
   fullName: string;
@@ -12,25 +12,25 @@ export interface RegisterUserPayload {
   dateOfBirth: Date | string;
 }
 
-export interface ForgotPasswordPayload {
+export interface IForgotPasswordPayload {
   credential: string;
 }
 
-export interface ResetPasswordPayload {
+export interface IResetPasswordPayload {
   token: string;
   password: string;
   confirmPassword: string;
 }
 
-export interface stringResponseGeneral {
+export interface IStringResponseGeneral {
   result: string;
 }
 
-export interface SendResetLinkResponse {
+export interface ISendResetLinkResponse {
   result: string;
 }
 
-export interface LoginResponse {
+export interface ILoginResponse {
   isSuccess: boolean;
   statusCode: number;
   message: string;
@@ -41,7 +41,7 @@ export interface LoginResponse {
 }
 
 // This RegisterUserResponse needs to be extended / updated
-export interface RegisterUserResponse {
+export interface IRegisterUserResponse {
   email: string;
   password: string;
   fullName: string;
@@ -50,7 +50,7 @@ export interface RegisterUserResponse {
   dateOfBirth: string;
 }
 
-export interface User {
+export interface IUser {
   token: string;
   username: string;
   email: string;
@@ -62,7 +62,7 @@ export interface User {
   avatarUrl?: string;
 }
 
-export interface DecodedToken {
+export interface IDecodedToken {
   UserId: number;
   Username: string;
   "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress": string;

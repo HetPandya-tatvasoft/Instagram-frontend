@@ -1,9 +1,9 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { UserProfileResponse } from "./types/profile.types";
-import type { UserResponse } from "../home/types/home.types";
+import type { IUserProfileResponse } from "./types/profile.types";
+import type { IUserResponse } from "../home/types/home.types";
 
 interface UserProfileState {
-    UserData: UserResponse | null;
+    UserData: IUserResponse | null;
 }
 
 const initialState: UserProfileState = {
@@ -14,7 +14,7 @@ const profileSlice = createSlice({
     name: 'userProfile',
     initialState,
     reducers: {
-        setUserProfile: (state, action: PayloadAction<UserResponse>) => {
+        setUserProfile: (state, action: PayloadAction<IUserResponse>) => {
             state.UserData = action.payload;
         },
         clearUserProfile: (state) => {

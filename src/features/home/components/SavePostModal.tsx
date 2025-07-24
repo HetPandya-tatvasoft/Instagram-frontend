@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 
-interface SavePostModalProps {
+interface ISavePostModalProps {
   onClose: () => void;
   collections: string[];
   onSaveToCollection: (collectionName: string) => void;
   onCreateCollection: (newCollection: string) => void;
 }
 
-const SavePostModal: React.FC<SavePostModalProps> = ({
+const SavePostModal: React.FC<ISavePostModalProps> = ({
   onClose,
   collections,
   onSaveToCollection,
@@ -22,7 +22,7 @@ const SavePostModal: React.FC<SavePostModalProps> = ({
     >
       <div
         className="bg-white w-full rounded-t-2xl p-4 max-h-[60%] overflow-y-auto"
-        onClick={(e) => e.stopPropagation()} // Prevent close on inner click
+        onClick={(e) => e.stopPropagation()} 
       >
         <h2 className="text-lg font-semibold mb-4">Save to Collection</h2>
 

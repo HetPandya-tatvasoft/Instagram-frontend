@@ -1,10 +1,10 @@
 import type React from "react"
 
-interface AuthFormPageProps {
+interface IAuthFormPageProps {
     children: React.ReactNode,
 }
 
-const CenterFormLayout: React.FC<AuthFormPageProps> = ({ children }) => {
+const CenterFormLayout: React.FC<IAuthFormPageProps> = ({ children }) => {
 
     return (
         <div className="flex justify-center items-center">

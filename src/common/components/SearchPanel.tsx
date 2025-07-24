@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSearchUsers } from "../../features/home/hooks/useSearchUsers";
-import type { UserResponse } from "../../features/home/types/home.types";
+import type { IUserResponse } from "../../features/home/types/home.types";
 import { routes } from "../../common/constants/routes";
 import { getBase64ImageUrl } from "../../utils/getBase64Image";
 
-interface SearchPanelProps {
+interface ISearchPanelProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-const SearchPanel: React.FC<SearchPanelProps> = ({ isOpen, onClose }) => {
+const SearchPanel: React.FC<ISearchPanelProps> = ({ isOpen, onClose }) => {
   const [search, setSearch] = useState<string>("");
 
   const { data: users, isLoading } = useSearchUsers(search);
@@ -55,7 +55,7 @@ const SearchPanel: React.FC<SearchPanelProps> = ({ isOpen, onClose }) => {
           {isLoading ? (
             <p className="p-2 text-sm text-gray-500">Loading...</p>
           ) : users?.data.records.length ? (
-            users?.data.records.map((user: UserResponse) => (
+            users?.data.records.map((user: IUserResponse) => (
               <div
                 onClick={() => handleProfileClick(user.userId)}
                 key={user.userId}

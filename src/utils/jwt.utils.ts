@@ -1,13 +1,13 @@
 import { jwtDecode } from "jwt-decode";
-import type { DecodedToken } from "../features/authentication/types/auth.type";
+import type { IDecodedToken } from "../features/authentication/types/auth.type";
 import { messages } from "../common/constants/messages";
 import toast from "react-hot-toast";
 import { getAuthToken } from "./cookie.utils";
 
 
-export const decodeToken = (token : string ) : DecodedToken | null => {
+export const decodeToken = (token : string ) : IDecodedToken | null => {
     try{
-        return jwtDecode<DecodedToken>(token);
+        return jwtDecode<IDecodedToken>(token);
     }catch {
         toast.error(messages.auth.invalidToken);
         return null

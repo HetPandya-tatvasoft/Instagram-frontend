@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import {
-  type PaginationRequest,
+  type IPaginationRequest,
   defaultPaginationRequest,
 } from "../../../common/types/paginationRequest.type";
 import { getNotificationList } from "../services/notificationService";
@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 import { handleApiError } from "../../../utils/error.utils";
 
 export const useGetNotifications = () => {
-  const defaultPayload: PaginationRequest = defaultPaginationRequest;
+  const defaultPayload: IPaginationRequest = defaultPaginationRequest;
 
   const mutation = useMutation({
     mutationFn: () => getNotificationList(defaultPayload),
@@ -28,7 +28,7 @@ export const useGetNotifications = () => {
 };
 
 export const useGetNotificationsQuery = () => {
-  const defaultPayload: PaginationRequest = defaultPaginationRequest;
+  const defaultPayload: IPaginationRequest = defaultPaginationRequest;
 
   return useQuery({
     queryKey: ["notifications-list-forPage", defaultPayload],

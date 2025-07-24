@@ -2,7 +2,7 @@ import * as Yup from "yup";
 import { validationMessages } from "../../../common/constants/validationMessages";
 import { regexConsts } from "../../../common/constants/regexConsts";
 
-export const LOGIN_VALIDATION_SCHEMA = Yup.object({
+export const loginValidationSchema = Yup.object({
   credential: Yup.string().required(
     validationMessages.requiredValidation.credentialRequired
   ),

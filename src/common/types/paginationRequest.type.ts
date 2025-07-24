@@ -1,11 +1,11 @@
-export interface PaginationRequest {
+export interface IPaginationRequest {
   pageNumber: number;
   pageSize: number;
   searchText?: string;
   columnNumber?: number;
   order?: string;
 }
-export interface PaginationRequestGeneric<T> {
+export interface IPaginationRequestGeneric<T> {
   pageNumber: number;
   pageSize: number;
   searchText?: string;
@@ -14,7 +14,7 @@ export interface PaginationRequestGeneric<T> {
   requestModel: T;
 }
 
-export const defaultPaginationRequest: PaginationRequest = {
+export const defaultPaginationRequest: IPaginationRequest = {
   pageNumber: 1,
   pageSize: 2147483647,
 };

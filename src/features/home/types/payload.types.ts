@@ -1,13 +1,21 @@
-import type { PaginationRequestGeneric } from "../../../common/types/paginationRequest.type";
+import { NumberSchema } from "yup";
+import type { IPaginationRequestGeneric } from "../../../common/types/paginationRequest.type";
 
-export interface addCommentPayload {
+export interface IAddCommentPayload {
     commentId : number,
     postId : number,
     commentedByUserId : number,
     content : string,
 }
 
-export interface PostRequestPayload {
+export interface IPostRequestPayload {
     userId : number;
 }
 
+export interface ICreateStoryPayload {
+    postedByUserId : number;
+    story : File;
+    musicUrl : string;
+    caption : string;
+    isVisibleToClosedOnes : boolean;
+}

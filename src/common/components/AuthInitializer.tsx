@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useAppDispatch } from "../../app/redux/hooks";
-import type { User } from "../../features/authentication/types/auth.type";
+import type { IUser } from "../../features/authentication/types/auth.type";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 import {
@@ -11,7 +11,7 @@ import { getAuthToken } from "../../utils/cookie.utils";
 import useLogout from "../../hooks/useLogout";
 import { removeAuthToken } from "../../utils/cookie.utils";
 
-interface DecodedToken extends User {
+interface IDecodedToken extends IUser {
   exp: number;
 }
 
@@ -26,8 +26,9 @@ const AuthInitializer = () => {
       logout();
       return;
     }
+
     try {
-      const decoded: DecodedToken = jwtDecode(token);
+      const decoded: IDecodedToken = jwtDecode(token);
       const isValid = decoded.exp > Math.floor(Date.now() / 1000);
 
       if (isValid) {

@@ -1,4 +1,4 @@
-export interface PaginationResponse<T> {
+export interface IPaginationResponse<T> {
     records : [];
     totalPage : number;
     currentPage : number;

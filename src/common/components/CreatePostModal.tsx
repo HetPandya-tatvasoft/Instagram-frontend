@@ -3,28 +3,28 @@ import CenterModalLayout from "../../layouts/CenterModalLayout";
 import FormikTextField from "./FormikTextField";
 import { useFormik } from "formik";
 import Textarea from "@mui/joy/Textarea";
-import { createPostValidation } from "../../features/posts/validations/createPostValidations";
+import { createPostValidationSchema } from "../../features/posts/validations/createPostValidationsSchema";
 import { TextField } from "@mui/material";
 import toast from "react-hot-toast";
 import { useCreatePost } from "../../features/posts/hooks/useCreatePost";
 
-interface CreatePostModalProps {
+interface ICreatePostModalProps {
   isOpen: boolean;
   onClose: () => void;
   handlePost: () => void;
 }
 
-interface postFields {
+interface IpostFields {
   location: string;
   caption: string;
 }
 
-const initialValues: postFields = {
+const initialValues: IpostFields = {
   caption: "",
   location: "",
 };
 
-const CreatePostModal: React.FC<CreatePostModalProps> = ({
+const CreatePostModal: React.FC<ICreatePostModalProps> = ({
   isOpen,
   onClose,
   handlePost,
@@ -62,7 +62,7 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({
 
   const formik = useFormik({
     initialValues: initialValues,
-    validationSchema: createPostValidation,
+    validationSchema: createPostValidationSchema,
     onSubmit: handlePostCreationSubmit,
   });
 

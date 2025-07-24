@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import type { addCommentPayload } from "../types/payload.types";
+import type { IAddCommentPayload } from "../types/payload.types";
 import { commentInPost } from "../homeService";
 import { messages } from "../../../common/constants/messages";
 import toast from "react-hot-toast";
@@ -10,7 +10,7 @@ export const useCommentInPost = () => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
-    mutationFn: (payload: addCommentPayload) => commentInPost(payload),
+    mutationFn: (payload: IAddCommentPayload) => commentInPost(payload),
     onSuccess: (response) => {
       toast.success(messages.connections.commentAddSuccess);
       queryClient.invalidateQueries({ queryKey: ["home-feed"] });

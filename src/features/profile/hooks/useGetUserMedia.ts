@@ -2,17 +2,16 @@ import { useQueries } from "@tanstack/react-query";
 import { getPosts } from "../profileService";
 import toast from "react-hot-toast";
 import { useEffect } from "react";
-import type { UserMedia } from "../types/profile.types";
+import type { IUserMedia } from "../types/profile.types";
 import {
   defaultPageNumberInfinite,
   defaultPageSizeInfinite,
-  type PaginationRequestGeneric,
+  type IPaginationRequestGeneric,
 } from "../../../common/types/paginationRequest.type";
-import { PostResponse } from "../../home/types/home.types";
-import { PostRequestPayload } from "../../home/types/payload.types";
+import { IPostRequestPayload } from "../../home/types/payload.types";
 
 export const useGetUserMedia = (userId: number) => {
-  const getPostsPayload: PaginationRequestGeneric<PostRequestPayload> = {
+  const getPostsPayload: IPaginationRequestGeneric<IPostRequestPayload> = {
     pageNumber: defaultPageNumberInfinite,
     pageSize: defaultPageSizeInfinite,
     requestModel: {
@@ -47,7 +46,7 @@ export const useGetUserMedia = (userId: number) => {
 
   const [userPosts] = results;
 
-  const userMediaData: UserMedia = {
+  const userMediaData: IUserMedia = {
     userPosts: userPosts.data?.data.records ?? [],
   };
 

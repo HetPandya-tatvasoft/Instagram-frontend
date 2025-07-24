@@ -2,13 +2,24 @@ import MainLayout from "../../../layouts/MainLayout";
 import HomePageStories from "../components/HomePageStories";
 import PostCard from "../components/PostCard";
 import { useHomeFeed } from "../hooks/useHomeFeedPosts";
-import type { PostResponse } from "../types/home.types";
+import type { IPostResponse } from "../types/home.types";
 import { useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { HubConnectionState } from "@microsoft/signalr";
 import { createPostHubConnection } from "../../../utils/signalR.utils";
+import { useHomeStories } from "../hooks/useHomeStories";
 
 const HomePage: React.FC = () => {
+  const {
+    data: followingStories,
+    isLoading,
+    isError,
+    error,
+    refetch,
+  } = useHomeStories();
+
+  console.log(followingStories);
+
   const { data: paginatedPosts } = useHomeFeed();
 
   const queryClient = useQueryClient();
@@ -50,12 +61,14 @@ const HomePage: React.FC = () => {
       <MainLayout>
         <div className="h-screen overflow-y-scroll scrollbar-hidden">
           {/* Home Page Stories Section */}
-          <HomePageStories />
+          {followingStories?.data && (
+            <HomePageStories stories={followingStories.data.records} />
+          )}
 
-          {/* Home Page Stories */}
+          {/* Home Page Pages */}
           <div className="max-w-2xl w-full flex justify-center">
             <div className="space-y-4">
-              {paginatedPosts?.data.records.map((post: PostResponse) => (
+              {paginatedPosts?.data.records.map((post: IPostResponse) => (
                 <PostCard key={post.postId} post={post} />
               ))}
             </div>
