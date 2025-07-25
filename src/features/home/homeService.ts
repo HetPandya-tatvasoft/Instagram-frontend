@@ -6,7 +6,7 @@ import {
   type IPaginationRequest,
 } from "../../common/types/paginationRequest.type";
 import type { ApiResponse } from "../../@core/api/apiResponse.type";
-import type { IAddCommentPayload, ICreateStoryPayload } from "./types/payload.types";
+import type { IAddCommentPayload, ICreateStoryPayload, IStoryViewCreatePayload } from "./types/payload.types";
 
 const endPoints = {
   getHomeFeed: "/post/get-post-feed",
@@ -16,6 +16,7 @@ const endPoints = {
   likeComment: (commentId: number) => `post/like-unlike-comment/${commentId}`,
   getStoriesFollowing : `story/get-story-list-of-following`,
   createStory : `/story/create-story`,
+  updateStoryView : `/story/story-view`,
 };
 
 export const getHomeFeedService = async () =>
@@ -44,6 +45,9 @@ export const likeComment = async (commentId: number) =>
     endPoints.likeComment(commentId),
     {}
   );
+
+export const updateViewStory = async (payload : IStoryViewCreatePayload) => 
+  postRequest<ApiResponse<string>, object>(endPoints.updateStoryView, payload);
 
   export const getStoryListOfFollowing = async (payload : IPaginationRequest) => 
     postRequest<IPaginationResponse<IStoryFollowingList>, IPaginationRequest>(endPoints.getStoriesFollowing, payload);

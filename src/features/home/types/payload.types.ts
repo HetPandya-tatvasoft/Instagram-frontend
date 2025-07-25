@@ -19,3 +19,9 @@ export interface ICreateStoryPayload {
     caption : string;
     isVisibleToClosedOnes : boolean;
 }
+
+export interface IStoryViewCreatePayload {
+    storyId : number;
+    viewerId? : number;
+    isLiked? : boolean;
+}

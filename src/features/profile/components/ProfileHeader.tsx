@@ -7,15 +7,17 @@ import useLogout from "../../../hooks/useLogout";
 import type {
   IUserResponse,
   IUserProfileHeader,
+  IStoryResponse,
 } from "../../home/types/home.types";
 import ConnectionButton from "../components/ConnectionButton";
 import { generalConsts } from "../../../common/constants/generalConsts";
 
 interface IProfileHeaderProps {
   userInfo: IUserProfileHeader;
+  userStories : IStoryResponse[]
 }
 
-const ProfileHeader: React.FC<IProfileHeaderProps> = ({ userInfo }) => {
+const ProfileHeader: React.FC<IProfileHeaderProps> = ({ userInfo, userStories }) => {
 
   const updateProfileRoute = routes.mainRoutes.updateProfile;
 
@@ -52,6 +54,7 @@ const ProfileHeader: React.FC<IProfileHeaderProps> = ({ userInfo }) => {
       <div className="flex flex-row gap-3 sm:gap-16 flex-wrap sm:flex-nowrap">
         <div className="min-w-[80px]">
           <ProfilePicture
+           userStories={userStories}
             ProfilePictureUrlBase64={
               userInfo?.userHeaderInfo?.profilePictureBase64?.base64String
             }
@@ -68,7 +71,7 @@ const ProfileHeader: React.FC<IProfileHeaderProps> = ({ userInfo }) => {
               {userInfo?.userHeaderInfo?.userName}
             </h2>
 
-            <div className="flex  flex-wrap gap-3 lg:gap-6">
+            <div className="flex flex-wrap gap-3 lg:gap-6">
               {ownProfile ? (
                 <button
                   onClick={handleEditProfileClick}

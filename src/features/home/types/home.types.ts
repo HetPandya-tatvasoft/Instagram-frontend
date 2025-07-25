@@ -129,7 +129,7 @@ export interface IStoryResponse {
   caption : string;
   isVisibleToClosedOnes : boolean;
   isHighlighted : boolean;
-  storyViews? : IStoryView;
+  storyViews? : IStoryView[];
   isLikedByViewer : boolean;
   storyUploadTime : string;
   isSeen : boolean;

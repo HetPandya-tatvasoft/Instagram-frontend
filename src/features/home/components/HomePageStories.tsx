@@ -1,9 +1,10 @@
 import { Plus } from "lucide-react";
 import StoryItem from "../components/StoryItem";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import CreateStoryModal from "../../../common/components/CreateStoryModal";
 import { IStoryFollowingList, IStoryResponse } from "../types/home.types";
 import StoryViewer from "./StoryViewer";
+import { getUserIdFromToken } from "../../../utils/jwt.utils";
 
 interface IUser {
   id: string;
@@ -24,17 +25,37 @@ interface StoriesProps {
 }
 
 const HomePageStories: React.FC<StoriesProps> = ({ stories }) => {
+  const loggedInUserId = getUserIdFromToken();
+
   const [openCreateStoryModal, setOpenCreateStoryModal] = useState(false);
 
   const [openStoryViewer, setOpenStoryViewer] = useState(false);
 
-  const [activeUserStories, setActiveUserStories] =
-    useState<IStoryResponse[] | null>(null);
+  const [activeUserStories, setActiveUserStories] = useState<
+    IStoryResponse[] | null
+  >(null);
 
-  const handleStoryClick = (userStories: IStoryResponse[]) => {
-    setActiveUserStories(userStories);
-    setOpenStoryViewer(true);
-  };
+  const [initialIndex, setInitialIndex] = useState(0);
+
+  const handleStoryClick = useCallback(
+    (userStories: IStoryResponse[], fromProfile: boolean = false) => {
+      let startIndex = 0;
+
+      if (!fromProfile) {
+        const firstUnviewedIndex = userStories.findIndex(
+          (story) =>
+            !story.storyViews?.some((view) => view.viewerId === loggedInUserId)
+        );
+        if (firstUnviewedIndex !== -1) {
+          startIndex = firstUnviewedIndex;
+        }
+      }
+
+      setActiveUserStories(userStories);
+      setOpenStoryViewer(true);
+    },
+    [setOpenStoryViewer, loggedInUserId]
+  );
 
   const mockCurrentUser: IUser = {
     id: "1",
@@ -118,14 +139,19 @@ const HomePageStories: React.FC<StoriesProps> = ({ stories }) => {
 
         {stories &&
           stories.map((story: IStoryFollowingList) => (
-            <div key={story.userId} className="flex-shrink-0" onClick={() => handleStoryClick(story.storyResponses)} >
-              <StoryItem story={story}  />
+            <div
+              key={story.userId}
+              className="flex-shrink-0"
+              onClick={() => handleStoryClick(story.storyResponses)}
+            >
+              <StoryItem story={story} />
             </div>
           ))}
         {openStoryViewer && activeUserStories && (
           <StoryViewer
             stories={activeUserStories}
             onClose={() => setOpenStoryViewer(false)}
+            initialIndex={initialIndex}
           />
         )}
       </div>

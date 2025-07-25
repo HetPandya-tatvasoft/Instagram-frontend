@@ -2,19 +2,29 @@ import { useRef, useState, useCallback } from "react";
 import { useUpdateProfilePicture } from "../hooks/useUpdateProfilePicture";
 import { getBase64ImageUrl } from "../../../utils/getBase64Image";
 import type { IFileResponse } from "../../../common/types/fileResponseType.type";
+import StoryViewer from "../../home/components/StoryViewer";
+import { IStoryResponse } from "../../home/types/home.types";
 
 interface IProfilePictureProps {
   ProfilePictureUrlBase64?: string;
   ProfilePictureBase64MimeType: string;
+  userStories: IStoryResponse[];
 }
 
 const ProfilePicture: React.FC<IProfilePictureProps> = ({
   ProfilePictureUrlBase64,
   ProfilePictureBase64MimeType,
+  userStories,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [isPhotoModalOpen, setIsPhotoModalOpen] = useState(false);
+
+  const [openStoryViewer, setOpenStoryViewer] = useState(false);
+
+  const handleStoryClick = useCallback(() => {
+    setOpenStoryViewer(true);
+  }, []);
 
   const [profilePic, setProfilePic] = useState<IFileResponse | null>(
     ProfilePictureUrlBase64
@@ -71,8 +81,8 @@ const ProfilePicture: React.FC<IProfilePictureProps> = ({
             mimeType,
           };
 
-          setProfilePic(imageData); // frontend image update
-          upload(file); // backend update
+          setProfilePic(imageData);
+          upload(file);
         };
 
         reader.readAsDataURL(file);
@@ -111,6 +121,14 @@ const ProfilePicture: React.FC<IProfilePictureProps> = ({
               </h2>
 
               <div className="divide-y">
+                {userStories.length >= 1 && (
+                  <button
+                    onClick={handleStoryClick}
+                    className="w-full py-3 text-blue-500 font-medium hover:bg-gray-200 cursor-pointer"
+                  >
+                    View Story(ies)
+                  </button>
+                )}
                 <button
                   onClick={handleViewPhoto}
                   className="w-full py-3 text-blue-500 font-medium hover:bg-gray-200 cursor-pointer"
@@ -156,6 +174,13 @@ const ProfilePicture: React.FC<IProfilePictureProps> = ({
               />
             </div>
           </div>
+        )}
+
+        {openStoryViewer && userStories.length >= 1 && (
+          <StoryViewer
+            stories={userStories}
+            onClose={() => setOpenStoryViewer(false)}
+          />
         )}
       </div>
     </>

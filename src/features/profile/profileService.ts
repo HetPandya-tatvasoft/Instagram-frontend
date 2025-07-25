@@ -1,6 +1,6 @@
 import { getRequest, postRequest } from "../../utils/httpClient.utils";
 import type { IPaginationRequestGeneric } from "../../common/types/paginationRequest.type";
-import type { IUserResponse } from "../home/types/home.types";
+import { IStoryResponse, type IUserResponse } from "../home/types/home.types";
 import type { IPostRequestPayload } from "../home/types/payload.types";
 import type {
   IUpdateUserProfilePayload,
@@ -8,6 +8,7 @@ import type {
 } from "../profile/types/profile.types";
 import type { IPostResponse } from "../home/types/home.types";
 import { IPaginationResponse } from "../../common/types/paginationResponse.type";
+import { ApiResponse } from "../../@core/api/apiResponse.type";
 
 const endPoints = {
   getProfileData: "/user/get-logged-in-user",
@@ -22,6 +23,7 @@ const endPoints = {
   sendFollowRequest: (id: number) => `/connection/send-follow-request/${id}`,
   unfollowUser: "/connection/unfollow",
   getPosts: `/post/get-post-list`,
+  getUserStories: (id: number) => `/story/get-story-list/${id}`,
 };
 
 export const getUserProfile = () =>
@@ -53,6 +55,9 @@ export const UnfollowUser = (receiverId: number) =>
     endPoints.unfollowUserFunc(receiverId),
     { receiverId }
   );
+
+export const getUserStories = (userId: number) =>
+  getRequest<IStoryResponse[]>(endPoints.getUserStories(userId));
 
 export const sendFollowRequest = (receiverId: number) =>
   postRequest<string, object>(endPoints.sendFollowRequest(receiverId), {});

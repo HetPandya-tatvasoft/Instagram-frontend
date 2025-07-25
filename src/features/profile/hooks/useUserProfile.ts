@@ -4,7 +4,6 @@ import {
   getUserInfo,
   getUserFollowing,
   getUserFollowers,
-  getMutualCount,
   getFollowStatus,
 } from "../profileService";
 import toast from "react-hot-toast";
@@ -18,6 +17,7 @@ import { decodeToken } from "../../../utils/jwt.utils";
 import { generalConsts } from "../../../common/constants/generalConsts";
 
 export const useUserProfile = (userId: string) => {
+  
   const id = Number(userId);
   const jwt_token = getAuthToken();
   let idInt = Number(id);
