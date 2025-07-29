@@ -1,9 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchPostDetails } from "../postService";
+import { tanstackQueryKeys } from "../../../common/constants/keys";
 
 export const useFetchPost = (postId: number) => {
   const result = useQuery({
-    queryKey: ["post-details", postId],
+    queryKey: [tanstackQueryKeys.getPostDetails, postId],
     queryFn: () => fetchPostDetails(postId),
     staleTime: 1000 * 60 * 5,
     refetchOnWindowFocus: false,

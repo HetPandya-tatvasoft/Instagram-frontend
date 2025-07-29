@@ -2,7 +2,6 @@ import type { INotificationResponse } from "../../../common/types/notificationRe
 import { generateNotificationMessage } from "../../../utils/notification.utils";
 import { notificationType } from "../../../common/enums/notification.enum";
 import { getBase64ImageUrl } from "../../../utils/getBase64Image";
-import { useQueryClient } from "@tanstack/react-query";
 
 interface Props {
   notification: INotificationResponse;

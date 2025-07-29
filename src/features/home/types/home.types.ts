@@ -141,3 +141,15 @@ export interface IStoryFollowingList {
   isAnyUnseenStory : boolean;
   storyResponses : IStoryResponse[]
 }
+
+export interface IHighlightItem {
+  highlightItemId : number;
+  storyResponse : IStoryResponse;
+}
+
+export interface IHighlightResponse {
+  highlightId : number;
+  userId : number;
+  title : string;
+  items : IHighlightItem[];
+}

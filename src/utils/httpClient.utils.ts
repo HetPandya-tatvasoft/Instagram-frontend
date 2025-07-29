@@ -45,6 +45,15 @@ export const postRequest = async <TResponse, TPayload>(
   return res.data;
 };
 
+export const deleteRequest = async <TResponse>(
+  url: string,
+  config?: AxiosRequestConfig
+): Promise<ApiResponse<TResponse>> => {
+  const res = await api.delete<ApiResponse<TResponse>>(url, config);
+  console.log(res);
+  return res.data;
+};
+
 export const postRequestFormData = async <TResponse>(
   url: string,
   payload: FormData,

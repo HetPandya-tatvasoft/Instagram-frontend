@@ -9,7 +9,7 @@ import FormButton from "../../../common/components/FormButton";
 import FormikTextField from "../../../common/components/FormikTextField";
 import { loginValidationSchema } from "../validations/loginValidationSchema";
 
-const INITIAL_VALUES: ILoginPayload = {
+const initialValues: ILoginPayload = {
   credential: "",
   password: "",
 };
@@ -25,7 +25,7 @@ const LoginForm: React.FC = () => {
   );
 
   const formik = useFormik({
-    initialValues: INITIAL_VALUES,
+    initialValues: initialValues,
     validationSchema: loginValidationSchema,
     onSubmit: handleSubmit,
   });

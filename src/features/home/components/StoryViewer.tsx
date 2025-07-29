@@ -11,41 +11,66 @@ import { current } from "@reduxjs/toolkit";
 import { useStoryViewed } from "../hooks/useStoryViewed";
 import { getUserIdFromToken } from "../../../utils/jwt.utils";
 import { IStoryViewCreatePayload } from "../types/payload.types";
+import { MoreVertical, Trash } from "lucide-react";
+import { useStoryDelete } from "../hooks/useStoryDelete";
+import StoryOptionsMenu from "../../../common/components/StoryOptionsMenu";
+import { deleteStory } from "../homeService";
+import AddToHighlightsModal from "../../../common/components/AddToHighlightsModal";
 
 interface StoryViewerProps {
   stories: IStoryResponse[];
   onClose: () => void;
   initialIndex?: number;
+  fromHighlights? : boolean;
 }
-
-const StoryViewer = ({ stories, onClose, initialIndex }: StoryViewerProps) => {
-
+ 
+const StoryViewer = ({ stories, onClose, initialIndex, fromHighlights = false }: StoryViewerProps) => {
   const loggedInUserId = getUserIdFromToken();
 
   const [currentIndex, setCurrentIndex] = useState(initialIndex ?? 0);
-  
+
   const [isPaused, setIsPaused] = useState(false);
-  
+
   const [progress, setProgress] = useState(0);
 
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const [isOwnProfile, setIsOwnProfile] = useState(false);
+
+  const [showOptions, setShowOptions] = useState(false);
+
+  const [highlighModalOpen, setHighlightModalOpen] = useState(false);
 
   const [viewedStoryIds, setViewedStoryIds] = useState<Set<number>>(new Set());
 
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+
   const { mutate: markStoryViewed } = useStoryViewed();
+
+  const { mutate: deleteStory } = useStoryDelete();
 
   const currentStory = useMemo(
     () => stories[currentIndex],
     [currentIndex, stories]
   );
 
-  const markStoryAsViewed = useCallback((storyId : number) => {
-    const payloadForMarkingStoryViewed : IStoryViewCreatePayload = {
-      viewerId : loggedInUserId,
-      storyId : storyId,
+  useEffect(() => {
+    if (currentStory.userId === loggedInUserId) {
+      setIsOwnProfile(true);
+    } else {
+      setIsOwnProfile(false);
     }
-    console.log("Viewing the story as viewed");
-  }, [ loggedInUserId ]);
+  }, [currentStory.userId, loggedInUserId]);
+
+  const markStoryAsViewed = useCallback(
+    (storyId: number) => {
+      const payloadForMarkingStoryViewed: IStoryViewCreatePayload = {
+        viewerId: loggedInUserId,
+        storyId: storyId,
+      };
+      markStoryViewed(payloadForMarkingStoryViewed);
+      console.log("Viewing the story as viewed");
+    },
+    [loggedInUserId, markStoryViewed]
+  );
 
   useEffect(() => {
     const storyId = currentStory.storyId;
@@ -69,6 +94,40 @@ const StoryViewer = ({ stories, onClose, initialIndex }: StoryViewerProps) => {
       setCurrentIndex((prev) => prev - 1);
     }
   }, [currentIndex, setCurrentIndex]);
+
+  // const handleStoryDelete = useCallback(
+  //   (storyId: number) => {
+  //     console.log(`The story Id is : ${storyId}`)
+  //     deleteStory(storyId);
+  //   },
+  //   [deleteStory]
+  // );
+
+  const handleStoryDelete = useCallback(
+    (storyId: number) => {
+      deleteStory(storyId, {
+        onSuccess: () => {
+          const updatedStories = stories.filter(
+            (story) => story.storyId !== storyId
+          );
+
+          if (updatedStories.length === 0) {
+            onClose();
+            return;
+          }
+
+          const newIndex =
+            currentIndex >= updatedStories.length
+              ? updatedStories.length - 1
+              : currentIndex;
+
+          setCurrentIndex(newIndex);
+          setViewedStoryIds(new Set());
+        },
+      });
+    },
+    [deleteStory, stories, currentIndex, onClose]
+  );
 
   useEffect(() => {
     setProgress(0);
@@ -134,16 +193,28 @@ const StoryViewer = ({ stories, onClose, initialIndex }: StoryViewerProps) => {
         </div>
 
         {/* Controls */}
-        <div className="flex justify-between mt-4">
+        <div className="flex justify-between items-center mt-4">
+          
+          {/* Navigation Buttons (Prev & Next) */}
           <button
             onClick={handlePrev}
             disabled={currentIndex === 0}
-            className="text-sm text-white disabled:opacity-30"
+            className="absolute top-1/2 left-4 transform -translate-y-1/2 text-white bg-black bg-opacity-50 px-3 py-1 rounded-full disabled:opacity-30"
           >
             Prev
           </button>
-          <button onClick={handleNext} className="text-sm text-white">
+
+          <button
+            onClick={handleNext}
+            className="absolute top-1/2 right-4 transform -translate-y-1/2 text-white bg-black bg-opacity-50 px-3 py-1 rounded-full"
+          >
             Next
+          </button>
+          <button
+            onClick={() => setShowOptions((prev) => !prev)}
+            className="p-2 bg-black/50 rounded-full flex w-full justify-end"
+          >
+            <MoreVertical size={20} />
           </button>
         </div>
 
@@ -153,7 +224,22 @@ const StoryViewer = ({ stories, onClose, initialIndex }: StoryViewerProps) => {
         >
           ×
         </button>
+        <div className="absolute bottom-4 right-4 text-white z-50">
+          <StoryOptionsMenu
+            isOwnProfile={isOwnProfile}
+            onSave={() => console.log("Saved")}
+            onAddToHighlights={() => setHighlightModalOpen(true)}
+            onDelete={() => handleStoryDelete(currentStory.storyId)}
+            fromHighligts={fromHighlights}
+          />
+        </div>
       </div>
+      {/* More Options Button */}
+      <AddToHighlightsModal
+        open={highlighModalOpen}
+        onClose={() => setHighlightModalOpen(false)}
+        storyId={currentStory.storyId}
+      />
     </div>
   );
 };

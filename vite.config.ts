@@ -35,4 +35,9 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ["pdfjs-dist"],
   },
+  resolve: {
+    alias: {
+      "pdfjs-dist": "pdfjs-dist/build/pdf.js",
+    },
+  },
 });

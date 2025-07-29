@@ -10,18 +10,23 @@ import { useGetUserMedia } from "../hooks/useGetUserMedia";
 import { usePostLike } from "../../home/hooks/usePostLike";
 import { IUserBio } from "../types/profile.types";
 import { useGetUserStories } from "../hooks/useGetUserStories";
+import { useGetUserHighlights } from "../hooks/useGetUserHighlights";
 
 const UserProfilePage: React.FC = () => {
   const { userId } = useParams<{ userId: string }>();
 
   const { userHeaderData, isLoading, isError } = useUserProfile(userId ?? "");
 
-  const { data : userStoryData } = useGetUserStories(Number(userId));
+  const { data: userStoryData } = useGetUserStories(Number(userId));
 
+  const { data: highlights } = useGetUserHighlights(Number(userId));
+
+  
   // const userStories = userStoryData?.data;
 
   console.log("************************************************");
   console.log(userStoryData);
+  console.log(highlights ?? null);
   console.log("************************************************");
 
   const { userMedia } = useGetUserMedia(
@@ -50,13 +55,16 @@ const UserProfilePage: React.FC = () => {
         <div className="flex justify-center ">
           <div className="sm:px-4 py-6 w-full">
             {/* Profile Header */}
-            <ProfileHeader userInfo={userHeaderData} userStories={userStoryData ?? []} />
+            <ProfileHeader
+              userInfo={userHeaderData}
+              userStories={userStoryData ?? []}
+            />
 
             {/* Bio */}
             <ProfileBio profileBio={userProfileBio} />
 
             {/* Story Highlights */}
-            <StoryHighlights />
+            <StoryHighlights highlights={highlights} />
 
             {/* Tab Navigation */}
             <ProfilePostsSection posts={userMedia} />

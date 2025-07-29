@@ -3,6 +3,7 @@ import { ApiResponse } from "../../../@core/api/apiResponse.type";
 import { IStoryResponse } from "../../home/types/home.types";
 import { getUserStories } from "../profileService";
 import { getUserIdFromToken } from "../../../utils/jwt.utils";
+import { tanstackQueryKeys } from "../../../common/constants/keys";
 
 export const useGetUserStories = (userId: number) => {
   const loggedInUserId = getUserIdFromToken();
@@ -10,8 +11,8 @@ export const useGetUserStories = (userId: number) => {
   const id = userId === -1 ? loggedInUserId : userId;
 
   return useQuery<IStoryResponse[]>({
-    queryKey: ["user-story-list", id],
+    queryKey: [tanstackQueryKeys.getUserStoriesKey],
     queryFn: () => getUserStories(id),
-    enabled: !!id, // Ensures query only runs when userId is available
+    enabled: !!id
   });
 };

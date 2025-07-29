@@ -1,12 +1,26 @@
-import { postRequest, getRequest, postRequestFormData } from "../../utils/httpClient.utils";
+import {
+  postRequest,
+  getRequest,
+  postRequestFormData,
+  deleteRequest,
+} from "../../utils/httpClient.utils";
 import type { IPaginationResponse } from "../../common/types/paginationResponse.type";
-import { IStoryFollowingList, IStoryResponse, type IPostResponse, type IUserResponse } from "./types/home.types";
+import {
+  IStoryFollowingList,
+  IStoryResponse,
+  type IPostResponse,
+  type IUserResponse,
+} from "./types/home.types";
 import {
   defaultPaginationRequest,
   type IPaginationRequest,
 } from "../../common/types/paginationRequest.type";
 import type { ApiResponse } from "../../@core/api/apiResponse.type";
-import type { IAddCommentPayload, ICreateStoryPayload, IStoryViewCreatePayload } from "./types/payload.types";
+import type {
+  IAddCommentPayload,
+  ICreateStoryPayload,
+  IStoryViewCreatePayload,
+} from "./types/payload.types";
 
 const endPoints = {
   getHomeFeed: "/post/get-post-feed",
@@ -14,9 +28,10 @@ const endPoints = {
   likePost: (postId: number) => `/post/post-like-unlike/${postId}`,
   commentInPost: "/post/add-edit-comment",
   likeComment: (commentId: number) => `post/like-unlike-comment/${commentId}`,
-  getStoriesFollowing : `story/get-story-list-of-following`,
-  createStory : `/story/create-story`,
-  updateStoryView : `/story/story-view`,
+  getStoriesFollowing: `story/get-story-list-of-following`,
+  createStory: `/story/create-story`,
+  updateStoryView: `/story/story-view`,
+  deleteStory: (storyId: number) => `/story/delete-story/${storyId}`,
 };
 
 export const getHomeFeedService = async () =>
@@ -46,12 +61,18 @@ export const likeComment = async (commentId: number) =>
     {}
   );
 
-export const updateViewStory = async (payload : IStoryViewCreatePayload) => 
+export const updateViewStory = async (payload: IStoryViewCreatePayload) =>
   postRequest<ApiResponse<string>, object>(endPoints.updateStoryView, payload);
 
-  export const getStoryListOfFollowing = async (payload : IPaginationRequest) => 
-    postRequest<IPaginationResponse<IStoryFollowingList>, IPaginationRequest>(endPoints.getStoriesFollowing, payload);
+// If in the below api thing if ApiResponse Doesn't work then write only string there instead of APIResponse String
+export const deleteStory = async (storyId: number) =>
+  deleteRequest<ApiResponse<string>>(endPoints.deleteStory(storyId));
 
-  export const createStory = async ( payload : FormData ) =>
-    postRequestFormData<IStoryResponse>(endPoints.createStory, payload);
+export const getStoryListOfFollowing = async (payload: IPaginationRequest) =>
+  postRequest<IPaginationResponse<IStoryFollowingList>, IPaginationRequest>(
+    endPoints.getStoriesFollowing,
+    payload
+  );
 
+export const createStory = async (payload: FormData) =>
+  postRequestFormData<IStoryResponse>(endPoints.createStory, payload);

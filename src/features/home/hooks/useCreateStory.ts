@@ -9,7 +9,7 @@ export const useCreateStory = () => {
   return useMutation<ApiResponse<IStoryResponse>, Error, FormData>({
     mutationFn: (payload: FormData) => createStory(payload),
     onSuccess: (data) => {
-      toast.success("Sotry created successfully");
+      toast.success("Story created successfully");
     },
     onError: (error) => {
       handleApiError(error);

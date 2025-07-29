@@ -4,10 +4,9 @@ import { likePost } from "../homeService";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { messages } from "../../../common/constants/messages";
 import { getUserIdFromToken } from "../../../utils/jwt.utils";
+import { tanstackQueryKeys } from "../../../common/constants/keys";
 
 export const usePostLike = () => {
-  // let postId = 0;
-
   const queryClient = useQueryClient();
 
   const loggedInUserId = getUserIdFromToken();
@@ -18,12 +17,12 @@ export const usePostLike = () => {
     },
     onSuccess: (response, postId) => {
       toast.success(messages.connections.postLikedSuccess);
-      queryClient.invalidateQueries({ queryKey: ["home-feed"] });
+      queryClient.invalidateQueries({ queryKey: [tanstackQueryKeys.getHomeFeed] });
       queryClient.invalidateQueries({
-        queryKey: ["post-details", postId],
+        queryKey: [tanstackQueryKeys.getPostDetails, postId],
       });
       queryClient.invalidateQueries({
-        queryKey: ["user-posts", loggedInUserId],
+        queryKey: [tanstackQueryKeys.getUserPosts, loggedInUserId],
       });
     },
     onError: (error) => {

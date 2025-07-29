@@ -12,7 +12,8 @@ export const validationMessages = {
         yearRequired : "Year is required",
         dobRequired : "Date of Birth is required",
         genderRequired : "Gender is required",
-        captionRequired : "Caption is required"
+        captionRequired : "Caption is required",
+        highlightTitleRequired : "Highlight title is required",
     },
     regexValidation : {
         passwordRegexValidation : "Password must be 8-15 characters, include uppercase, lowercase, number, and special character",

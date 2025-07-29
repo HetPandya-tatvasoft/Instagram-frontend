@@ -23,5 +23,15 @@ export const headerKeys = {
 export const tanstackQueryKeys = {
     getNotificationsListKey : "notifications-list-forPage",
     getHomeFeed : "home-feed",
-    getSearchUserResult : "search-users"
-}
+    getSearchUserResult : "search-users",
+    getUserStoriesKey : "user-story-list",
+    getStoriesForHome : "home-stories",
+    getPostDetails : "post-details",
+    getUserPosts : "user-posts",
+    getUserProfile : "getUserProfile",
+    getUserInfoProfile : "user-info",
+    getUserFollowing : "user-following",
+    getUserFollower : "user-followers",
+    getFollowStatus : "follow-status",
+    getUserHighlights : "get-user-highlights"
+};

@@ -1,6 +1,6 @@
-import { getRequest, postRequest } from "../../utils/httpClient.utils";
+import { deleteRequest, getRequest, postRequest } from "../../utils/httpClient.utils";
 import type { IPaginationRequestGeneric } from "../../common/types/paginationRequest.type";
-import { IStoryResponse, type IUserResponse } from "../home/types/home.types";
+import { IHighlightResponse, IStoryResponse, type IUserResponse } from "../home/types/home.types";
 import type { IPostRequestPayload } from "../home/types/payload.types";
 import type {
   IUpdateUserProfilePayload,
@@ -9,6 +9,7 @@ import type {
 import type { IPostResponse } from "../home/types/home.types";
 import { IPaginationResponse } from "../../common/types/paginationResponse.type";
 import { ApiResponse } from "../../@core/api/apiResponse.type";
+import { IHighlightUpsertPayload } from "./types/profile.payload.types";
 
 const endPoints = {
   getProfileData: "/user/get-logged-in-user",
@@ -24,6 +25,9 @@ const endPoints = {
   unfollowUser: "/connection/unfollow",
   getPosts: `/post/get-post-list`,
   getUserStories: (id: number) => `/story/get-story-list/${id}`,
+  getUserHighlights : (id : number ) => `/story/get-highlight-list/${id}`,
+  upsertHighlights : `/story/upsert-highlight`,
+  deleteHighlight : (id : number) => `/story/delete-highlight/${id}`
 };
 
 export const getUserProfile = () =>
@@ -58,6 +62,15 @@ export const UnfollowUser = (receiverId: number) =>
 
 export const getUserStories = (userId: number) =>
   getRequest<IStoryResponse[]>(endPoints.getUserStories(userId));
+
+export const getUserHighlights = ( userId : number ) => 
+  getRequest<IHighlightResponse[]>(endPoints.getUserHighlights(userId));
+
+export const upsertHighlights = ( payload : IHighlightUpsertPayload ) =>
+  postRequest<IHighlightResponse, IHighlightUpsertPayload>(endPoints.upsertHighlights, payload);
+
+export const deleteHighlight = (highglightId : number) => 
+  deleteRequest<string>(endPoints.deleteHighlight(highglightId));
 
 export const sendFollowRequest = (receiverId: number) =>
   postRequest<string, object>(endPoints.sendFollowRequest(receiverId), {});

@@ -37,7 +37,6 @@ export interface IUserProfileResponse {
   followStatus : string;
 }
 
-
 export interface IUserMedia {
   userPosts? : IPostResponse[],
 }
@@ -45,4 +44,11 @@ export interface IUserMedia {
 export interface IUserBio {
   name : string;
   profileBio? : string;
+}
+
+export interface IHighlightError {
+  reference?: string;
+  parameter?: string;
+  errorCode?: string;
+  message: string;
 }
