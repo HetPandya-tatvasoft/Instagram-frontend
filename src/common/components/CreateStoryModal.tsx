@@ -5,7 +5,7 @@ import {
   DialogTitle,
 } from "@mui/material";
 import { Button, Checkbox, FormControlLabel, TextField } from "@mui/material";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useCreateStory } from "../../features/home/hooks/useCreateStory";
 import toast from "react-hot-toast";
 import { Upload } from "lucide-react";
@@ -32,53 +32,80 @@ const CreateStoryModal = ({
   onClose: () => void;
 }) => {
   const [storyFile, setStoryFile] = useState<File | null>(null);
-  //   const [caption, setCaption] = useState("");
-  //   const [isVisibleToClosedOnes, setIsVisibleToClosedOnes] = useState(false);
 
   const { mutate: createStory } = useCreateStory();
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setStoryFile(file);
-    }
-  };
+  const handleFileChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0];
+      if (file) {
+        setStoryFile(file);
+      }
+    },
+    []
+  );
 
-  const handleSubmit = () => {
-    if (!storyFile) {
-      toast.error("Please select an image or video.");
-      return;
-    }
+  // const handleSubmit = () => {
+  //   if (!storyFile) {
+  //     toast.error("Please select an image or video.");
+  //     return;
+  //   }
 
-    const formData = new FormData();
-    const loggedInUserId = getUserIdFromToken();
-    formData.append("PostedByUserId", loggedInUserId.toString());
-    formData.append("Story", storyFile);
-    formData.append("Caption", formik.values.caption ?? "");
-    // if (musicUrl) formData.append("MusicUrl", musicUrl);
-    formData.append("IsVisibleToClosedOnes", formik.values.isVisibleToClosedOnes.toString());
+  //   const formData = new FormData();
+  //   const loggedInUserId = getUserIdFromToken();
+  //   formData.append("PostedByUserId", loggedInUserId.toString());
+  //   formData.append("Story", storyFile);
+  //   formData.append("Caption", formik.values.caption ?? "");
+  //   // if (musicUrl) formData.append("MusicUrl", musicUrl);
+  //   formData.append(
+  //     "IsVisibleToClosedOnes",
+  //     formik.values.isVisibleToClosedOnes.toString()
+  //   );
 
-    createStory(formData, {
-      onSuccess: () => {
-        toast.success("Story posted successfully!");
-        handleClose();
-      },
-    });
-  };
+  //   createStory(formData, {
+  //     onSuccess: () => {
+  //       toast.success("Story posted successfully!");
+  //       handleClose();
+  //     },
+  //   });
+  // };
 
   const formik = useFormik({
     initialValues: createStoryInitialValues,
     validationSchema: createStoryValidationSchema,
-    onSubmit: handleSubmit,
+    onSubmit: (values) => {
+      if (!storyFile) {
+        toast.error("Please select an image or video.");
+        return;
+      }
+
+      const formData = new FormData();
+      const loggedInUserId = getUserIdFromToken();
+      formData.append("PostedByUserId", loggedInUserId.toString());
+      formData.append("Story", storyFile);
+      formData.append("Caption", formik.values.caption ?? "");
+      // if (musicUrl) formData.append("MusicUrl", musicUrl);
+      formData.append(
+        "IsVisibleToClosedOnes",
+        formik.values.isVisibleToClosedOnes.toString()
+      );
+
+      createStory(formData, {
+        onSuccess: () => {
+          toast.success("Story posted successfully!");
+          handleClose();
+        },
+      });
+    },
   });
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     onClose();
     setStoryFile(null);
     formik.values.caption = "";
     formik.values.isVisibleToClosedOnes = false;
     // setIsVisibleToClosedOnes(false);
-  };
+  }, [formik.values, onClose]);
 
   return (
     <Dialog open={isOpen} onClose={handleClose} maxWidth="xs" fullWidth>
@@ -116,16 +143,6 @@ const CreateStoryModal = ({
           </label>
         )}
 
-        {/* Inputs */}
-        {/* <TextField
-          label="Caption"
-          variant="outlined"
-          fullWidth
-          size="small"
-          value={caption}
-          onChange={(e) => setCaption(e.target.value)}
-        /> */}
-
         <FormikTextField
           type="text"
           label="Caption"
@@ -156,7 +173,7 @@ const CreateStoryModal = ({
         <Button onClick={handleClose} variant="outlined">
           Cancel
         </Button>
-        <Button onClick={handleSubmit} variant="contained">
+        <Button onClick={formik.handleSubmit} variant="contained">
           {/* {isLoading ? "Posting..." : "Post"} */}
           Post Story
         </Button>

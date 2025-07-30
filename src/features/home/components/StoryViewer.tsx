@@ -7,24 +7,29 @@ import React, {
 } from "react";
 import { IStoryResponse } from "../types/home.types";
 import { getBase64ImageUrl } from "../../../utils/getBase64Image";
-import { current } from "@reduxjs/toolkit";
 import { useStoryViewed } from "../hooks/useStoryViewed";
 import { getUserIdFromToken } from "../../../utils/jwt.utils";
 import { IStoryViewCreatePayload } from "../types/payload.types";
 import { MoreVertical, Trash } from "lucide-react";
 import { useStoryDelete } from "../hooks/useStoryDelete";
 import StoryOptionsMenu from "../../../common/components/StoryOptionsMenu";
-import { deleteStory } from "../homeService";
 import AddToHighlightsModal from "../../../common/components/AddToHighlightsModal";
 
 interface StoryViewerProps {
   stories: IStoryResponse[];
   onClose: () => void;
   initialIndex?: number;
-  fromHighlights? : boolean;
+  fromHighlights?: boolean;
+  handleRemoveStoryFromHighlights: (storyId: number) => void;
 }
- 
-const StoryViewer = ({ stories, onClose, initialIndex, fromHighlights = false }: StoryViewerProps) => {
+
+const StoryViewer = ({
+  stories,
+  onClose,
+  initialIndex,
+  fromHighlights = false,
+  handleRemoveStoryFromHighlights,
+}: StoryViewerProps) => {
   const loggedInUserId = getUserIdFromToken();
 
   const [currentIndex, setCurrentIndex] = useState(initialIndex ?? 0);
@@ -194,7 +199,6 @@ const StoryViewer = ({ stories, onClose, initialIndex, fromHighlights = false }:
 
         {/* Controls */}
         <div className="flex justify-between items-center mt-4">
-          
           {/* Navigation Buttons (Prev & Next) */}
           <button
             onClick={handlePrev}
@@ -231,6 +235,9 @@ const StoryViewer = ({ stories, onClose, initialIndex, fromHighlights = false }:
             onAddToHighlights={() => setHighlightModalOpen(true)}
             onDelete={() => handleStoryDelete(currentStory.storyId)}
             fromHighligts={fromHighlights}
+            handleRemoveStoryFromHighlights={() =>
+              handleRemoveStoryFromHighlights(currentStory.storyId)
+            }
           />
         </div>
       </div>

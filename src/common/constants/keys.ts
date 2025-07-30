@@ -35,3 +35,9 @@ export const tanstackQueryKeys = {
     getFollowStatus : "follow-status",
     getUserHighlights : "get-user-highlights"
 };
+
+export const HubMessages = {
+    postReceived : "ReceivedPosts",
+    postInteraction : "PostInteraction",
+    notificationReceived : "ReceiveNotification", 
+}

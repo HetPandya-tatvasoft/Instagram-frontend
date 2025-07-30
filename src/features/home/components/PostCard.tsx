@@ -276,9 +276,9 @@ const PostCard: React.FC<IPostCardProps> = React.memo(({ post }) => {
 
         {/* Caption */}
         <div>
-          <span className="font-medium text-sm mr-2">het_pandya</span>
+          <span className="font-medium text-sm mr-2">{post.postedByUserName}</span>
           <span className="text-sm">
-            Wandering for life that's a grateful as well as an ungrateful hobby.{" "}
+           {post.caption}{" "}
           </span>
         </div>
 

@@ -44,7 +44,7 @@ const NotificationsPage: React.FC = () => {
         {/* <IframePdfViewer fileUrl="Resume 11AAAA_a4599983-e757-4104-9069-6bb7c120a927 (1).pdf" /> */}
 
         <div>
-          <DocumentViewer fileUrls={fileLinks} />
+          {/* <DocumentViewer fileUrls={fileLinks} /> */}
           {/* <PDFViewerOnly fileUrl="https://file-examples.com/wp-content/uploads/2017/10/file-sample_150kB.pdf" /> */}
         </div>
         {isLoading ? (

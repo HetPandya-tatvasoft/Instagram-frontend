@@ -153,3 +153,8 @@ export interface IHighlightResponse {
   title : string;
   items : IHighlightItem[];
 }
+
+export interface IpostFields {
+  location: string;
+  caption: string;
+}

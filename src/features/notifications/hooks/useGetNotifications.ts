@@ -6,6 +6,7 @@ import {
 import { getNotificationList } from "../services/notificationService";
 import toast from "react-hot-toast";
 import { handleApiError } from "../../../utils/error.utils";
+import { tanstackQueryKeys } from "../../../common/constants/keys";
 
 export const useGetNotifications = () => {
   const defaultPayload: IPaginationRequest = defaultPaginationRequest;
@@ -31,7 +32,7 @@ export const useGetNotificationsQuery = () => {
   const defaultPayload: IPaginationRequest = defaultPaginationRequest;
 
   return useQuery({
-    queryKey: ["notifications-list-forPage", defaultPayload],
+    queryKey: [tanstackQueryKeys.getNotificationsListKey],
     queryFn: () => getNotificationList(defaultPayload),
     staleTime: 1000 * 60 * 5,
     retry: 1,

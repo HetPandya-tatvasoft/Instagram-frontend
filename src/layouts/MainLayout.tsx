@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   Heart,
   MessageCircle,
@@ -19,12 +19,19 @@ import { routes } from "../common/constants/routes";
 import { Link } from "react-router-dom";
 import CreatePostModal from "../common/components/CreatePostModal";
 import SearchPanel from "../common/components/SearchPanel";
+import { createNotificationHubConnection } from "../utils/signalR.utils";
+import { HubConnection, HubConnectionState } from "@microsoft/signalr";
+import { HubMessages, tanstackQueryKeys } from "../common/constants/keys";
+import { QueryClient, useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 interface IMainLayoutProps {
   children: React.ReactNode;
 }
 
 const MainLayout: React.FC<IMainLayoutProps> = ({ children }) => {
+  const queryClient = useQueryClient();
+
   const [isCreatePostModalOpen, setIsCreatePostModalOpen] = useState(false);
 
   const [files, setFiles] = useState<File[]>([]);
@@ -43,11 +50,40 @@ const MainLayout: React.FC<IMainLayoutProps> = ({ children }) => {
     setCaption("");
   };
 
-  const route = routes.mainRoutes.userProfile.replace(
-    ":userId",
-    (-1).toString()
+  const route = useMemo(
+    () => routes.mainRoutes.userProfile.replace(":userId", (-1).toString()),
+    []
   );
-  // if (!isModalOpen) return null;
+
+  useEffect(() => {
+    const notificationConnection = createNotificationHubConnection();
+
+    const startConnection = async () => {
+      if (notificationConnection.state === HubConnectionState.Disconnected) {
+        try {
+          await notificationConnection.start();
+          console.log("Signal Noti connected");
+        } catch (err) {
+          console.error("Signal R error:", err, "Signal notfi eerror");
+        }
+      }
+
+      notificationConnection.on(HubMessages.notificationReceived, (notification) => {
+        console.log(notification)
+        queryClient.invalidateQueries({
+          queryKey: [tanstackQueryKeys.getNotificationsListKey],
+        });
+        toast.success("Notifications Received");
+        console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+      });
+    };
+
+    startConnection();
+
+    return () => {
+      notificationConnection.off(HubMessages.notificationReceived);
+    };
+  }, [queryClient]);
 
   const sidebarModules = [
     {
@@ -115,9 +151,9 @@ const MainLayout: React.FC<IMainLayoutProps> = ({ children }) => {
     },
   ];
 
-  const handleCreatePostButtonClick = () => {
+  const handleCreatePostButtonClick = useCallback(() => {
     setIsCreatePostModalOpen((prev) => !prev);
-  };
+  }, []);
 
   return (
     <>

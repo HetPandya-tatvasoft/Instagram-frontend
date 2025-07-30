@@ -7,6 +7,7 @@ interface StoryOptionsMenuProps {
   onAddToHighlights: () => void;
   onDelete: () => void;
   fromHighligts: boolean;
+  handleRemoveStoryFromHighlights : () => void;
 }
 
 const StoryOptionsMenu: React.FC<StoryOptionsMenuProps> = ({
@@ -15,6 +16,8 @@ const StoryOptionsMenu: React.FC<StoryOptionsMenuProps> = ({
   onAddToHighlights,
   onDelete,
   fromHighligts = false,
+  handleRemoveStoryFromHighlights
+  
 }) => {
   const [showOptions, setShowOptions] = useState(false);
 
@@ -63,7 +66,10 @@ const StoryOptionsMenu: React.FC<StoryOptionsMenuProps> = ({
                 </>
               )}
               {fromHighligts && (
-                <button className="w-full text-left px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                <button 
+                className="w-full text-left px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                onClick={() => handleRemoveStoryFromHighlights()}
+                >
                   Remove from Highlights
                 </button>
               )}

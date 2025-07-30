@@ -8,6 +8,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { HubConnectionState } from "@microsoft/signalr";
 import { createPostHubConnection } from "../../../utils/signalR.utils";
 import { useHomeStories } from "../hooks/useHomeStories";
+import { HubMessages } from "../../../common/constants/keys";
 
 const HomePage: React.FC = () => {
   const {
@@ -31,19 +32,20 @@ const HomePage: React.FC = () => {
       if (connection.state === HubConnectionState.Disconnected) {
         try {
           await connection.start();
-          console.log("Signal R connected");
+          console.log("Signal Home connected");
         } catch (err) {
-          console.error("Signal R error:", err);
+          console.error("Signal R error:", err, "Signal home error");
         }
       }
 
-      connection.on("ReceivedPosts", () => {
-        console.log("📨 ReceivedPosts triggered");
+      // Change this to constants
+      connection.on(HubMessages.postReceived, () => {
+        console.log("ReceivedPosts triggered");
         queryClient.invalidateQueries({ queryKey: ["home-feed"] });
       });
 
-      connection.on("PostInteraction", (postId: number) => {
-        console.log("🔁 PostInteraction for:", postId);
+      connection.on(HubMessages.postInteraction, (postId: number) => {
+        console.log("PostInteraction for:", postId);
         queryClient.invalidateQueries({ queryKey: ["home-feed"] });
       });
     };
@@ -51,8 +53,8 @@ const HomePage: React.FC = () => {
     startConnection();
 
     return () => {
-      connection.off("ReceivedPosts");
-      connection.off("PostInteraction");
+      connection.off(HubMessages.postReceived);
+      connection.off(HubMessages.postInteraction);
     };
   }, [queryClient]);
 
@@ -66,8 +68,8 @@ const HomePage: React.FC = () => {
           )}
 
           {/* Home Page Pages */}
-          <div className="max-w-2xl w-full flex justify-center">
-            <div className="space-y-4">
+          <div className="w-full flex justify-center px-2 sm:px-4">
+            <div className="w-full max-w-2xl sm:max-w-3xl md:max-w-4xl lg:max-w-5xl space-y-4">
               {paginatedPosts?.data.records.map((post: IPostResponse) => (
                 <PostCard key={post.postId} post={post} />
               ))}

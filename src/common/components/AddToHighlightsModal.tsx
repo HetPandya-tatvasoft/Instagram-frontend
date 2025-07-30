@@ -1,21 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Dialog } from "@mui/material";
 import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import { useGetUserHighlights } from "../../features/profile/hooks/useGetUserHighlights";
 import { useCreateHighlights } from "../../features/profile/hooks/useCreateHighlights";
 import { IHighlightUpsertPayload } from "../../features/profile/types/profile.payload.types";
-
-interface Highlight {
-  highlightId: number;
-  title: string;
-}
-
-interface AddToHighlightsModalProps {
-  open: boolean;
-  onClose: () => void;
-  storyId: number;
-}
+import {
+  AddToHighlightsModalProps,
+  IHighlight,
+} from "../types/commonComponent.type";
 
 const AddToHighlightsModal: React.FC<AddToHighlightsModalProps> = ({
   open,
@@ -36,7 +29,15 @@ const AddToHighlightsModal: React.FC<AddToHighlightsModalProps> = ({
 
   const { mutate: createHighlight, isPending } = useCreateHighlights();
 
-  const handleAdd = () => {
+  useEffect(() => {
+    if (!open) {
+      setSelectedHighlightId(null);
+      sethighlightTitle("");
+      setCreatingNew(false);
+    }
+  }, [open]);
+
+  const handleAdd = useCallback(() => {
     if (creatingNew) {
       if (!highlightTitle.trim()) {
         toast.error("Title is required");
@@ -79,15 +80,15 @@ const AddToHighlightsModal: React.FC<AddToHighlightsModalProps> = ({
       //   toast.success("Added to existing highlight (not implemented)");
       onClose();
     }
-  };
-
-  useEffect(() => {
-    if (!open) {
-      setSelectedHighlightId(null);
-      sethighlightTitle("");
-      setCreatingNew(false);
-    }
-  }, [open]);
+  }, [
+    createHighlight,
+    creatingNew,
+    highlightTitle,
+    onClose,
+    selectedHighlightId,
+    storyId,
+    userId,
+  ]);
 
   return (
     <Dialog open={open} onClose={onClose}>
@@ -96,7 +97,7 @@ const AddToHighlightsModal: React.FC<AddToHighlightsModalProps> = ({
 
         {!creatingNew && (
           <div className="flex flex-col gap-2 max-h-40 overflow-y-auto">
-            {highlights?.map((h: Highlight) => (
+            {highlights?.map((h: IHighlight) => (
               <button
                 key={h.highlightId}
                 onClick={() => {

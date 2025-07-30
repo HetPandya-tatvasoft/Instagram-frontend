@@ -1,23 +1,13 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import CenterModalLayout from "../../layouts/CenterModalLayout";
 import FormikTextField from "./FormikTextField";
 import { useFormik } from "formik";
-import Textarea from "@mui/joy/Textarea";
 import { createPostValidationSchema } from "../../features/posts/validations/createPostValidationsSchema";
 import { TextField } from "@mui/material";
 import toast from "react-hot-toast";
 import { useCreatePost } from "../../features/posts/hooks/useCreatePost";
-
-interface ICreatePostModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  handlePost: () => void;
-}
-
-interface IpostFields {
-  location: string;
-  caption: string;
-}
+import { IpostFields } from "../../features/home/types/home.types";
+import { ICreatePostModalProps } from "../../features/home/types/homeProps.types";
 
 const initialValues: IpostFields = {
   caption: "",
@@ -30,68 +20,96 @@ const CreatePostModal: React.FC<ICreatePostModalProps> = ({
   handlePost,
 }) => {
   const [files, setFiles] = useState<File[]>([]);
+
   const [currentIndex, setCurrentIndex] = useState(0);
-  // const [caption, setCaption] = useState("");
 
   const { mutate: createPost, isPending } = useCreatePost();
 
-  const handlePostCreationSubmit = () => {
-    if (files.length === 0) {
-      toast.error("Please upload alteast one image");
-      return;
-    }
+  // const handlePostCreationSubmit = useCallback(() => {
+  //   if (files.length === 0) {
+  //     toast.error("Please upload alteast one image");
+  //     return;
+  //   }
 
-    const formData = new FormData();
+  //   const formData = new FormData();
 
-    files.forEach((file) => {
-      formData.append("Posts", file);
-    });
+  //   files.forEach((file) => {
+  //     formData.append("Posts", file);
+  //   });
 
-    formData.append("Caption", formik.values.caption);
-    formData.append("Location", formik.values.location);
-    formData.append("PostedByUserId", "1");
-    formData.append("PostType", "post");
-    formData.append("IsVisibleToClosedOnes", "false");
+  //   formData.append("Caption", formik.values.caption);
+  //   formData.append("Location", formik.values.location);
+  //   formData.append("PostedByUserId", "1");
+  //   formData.append("PostType", "post");
+  //   formData.append("IsVisibleToClosedOnes", "false");
 
-    for (const pair of formData.entries()) {
-      console.log(`${pair[0]}:`, pair[1]);
-    }
+  //   for (const pair of formData.entries()) {
+  //     console.log(`${pair[0]}:`, pair[1]);
+  //   }
 
-    createPost(formData);
-  };
+  //   createPost(formData);
+  //   onClose();
+  // }, [createPost, files, onClose]);
 
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: createPostValidationSchema,
-    onSubmit: handlePostCreationSubmit,
+    onSubmit: (values) => {
+      if (files.length === 0) {
+        toast.error("Please upload alteast one image");
+        return;
+      }
+
+      const formData = new FormData();
+
+      files.forEach((file) => {
+        formData.append("Posts", file);
+      });
+
+      formData.append("Caption", formik.values.caption);
+      formData.append("Location", formik.values.location);
+      formData.append("PostedByUserId", "1");
+      formData.append("PostType", "post");
+      formData.append("IsVisibleToClosedOnes", "false");
+
+      for (const pair of formData.entries()) {
+        console.log(`${pair[0]}:`, pair[1]);
+      }
+
+      createPost(formData);
+      onClose();
+    },
   });
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const selectedFiles = Array.from(e.target.files);
-      setFiles(selectedFiles);
-      setCurrentIndex(0);
-    }
-  };
+  const handleFileChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (e.target.files) {
+        const selectedFiles = Array.from(e.target.files);
+        setFiles(selectedFiles);
+        setCurrentIndex(0);
+      }
+    },
+    []
+  );
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     setCurrentIndex((prev) => (prev + 1) % files.length);
-  };
+  }, [files.length]);
 
-  const handlePrev = () => {
+  const handlePrev = useCallback(() => {
     setCurrentIndex((prev) => (prev - 1 + files.length) % files.length);
-  };
+  }, [files.length]);
 
-  const resetModal = () => {
+  const resetModal = useCallback(() => {
     setFiles([]);
     setCurrentIndex(0);
     formik.resetForm();
-  };
+  }, [formik]);
 
-  const handleCloseModal = () => {
+  const handleCloseModal = useCallback(() => {
     resetModal();
-    onClose(); 
-  };
+    onClose();
+  }, [onClose, resetModal]);
 
   return (
     <CenterModalLayout isOpen={isOpen} onClose={handleCloseModal}>
@@ -158,7 +176,9 @@ const CreatePostModal: React.FC<ICreatePostModalProps> = ({
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                 />
+
                 <div className="mt-3"></div>
+
                 <TextField
                   label="Caption"
                   multiline
@@ -174,20 +194,6 @@ const CreatePostModal: React.FC<ICreatePostModalProps> = ({
                   variant="outlined"
                   fullWidth
                 />
-
-                {/* <label className="cursor-pointer block mt-4">
-                <input
-                  type="file"
-                  accept="audio/*"
-                  hidden
-                  // onChange={handleMusicChange}
-                  />
-                  <div className="border border-dashed border-gray-400 p-4 rounded-lg text-center">
-                  <p className="text-gray-600">
-                  Click to upload music (optional)
-                  </p>
-                  </div>
-                  </label> */}
 
                 <div className="mt-4 flex justify-between">
                   <button

@@ -48,6 +48,8 @@ const UserProfilePage: React.FC = () => {
 
   console.log(userMedia);
 
+  console.log(highlights)
+
   return (
     <MainLayout>
       {/* <h2>This will be the main profile page</h2> */}
@@ -64,7 +66,7 @@ const UserProfilePage: React.FC = () => {
             <ProfileBio profileBio={userProfileBio} />
 
             {/* Story Highlights */}
-            <StoryHighlights highlights={highlights} />
+            {<StoryHighlights highlights={highlights} />}
 
             {/* Tab Navigation */}
             <ProfilePostsSection posts={userMedia} />
