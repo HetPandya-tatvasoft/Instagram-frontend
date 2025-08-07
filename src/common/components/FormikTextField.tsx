@@ -1,19 +1,8 @@
 import { TextField, type TextFieldProps } from "@mui/material";
 import type { ChangeEvent, FocusEvent } from "react";
+import { FormikTextFieldProps } from "../types/commonComponent.type";
 
-export interface FormikTextFieldProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
-  label: string;
-  id?: string;
-  name: string;
-  type?: string;
-  value: string;
-  onChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-  onBlur: (e: FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-  error?: boolean;
-  helperText: string | false | undefined;
-  shrinkLabel?: boolean;
-}
+
 
 const FormikTextField: React.FC<FormikTextFieldProps> = ({
   label,

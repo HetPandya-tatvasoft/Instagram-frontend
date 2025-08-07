@@ -15,12 +15,12 @@ import { useStoryDelete } from "../hooks/useStoryDelete";
 import StoryOptionsMenu from "../../../common/components/StoryOptionsMenu";
 import AddToHighlightsModal from "../../../common/components/AddToHighlightsModal";
 
-interface StoryViewerProps {
+interface IStoryViewerProps {
   stories: IStoryResponse[];
   onClose: () => void;
   initialIndex?: number;
   fromHighlights?: boolean;
-  handleRemoveStoryFromHighlights: (storyId: number) => void;
+  handleRemoveStoryFromHighlights?: (storyId: number) => void;
 }
 
 const StoryViewer = ({
@@ -29,7 +29,7 @@ const StoryViewer = ({
   initialIndex,
   fromHighlights = false,
   handleRemoveStoryFromHighlights,
-}: StoryViewerProps) => {
+}: IStoryViewerProps) => {
   const loggedInUserId = getUserIdFromToken();
 
   const [currentIndex, setCurrentIndex] = useState(initialIndex ?? 0);
@@ -235,9 +235,10 @@ const StoryViewer = ({
             onAddToHighlights={() => setHighlightModalOpen(true)}
             onDelete={() => handleStoryDelete(currentStory.storyId)}
             fromHighligts={fromHighlights}
-            handleRemoveStoryFromHighlights={() =>
-              handleRemoveStoryFromHighlights(currentStory.storyId)
-            }
+            {...(handleRemoveStoryFromHighlights && {
+              handleRemoveStoryFromHighlights: () =>
+                handleRemoveStoryFromHighlights(currentStory.storyId),
+            })}
           />
         </div>
       </div>

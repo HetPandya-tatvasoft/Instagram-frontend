@@ -15,7 +15,6 @@
 // GlobalWorkerOptions.workerSrc = workerSrc;
 
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
-import { FileType } from "lucide-react";
 
 interface ViewerProps {
   fileUrls: string[];
@@ -98,7 +97,6 @@ const DocumentViewer: React.FC<ViewerProps> = ({ fileUrls }) => {
   // });
 
   const fileUrl = "../../assets/sample.doc";
-  console.log(`Hello Man the file Url is ${fileUrl}`);
 
   const docs = fileUrls.map((originalUrl) => {
     const proxyPath = originalUrl.replace(

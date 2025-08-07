@@ -1,23 +1,16 @@
 import React, { useState } from "react";
 import { MoreVertical } from "lucide-react";
+import { IStoryOptionsMenuProps } from "../types/commonComponent.type";
 
-interface StoryOptionsMenuProps {
-  isOwnProfile: boolean;
-  onSave: () => void;
-  onAddToHighlights: () => void;
-  onDelete: () => void;
-  fromHighligts: boolean;
-  handleRemoveStoryFromHighlights : () => void;
-}
 
-const StoryOptionsMenu: React.FC<StoryOptionsMenuProps> = ({
+
+const StoryOptionsMenu: React.FC<IStoryOptionsMenuProps> = ({
   isOwnProfile,
   onSave,
   onAddToHighlights,
   onDelete,
   fromHighligts = false,
   handleRemoveStoryFromHighlights
-  
 }) => {
   const [showOptions, setShowOptions] = useState(false);
 
@@ -65,7 +58,7 @@ const StoryOptionsMenu: React.FC<StoryOptionsMenuProps> = ({
                   </button>
                 </>
               )}
-              {fromHighligts && (
+              {fromHighligts && handleRemoveStoryFromHighlights && (
                 <button 
                 className="w-full text-left px-4 py-2 hover:bg-gray-100 cursor-pointer"
                 onClick={() => handleRemoveStoryFromHighlights()}

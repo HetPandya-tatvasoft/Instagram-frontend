@@ -9,6 +9,7 @@ import { HubConnectionState } from "@microsoft/signalr";
 import { createPostHubConnection } from "../../../utils/signalR.utils";
 import { useHomeStories } from "../hooks/useHomeStories";
 import { HubMessages } from "../../../common/constants/keys";
+import toast from "react-hot-toast";
 
 const HomePage: React.FC = () => {
   const {
@@ -41,11 +42,13 @@ const HomePage: React.FC = () => {
       // Change this to constants
       connection.on(HubMessages.postReceived, () => {
         console.log("ReceivedPosts triggered");
+        toast.success("Signal R Post Received")
         queryClient.invalidateQueries({ queryKey: ["home-feed"] });
       });
 
       connection.on(HubMessages.postInteraction, (postId: number) => {
         console.log("PostInteraction for:", postId);
+        toast.success("Signal R Interaction Received")
         queryClient.invalidateQueries({ queryKey: ["home-feed"] });
       });
     };

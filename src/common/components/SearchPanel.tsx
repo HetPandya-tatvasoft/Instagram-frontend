@@ -1,14 +1,12 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSearchUsers } from "../../features/home/hooks/useSearchUsers";
 import type { IUserResponse } from "../../features/home/types/home.types";
 import { routes } from "../../common/constants/routes";
 import { getBase64ImageUrl } from "../../utils/getBase64Image";
+import { ISearchPanelProps } from "../types/commonComponent.type";
 
-interface ISearchPanelProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
+
 
 const SearchPanel: React.FC<ISearchPanelProps> = ({ isOpen, onClose }) => {
   const [search, setSearch] = useState<string>("");
@@ -17,13 +15,16 @@ const SearchPanel: React.FC<ISearchPanelProps> = ({ isOpen, onClose }) => {
 
   const navigate = useNavigate();
 
-  const handleProfileClick = (id: number) => {
-    const route = routes.mainRoutes.userProfile.replace(
-      ":userId",
-      id.toString()
-    );
-    navigate(route);
-  };
+  const handleProfileClick = useCallback(
+    (id: number) => {
+      const route = routes.mainRoutes.userProfile.replace(
+        ":userId",
+        id.toString()
+      );
+      navigate(route);
+    },
+    [navigate]
+  );
 
   return (
     <div
@@ -62,9 +63,7 @@ const SearchPanel: React.FC<ISearchPanelProps> = ({ isOpen, onClose }) => {
                 className="flex items-center gap-3 px-4 py-2 hover:bg-gray-100 cursor-pointer"
               >
                 <img
-                  src={
-                    getBase64ImageUrl(user.profilePictureBase64)
-                  }
+                  src={getBase64ImageUrl(user.profilePictureBase64)}
                   alt={user.userName}
                   className="w-8 h-8 rounded-full object-cover"
                 />

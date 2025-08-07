@@ -1,12 +1,9 @@
 import React from "react";
 import { ClipLoader } from "react-spinners";
 import type { ButtonHTMLAttributes } from "react";
+import { IFormButtonProps } from "../types/commonComponent.type";
 
-interface IFormButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-    label: string;
-    loading?: boolean;
-    loaderColor?: string;
-}
+
 
 const FormButton: React.FC<IFormButtonProps> = ({
     label,

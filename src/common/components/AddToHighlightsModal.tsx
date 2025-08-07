@@ -6,11 +6,11 @@ import { useGetUserHighlights } from "../../features/profile/hooks/useGetUserHig
 import { useCreateHighlights } from "../../features/profile/hooks/useCreateHighlights";
 import { IHighlightUpsertPayload } from "../../features/profile/types/profile.payload.types";
 import {
-  AddToHighlightsModalProps,
+  IAddToHighlightsModalProps,
   IHighlight,
 } from "../types/commonComponent.type";
 
-const AddToHighlightsModal: React.FC<AddToHighlightsModalProps> = ({
+const AddToHighlightsModal: React.FC<IAddToHighlightsModalProps> = ({
   open,
   onClose,
   storyId,

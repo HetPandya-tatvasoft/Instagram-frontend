@@ -1,13 +1,10 @@
 import { TextField } from "@mui/material";
 import type { ChangeEvent, FocusEvent } from "react";
+import { IFormikInputProps } from "../types/commonComponent.type";
 
 // src/types/FormikTextFieldPropsType.ts
 
-export interface IFormikInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-    label: string;
-    error?: boolean;
-    helperText?: string;
-}
+
 
 const FormikInput: React.FC<IFormikInputProps> = ({
     label,

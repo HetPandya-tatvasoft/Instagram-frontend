@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { routes } from "../../../common/constants/routes";
 import useLogout from "../../../hooks/useLogout";
 import type {
-  IUserResponse,
   IUserProfileHeader,
   IStoryResponse,
 } from "../../home/types/home.types";
@@ -48,6 +47,15 @@ const ProfileHeader: React.FC<IProfileHeaderProps> = ({ userInfo, userStories })
     "Login Activity",
     "Log out",
   ];
+
+  const handleSettingsModalClick = useCallback((item : string) => {
+    if(item === "Log out"){
+      handleLogout();
+    }
+    else if(item == "Settings and privacy"){
+      navigate(routes.mainRoutes.settingsAndPrivacy);
+    }
+  }, [handleLogout, navigate])
 
   return (
     <>
@@ -140,7 +148,7 @@ const ProfileHeader: React.FC<IProfileHeaderProps> = ({ userInfo, userStories })
               {settingsOptions.map((item) => (
                 <li
                   key={item}
-                  onClick={handleLogout}
+                  onClick={() => handleSettingsModalClick(item)}
                   className="py-2 px-3 hover:bg-gray-100 cursor-pointer transition flex justify-center border-b-1 border-gray-400 pb-3"
                 >
                   {item}

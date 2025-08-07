@@ -12,6 +12,7 @@ import EditProfilePage from "../features/profile/pages/EditProfilePage";
 import HomePage from "../features/home/pages/HomePage";
 import NotificationsPage from "../features/notifications/page/NotificationsPage"
 import PostDetails from "../features/posts/pages/PostDetails";
+import SettingsAndPrivacy from "../features/settingsAndPrivacy/pages/SettingPage";
 
 const AppRoutes = () => {
   return (
@@ -72,6 +73,15 @@ const AppRoutes = () => {
           element={
             <PrivateRoute>
               <PostDetails />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path={routes.mainRoutes.settingsAndPrivacy}
+          element={
+            <PrivateRoute>
+              <SettingsAndPrivacy />
             </PrivateRoute>
           }
         />
