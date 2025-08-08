@@ -3,5 +3,6 @@ export enum notificationType {
     folllowAccepted = 2,
     postLiked = 3,
     commentedInPost = 4,
-    commentLike = 5
+    commentLike = 5,
+    storyNotification = 6,
 }

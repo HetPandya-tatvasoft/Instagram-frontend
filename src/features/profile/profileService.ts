@@ -20,6 +20,7 @@ import {
   IHighlightUpsertPayload,
   IRemoveStoryFromHighlightPayload,
 } from "./types/profile.payload.types";
+import { ApiResponse } from "../../@core/api/apiResponse.type";
 
 const endPoints = {
   getProfileData: "/user/get-logged-in-user",
@@ -40,6 +41,14 @@ const endPoints = {
   deleteHighlight: (id: number) => `/story/delete-highlight/${id}`,
   updateHighlightTitle: `/story/update-highlight-title`,
   removeStoryFromHighlights: `/story/remove-story-from-highlight`,
+  getUserStoryNotificationSubscription:
+    "/user/get-story-notification-subscription-status",
+  getUserLikeNotificationSubscription:
+    "/user/get-like-notification-subscription-status",
+  updateStorySubscribeNotification: (payload: boolean) =>
+    `/user/subscribe-to-story-notifications/${payload}`,
+  updateLikeSubscribeNotification: (payload: boolean) =>
+    `/user/subscribe-to-like-notifications/${payload}`,
 };
 
 export const getUserProfile = () =>
@@ -65,6 +74,24 @@ export const getMutualCount = (userId: number) =>
 
 export const getFollowStatus = (userId: number) =>
   getRequest<string>(endPoints.getFollowStatus(userId));
+
+export const getUserStoryNotificationSubscription = () =>
+  getRequest<boolean>(endPoints.getUserStoryNotificationSubscription);
+
+export const getUserLikeNotificationSubscription = () =>
+  getRequest<boolean>(endPoints.getUserLikeNotificationSubscription);
+
+export const updateStorySubscribeNotification = (payload: boolean) =>
+  postRequest<ApiResponse<string>, object>(
+    endPoints.updateStorySubscribeNotification(payload),
+    {}
+  );
+
+export const updateLikeSubscribeNotification = (payload: boolean) =>
+  postRequest<ApiResponse<string>, object>(
+    endPoints.updateLikeSubscribeNotification(payload),
+    {}
+  );
 
 export const UnfollowUser = (receiverId: number) =>
   postRequest<string, { receiverId: number }>(

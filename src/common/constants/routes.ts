@@ -25,7 +25,8 @@ export const routes = {
     updateProfile: "/het-pandya/update-profile",
     userProfile: "/profile/:userId",
     notifications: "/notifications",
-    postDetails : "/post/:postId",
-    settingsAndPrivacy : "/instagram/settings",
+    postDetails: "/post/:postId",
+    settingsAndPrivacy: "/instagram/settings",
+    notificationSettings: "/instagram/notificationSettings",
   },
 };

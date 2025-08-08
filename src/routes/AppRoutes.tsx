@@ -10,9 +10,10 @@ import ProfilePage from "../features/profile/pages/ProfilePage";
 import UserProfilePage from "../features/profile/pages/UserProfilePage";
 import EditProfilePage from "../features/profile/pages/EditProfilePage";
 import HomePage from "../features/home/pages/HomePage";
-import NotificationsPage from "../features/notifications/page/NotificationsPage"
+import NotificationsPage from "../features/notifications/page/NotificationsPage";
 import PostDetails from "../features/posts/pages/PostDetails";
 import SettingsAndPrivacy from "../features/settingsAndPrivacy/pages/SettingPage";
+import NotificationSettings from "../features/profile/components/NotificationSettings";
 
 const AppRoutes = () => {
   return (
@@ -82,6 +83,15 @@ const AppRoutes = () => {
           element={
             <PrivateRoute>
               <SettingsAndPrivacy />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path={routes.mainRoutes.notificationSettings}
+          element={
+            <PrivateRoute>
+              <NotificationSettings />
             </PrivateRoute>
           }
         />
