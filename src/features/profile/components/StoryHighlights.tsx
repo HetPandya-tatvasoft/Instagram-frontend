@@ -39,9 +39,6 @@ const StoryHighlights: React.FC<IStoryHighlightsProps> = ({ highlights }) => {
 
   const { mutate: removeStoryFromHighlight } = useRemoveStoryFromHighlights();
 
-  console.log("This is the main component het : ");
-  console.log(highlights);
-
   useEffect(() => {
     if (highlights && highlights[0].userId === loggedInUserId) {
       setIsOwnProfile(true);
@@ -75,7 +72,6 @@ const StoryHighlights: React.FC<IStoryHighlightsProps> = ({ highlights }) => {
   const handleEditClick = useCallback(
     (highlight: IHighlightResponse) => {
       setSelectedHighlight(highlight);
-      console.log(selectedHighlight);
       setIsEditModalOpen(true);
     },
     [selectedHighlight]
@@ -83,8 +79,6 @@ const StoryHighlights: React.FC<IStoryHighlightsProps> = ({ highlights }) => {
 
   const handleSaveEditedTitle = useCallback(
     (highlighData: IUpdateHighlightPayload) => {
-      console.log("The highlight title has been saved");
-      console.log(highlighData);
       updateHighlight({
         highlightId: highlighData.highlightId,
         title: highlighData.title,
@@ -101,8 +95,6 @@ const StoryHighlights: React.FC<IStoryHighlightsProps> = ({ highlights }) => {
           highlightId: selectedHighlight?.highlightId ?? 0,
           storyId: storyId,
         };
-
-      console.log(payloadForRemoveStoryFromHighlight);
 
       removeStoryFromHighlight(payloadForRemoveStoryFromHighlight);
     },

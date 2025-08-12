@@ -24,11 +24,6 @@ const UserProfilePage: React.FC = () => {
   
   // const userStories = userStoryData?.data;
 
-  console.log("************************************************");
-  console.log(userStoryData);
-  console.log(highlights ?? null);
-  console.log("************************************************");
-
   const { userMedia } = useGetUserMedia(
     userHeaderData.userHeaderInfo?.userId ?? 0
   );
@@ -43,12 +38,6 @@ const UserProfilePage: React.FC = () => {
   if (isError || !userHeaderData) return <p>Something went wrong.</p>;
 
   if (!userHeaderData) return null;
-
-  console.log("Hello het the profile data is as follows : ");
-
-  console.log(userMedia);
-
-  console.log(highlights)
 
   return (
     <MainLayout>

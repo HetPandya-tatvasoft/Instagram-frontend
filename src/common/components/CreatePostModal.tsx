@@ -72,10 +72,6 @@ const CreatePostModal: React.FC<ICreatePostModalProps> = ({
       formData.append("PostType", "post");
       formData.append("IsVisibleToClosedOnes", "false");
 
-      for (const pair of formData.entries()) {
-        console.log(`${pair[0]}:`, pair[1]);
-      }
-
       createPost(formData);
       onClose();
     },

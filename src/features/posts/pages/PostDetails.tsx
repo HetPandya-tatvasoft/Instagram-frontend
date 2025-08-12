@@ -8,9 +8,8 @@ const PostDetails: React.FC = () => {
 
   const { post, isLoading, isError } = useFetchPost(Number(postId));
 
-  console.log(post);
-
   if (isLoading) return <div>Loading...</div>;
+  
   if (isError || !post) return <div>Error loading post</div>;
 
   return (

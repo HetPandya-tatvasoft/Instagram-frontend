@@ -91,8 +91,7 @@ const PostCard: React.FC<IPostCardProps> = React.memo(({ post }) => {
   let imgSrc = "/src/assets/images/default_profile.webp";
 
   const handleSaveToCollection = (collection: string) => {
-    // Logic to save post to that collection
-    console.log(`Saved to ${collection}`);
+
   };
 
   const handleCreateCollection = (newName: string) => {
@@ -115,7 +114,7 @@ const PostCard: React.FC<IPostCardProps> = React.memo(({ post }) => {
 
   useEffect(() => {
     setFade(false);
-    const timeout = setTimeout(() => setFade(true), 50); 
+    const timeout = setTimeout(() => setFade(true), 50);
     return () => clearTimeout(timeout);
   }, [postImageSrc]);
 
@@ -143,7 +142,6 @@ const PostCard: React.FC<IPostCardProps> = React.memo(({ post }) => {
   }, [setOpenCommentModal]);
 
   const handlePostImageClick = useCallback(() => {
-    console.log("This image has been clicked");
     setIsZoomed((prev) => !prev);
   }, [setIsZoomed]);
 

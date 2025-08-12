@@ -62,19 +62,16 @@ const MainLayout: React.FC<IMainLayoutProps> = ({ children }) => {
       if (notificationConnection.state === HubConnectionState.Disconnected) {
         try {
           await notificationConnection.start();
-          console.log("Signal Noti connected");
         } catch (err) {
           console.error("Signal R error:", err, "Signal notfi eerror");
         }
       }
 
       notificationConnection.on(HubMessages.notificationReceived, (notification) => {
-        console.log(notification)
         queryClient.invalidateQueries({
           queryKey: [tanstackQueryKeys.getNotificationsListKey],
         });
         toast.success("Notifications Received");
-        console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
       });
     };
 

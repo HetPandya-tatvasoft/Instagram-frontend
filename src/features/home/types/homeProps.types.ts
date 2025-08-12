@@ -9,3 +9,10 @@ export interface ICreatePostModalProps {
 export interface IStoriesProps {
   stories: IStoryFollowingList[];
 }
+
+export interface ISavePostModalProps {
+  onClose: () => void;
+  collections: string[];
+  onSaveToCollection: (collectionName: string) => void;
+  onCreateCollection: (newCollection: string) => void;
+}

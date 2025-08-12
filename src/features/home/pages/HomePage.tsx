@@ -20,8 +20,6 @@ const HomePage: React.FC = () => {
     refetch,
   } = useHomeStories();
 
-  console.log(followingStories);
-
   const { data: paginatedPosts } = useHomeFeed();
 
   const queryClient = useQueryClient();
@@ -33,7 +31,6 @@ const HomePage: React.FC = () => {
       if (connection.state === HubConnectionState.Disconnected) {
         try {
           await connection.start();
-          console.log("Signal Home connected");
         } catch (err) {
           console.error("Signal R error:", err, "Signal home error");
         }
@@ -41,13 +38,11 @@ const HomePage: React.FC = () => {
 
       // Change this to constants
       connection.on(HubMessages.postReceived, () => {
-        console.log("ReceivedPosts triggered");
         toast.success("Signal R Post Received")
         queryClient.invalidateQueries({ queryKey: ["home-feed"] });
       });
 
       connection.on(HubMessages.postInteraction, (postId: number) => {
-        console.log("PostInteraction for:", postId);
         toast.success("Signal R Interaction Received")
         queryClient.invalidateQueries({ queryKey: ["home-feed"] });
       });

@@ -72,7 +72,6 @@ const StoryViewer = ({
         storyId: storyId,
       };
       markStoryViewed(payloadForMarkingStoryViewed);
-      console.log("Viewing the story as viewed");
     },
     [loggedInUserId, markStoryViewed]
   );

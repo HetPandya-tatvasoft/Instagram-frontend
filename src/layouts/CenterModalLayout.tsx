@@ -19,7 +19,6 @@ const CenterModalLayout: React.FC<ModalProps> = ({
         modalRef.current &&
         !modalRef.current.contains(event.target as Node)
       ) {
-        console.log("Modal is set to be closed");
         onClose();
       }
     },

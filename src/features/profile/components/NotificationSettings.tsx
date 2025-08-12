@@ -1,12 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import MainLayout from "../../../layouts/MainLayout";
 import NotificationToggle from "./NotificationToggle";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Bell, BellOff } from "lucide-react";
 import { NotificationType } from "../../../common/enums/notificationType.enum";
 import { useGetNotificationSubscriptionData } from "../hooks/useGetNotificationSubscriptionData";
 import { useSubscribeUpdateStoryNotification } from "../hooks/useSubscribeUpdateStoryNotification";
-import { useUpdateProfile } from "../hooks/useUpdateProfile";
 import { useSubscribeToLikeNotifications } from "../hooks/useSubscribeToLikeNotifications";
 
 const NotificationSettings: React.FC = () => {
@@ -21,49 +20,62 @@ const NotificationSettings: React.FC = () => {
   const { mutate: updateLikeNotificationSubscription } =
     useSubscribeToLikeNotifications();
 
+  console.log(
+    `the story notification subscription for this user is ${storyNotificationSubscriptionStatus.data}`
+  );
+
+  console.log(
+    `the like subscription for this belowed user is ${likeNotificationSubscriptionStatus.data}`
+  );
+
   const navigate = useNavigate();
 
-  console.log("XXXXXXXXYYYYYYYYYYYYYYYYYYY");
-  console.log("The value is ", storyNotificationSubscriptionStatus);
-
-  console.log("The value is of this ", likeNotificationSubscriptionStatus);
-
   const [settings, setSettings] = useState<Record<NotificationType, boolean>>({
-    [NotificationType.follow]: true,
-    [NotificationType.like]: true,
-    [NotificationType.comment]: true,
-    [NotificationType.story]: true,
-    [NotificationType.mention]: true,
-    [NotificationType.all]: true,
+    [NotificationType.follow]: false,
+    [NotificationType.like]: false,
+    [NotificationType.comment]: false,
+    [NotificationType.story]: false,
+    [NotificationType.mention]: false,
+    [NotificationType.all]: false,
   });
 
   useEffect(() => {
-    setSettings((prev) => ({
-      Story: storyNotificationSubscriptionStatus.data ?? false,
-      All: false,
-      Follow: false,
-      Like: likeNotificationSubscriptionStatus.data ?? false,
-      Comment: false,
-      Mention: false,
-    }));
-  }, [storyNotificationSubscriptionStatus]);
-
-  const handleToggle = (type: NotificationType) => {
-    setSettings((prev) => {
-      const newValue = !prev[type];
-
-      if (type === NotificationType.story) {
-        updateStoryNotificationSubscription(newValue);
-      } else if (type === NotificationType.like) {
-        updateLikeNotificationSubscription(newValue);
-      }
-
-      return {
+    if (
+      !storyNotificationSubscriptionStatus.isLoading &&
+      !likeNotificationSubscriptionStatus.isLoading
+    ) {
+      setSettings((prev) => ({
         ...prev,
-        [type]: newValue,
-      };
-    });
-  };
+        [NotificationType.story]:
+          storyNotificationSubscriptionStatus.data ?? false,
+        [NotificationType.like]:
+          likeNotificationSubscriptionStatus.data ?? false,
+      }));
+    }
+  }, [
+    storyNotificationSubscriptionStatus.data,
+    likeNotificationSubscriptionStatus.data,
+  ]);
+
+  const handleToggle = useCallback(
+    (type: NotificationType) => {
+      setSettings((prev) => {
+        const newValue = !prev[type];
+
+        if (type === NotificationType.story) {
+          updateStoryNotificationSubscription(newValue);
+        } else if (type === NotificationType.like) {
+          updateLikeNotificationSubscription(newValue);
+        }
+
+        return {
+          ...prev,
+          [type]: newValue,
+        };
+      });
+    },
+    [updateLikeNotificationSubscription, updateStoryNotificationSubscription]
+  );
 
   return (
     <MainLayout>

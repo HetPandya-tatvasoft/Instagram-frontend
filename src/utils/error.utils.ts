@@ -7,9 +7,6 @@ export const handleApiError = (error: unknown) => {
   if (axios.isAxiosError(error)) {
     const backendData = error.response?.data;
 
-    console.log("Het the backedn data is as follows : ");
-    console.log(backendData);
-
     if (backendData?.data && typeof backendData.data === "string") {
       toast.error(backendData.data);
     } else if (backendData?.message) {

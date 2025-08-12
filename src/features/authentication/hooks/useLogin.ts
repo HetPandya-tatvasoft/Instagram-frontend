@@ -41,7 +41,6 @@ export const useLogin = () => {
             dispatch(setUser(user));
 
             toast.success(messages.auth.loginSuccess);
-            console.log("PROFILE route constant:", routes.mainRoutes.profile);
             navigate(routes.mainRoutes.home);
         }, 
         onError: (error) => {

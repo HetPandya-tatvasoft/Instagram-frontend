@@ -68,6 +68,7 @@ const HomePageStories: React.FC<IStoriesProps> = ({ stories }) => {
               onClick={() => handleStoryClick(story.storyResponses)}
             >
               <StoryItem story={story} />
+              <p>{story.storyResponses[0].userName}</p>
             </div>
           ))}
         {openStoryViewer && activeUserStories && (
