@@ -33,7 +33,8 @@ export const tanstackQueryKeys = {
     getUserFollowing : "user-following",
     getUserFollower : "user-followers",
     getFollowStatus : "follow-status",
-    getUserHighlights : "get-user-highlights"
+    getUserHighlights : "get-user-highlights",
+    getUserCollections : "get-user-collections",
 };
 
 export const HubMessages = {

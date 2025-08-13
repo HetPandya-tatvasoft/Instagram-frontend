@@ -12,7 +12,7 @@ export interface IStoriesProps {
 
 export interface ISavePostModalProps {
   onClose: () => void;
-  collections: string[];
   onSaveToCollection: (collectionName: string) => void;
   onCreateCollection: (newCollection: string) => void;
+  postId : number;
 }

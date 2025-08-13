@@ -6,6 +6,7 @@ import {
 } from "../../utils/httpClient.utils";
 import type { IPaginationResponse } from "../../common/types/paginationResponse.type";
 import {
+  ICollectionResponse,
   IStoryFollowingList,
   IStoryResponse,
   type IPostResponse,
@@ -18,6 +19,8 @@ import {
 import type { ApiResponse } from "../../@core/api/apiResponse.type";
 import type {
   IAddCommentPayload,
+  ICollectionCreatePayload,
+  ICollectionUpsertPayload,
   ICreateStoryPayload,
   IStoryViewCreatePayload,
 } from "./types/payload.types";
@@ -32,6 +35,9 @@ const endPoints = {
   createStory: `/story/create-story`,
   updateStoryView: `/story/story-view`,
   deleteStory: (storyId: number) => `/story/delete-story/${storyId}`,
+  getCollectionsList: `/post/get-collection-list`,
+  createNewCollection: `/post/create-new-collection`,
+  upsertCollection: `/post/upsert-collection`,
 };
 
 export const getHomeFeedService = async () =>
@@ -76,3 +82,21 @@ export const getStoryListOfFollowing = async (payload: IPaginationRequest) =>
 
 export const createStory = async (payload: FormData) =>
   postRequestFormData<IStoryResponse>(endPoints.createStory, payload);
+
+export const getCollectionsList = async (payload: IPaginationRequest) =>
+  postRequest<IPaginationResponse<ICollectionResponse>, IPaginationRequest>(
+    endPoints.getCollectionsList,
+    payload
+  );
+
+export const createNewCollection = async (payload: ICollectionCreatePayload) =>
+  postRequest<ICollectionResponse, ICollectionCreatePayload>(
+    endPoints.createNewCollection,
+    payload
+  );
+
+export const upsertCollection = async (payload: ICollectionUpsertPayload) =>
+  postRequest<string, ICollectionUpsertPayload>(
+    endPoints.upsertCollection,
+    payload
+  );

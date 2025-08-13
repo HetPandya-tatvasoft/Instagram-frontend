@@ -14,6 +14,8 @@ import NotificationsPage from "../features/notifications/page/NotificationsPage"
 import PostDetails from "../features/posts/pages/PostDetails";
 import SettingsAndPrivacy from "../features/settingsAndPrivacy/pages/SettingPage";
 import NotificationSettings from "../features/profile/components/NotificationSettings";
+import CollectionsList from "../features/collectionsAndSavedPosts/pages/Collections";
+import CollectionPosts from "../features/collectionsAndSavedPosts/pages/CollectionPosts";
 
 const AppRoutes = () => {
   return (
@@ -92,6 +94,24 @@ const AppRoutes = () => {
           element={
             <PrivateRoute>
               <NotificationSettings />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path={routes.mainRoutes.collections}
+          element={
+            <PrivateRoute>
+              <CollectionsList />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path={routes.mainRoutes.collectionPosts}
+          element={
+            <PrivateRoute>
+              <CollectionPosts />
             </PrivateRoute>
           }
         />

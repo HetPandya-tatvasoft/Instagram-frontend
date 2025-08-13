@@ -42,6 +42,7 @@ const ProfileHeader: React.FC<IProfileHeaderProps> = ({ userInfo, userStories })
     "Apps and websites",
     "QR Code",
     "Notifications",
+    "Collections",
     "Settings and privacy",
     "Supervision",
     "Login Activity",
@@ -54,6 +55,9 @@ const ProfileHeader: React.FC<IProfileHeaderProps> = ({ userInfo, userStories })
     }
     else if(item == "Settings and privacy"){
       navigate(routes.mainRoutes.settingsAndPrivacy);
+    }
+    else if(item == "Collections"){
+      navigate(routes.mainRoutes.collections)
     }
   }, [handleLogout, navigate])
 

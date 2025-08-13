@@ -158,3 +158,10 @@ export interface IpostFields {
   location: string;
   caption: string;
 }
+
+export interface ICollectionResponse {
+  collectionId : number;
+  userId : number;
+  title : string;
+  savedPostsCollection : IPostResponse[];
+}

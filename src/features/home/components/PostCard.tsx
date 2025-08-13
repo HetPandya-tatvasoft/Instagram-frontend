@@ -23,6 +23,8 @@ const PostCard: React.FC<IPostCardProps> = React.memo(({ post }) => {
 
   const [showSaveModal, setShowSaveModal] = useState(false);
 
+  const [postId, setPostId] = useState<number>(0);
+
   const [collections, setCollections] = useState(["Favorites", "Inspo"]);
 
   const [likesData, setLikesData] = useState([
@@ -90,9 +92,7 @@ const PostCard: React.FC<IPostCardProps> = React.memo(({ post }) => {
 
   let imgSrc = "/src/assets/images/default_profile.webp";
 
-  const handleSaveToCollection = (collection: string) => {
-
-  };
+  const handleSaveToCollection = (collection: string) => {};
 
   const handleCreateCollection = (newName: string) => {
     setCollections((prev) => [...prev, newName]);
@@ -144,6 +144,11 @@ const PostCard: React.FC<IPostCardProps> = React.memo(({ post }) => {
   const handlePostImageClick = useCallback(() => {
     setIsZoomed((prev) => !prev);
   }, [setIsZoomed]);
+
+  const handleSavePostClick = useCallback((postId: number) => {
+    setPostId(postId);
+    setShowSaveModal(true);
+  }, []);
 
   return (
     <div className="bg-white border border-gray-200 rounded-lg mb-4">
@@ -255,7 +260,7 @@ const PostCard: React.FC<IPostCardProps> = React.memo(({ post }) => {
           </div>
           <button
             type="button"
-            onClick={() => setShowSaveModal(true)}
+            onClick={() => handleSavePostClick(post.postId)}
             className="p-1 hover:bg-gray-100 rounded-fill"
           >
             <Bookmark size={24} />
@@ -274,10 +279,10 @@ const PostCard: React.FC<IPostCardProps> = React.memo(({ post }) => {
 
         {/* Caption */}
         <div>
-          <span className="font-medium text-sm mr-2">{post.postedByUserName}</span>
-          <span className="text-sm">
-           {post.caption}{" "}
+          <span className="font-medium text-sm mr-2">
+            {post.postedByUserName}
           </span>
+          <span className="text-sm">{post.caption} </span>
         </div>
 
         {/* Comments */}
@@ -320,9 +325,9 @@ const PostCard: React.FC<IPostCardProps> = React.memo(({ post }) => {
       {showSaveModal && (
         <SavePostModal
           onClose={() => setShowSaveModal(false)}
-          collections={collections}
           onSaveToCollection={handleSaveToCollection}
           onCreateCollection={handleCreateCollection}
+          postId={postId}
         />
       )}
     </div>
