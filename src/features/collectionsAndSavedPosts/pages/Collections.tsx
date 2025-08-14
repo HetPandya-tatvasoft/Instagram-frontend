@@ -14,7 +14,11 @@ const CollectionsList = () => {
 
   const navigateToCollectionPosts = useCallback(
     (collectionId: number) => {
-      navigate(`${routes.mainRoutes.collectionPosts}/${collectionId}`);
+      const route = routes.mainRoutes.collectionPosts.replace(
+        ":collectionId",
+        collectionId.toString()
+      );
+      navigate(route);
     },
     [navigate]
   );

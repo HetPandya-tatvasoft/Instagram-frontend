@@ -15,23 +15,18 @@ import { useUpsertCollection } from "../hooks/useUpsertCollection";
 
 const SavePostModal: React.FC<ISavePostModalProps> = ({
   onClose,
-  onSaveToCollection,
-  onCreateCollection,
   postId,
 }) => {
+  
   const [selectedCollection, setSelectedCollection] = useState<string | null>(
     null
   );
 
-  const { data: userCollections } = useGetCollections();
+  const { data : userCollections } = useGetCollections();
 
   const { createNewCollection } = useCreateNewCollection();
 
   const { upsertCollection } = useUpsertCollection();
-
-  console.log(
-    `The Collections of the user are as follows : ${userCollections}`
-  );
 
   console.log(userCollections && userCollections.data.records);
 
@@ -55,6 +50,7 @@ const SavePostModal: React.FC<ISavePostModalProps> = ({
     onSubmit: (values, { resetForm }) => {
       createNewCollection(values);
       toast.success("The form has been submitted");
+      onClose();
       resetForm();
     },
   });
@@ -68,7 +64,7 @@ const SavePostModal: React.FC<ISavePostModalProps> = ({
       postId: postId,
     };
     upsertCollection(upsertCollectionPayload);
-    console.log("Saved Post to the collection");
+    onClose();
   };
 
   return (

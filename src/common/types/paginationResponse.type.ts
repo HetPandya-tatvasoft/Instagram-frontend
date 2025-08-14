@@ -1,5 +1,5 @@
 export interface IPaginationResponse<T> {
-    records : [];
+    records : T[];
     totalPage : number;
     currentPage : number;
     pageSize : number;

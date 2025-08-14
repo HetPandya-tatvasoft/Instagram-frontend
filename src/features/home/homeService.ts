@@ -38,6 +38,8 @@ const endPoints = {
   getCollectionsList: `/post/get-collection-list`,
   createNewCollection: `/post/create-new-collection`,
   upsertCollection: `/post/upsert-collection`,
+  getCollectionDetails: (collectionId: number) =>
+    `/post/get-collection?collectionId=${collectionId}`,
 };
 
 export const getHomeFeedService = async () =>
@@ -98,5 +100,14 @@ export const createNewCollection = async (payload: ICollectionCreatePayload) =>
 export const upsertCollection = async (payload: ICollectionUpsertPayload) =>
   postRequest<string, ICollectionUpsertPayload>(
     endPoints.upsertCollection,
+    payload
+  );
+
+export const getCollectionDetails = async (
+  payload: IPaginationRequest,
+  collectionId: number
+) =>
+  postRequest<IPaginationResponse<ICollectionResponse>, IPaginationRequest>(
+    endPoints.getCollectionDetails(collectionId),
     payload
   );

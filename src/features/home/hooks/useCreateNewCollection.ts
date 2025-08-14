@@ -16,9 +16,15 @@ export const useCreateNewCollection = () => {
       queryClient.invalidateQueries({
         queryKey: [tanstackQueryKeys.getUserCollections],
       });
+      queryClient.invalidateQueries({
+        queryKey: [tanstackQueryKeys.getCollectionDetails],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [tanstackQueryKeys.getUserCollections],
+      });
       toast.success("New Collection Inserted in the list .");
     },
-    
+
     onError: (error) => {
       handleApiError(error);
     },
