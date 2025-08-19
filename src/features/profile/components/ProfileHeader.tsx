@@ -10,11 +10,7 @@ import type {
 } from "../../home/types/home.types";
 import ConnectionButton from "../components/ConnectionButton";
 import { generalConsts } from "../../../common/constants/generalConsts";
-
-interface IProfileHeaderProps {
-  userInfo: IUserProfileHeader;
-  userStories : IStoryResponse[]
-}
+import { IProfileHeaderProps } from "../types/props.types";
 
 const ProfileHeader: React.FC<IProfileHeaderProps> = ({ userInfo, userStories }) => {
 

@@ -1,14 +1,13 @@
-import type { INotificationResponse } from "../../../common/types/notificationResponse.type";
 import { generateNotificationMessage } from "../../../utils/notification.utils";
 import { notificationType } from "../../../common/enums/notification.enum";
 import { getBase64ImageUrl } from "../../../utils/getBase64Image";
+import { INotificationCardProps } from "../types/notificationProps.types";
 
-interface Props {
-  notification: INotificationResponse;
-  onRespond?: (senderId: number, isAccepted: boolean) => void;
-}
+const NotificationCard: React.FC<INotificationCardProps> = ({
+  notification,
+  onRespond,
+}) => {
 
-const NotificationCard: React.FC<Props> = ({ notification, onRespond }) => {
   const {
     senderUsername,
     senderProfilePicture,
@@ -33,22 +32,22 @@ const NotificationCard: React.FC<Props> = ({ notification, onRespond }) => {
       />
       <div className="flex-1">
         <p className="text-sm font-medium">
+          {/* This split thing and all is for comment like message */}
+          {(() => {
+            const message = generateNotificationMessage(notification);
+            const [beforeContent, commentContent] = message.split(":-");
 
-            {/* This split thing and all is for comment like message */}
-            {(() => {
-              const message = generateNotificationMessage(notification);
-              const [beforeContent, commentContent] = message.split(":-");
+            return (
+              <>
+                {beforeContent}
+                {commentContent && (
+                  <span className="text-gray-500"> :-{commentContent}</span>
+                )}
+              </>
+            );
+          })()}
+        </p>
 
-              return (
-                <>
-                  {beforeContent}
-                  {commentContent && (
-                    <span className="text-gray-500"> :-{commentContent}</span>
-                  )}
-                </>
-              );
-            })()}
-          </p>
         <p className="text-xs text-gray-500">
           {new Date(sentDate).toLocaleString()}
         </p>

@@ -1,20 +1,16 @@
 import { getBase64ImageUrl } from "../../../utils/getBase64Image";
 import { IStoryFollowingList } from "../types/home.types";
-
-interface IStoryItemProps {
-  story: IStoryFollowingList;
-}
+import { IStoryItemProps } from "../types/homeProps.types";
 
 const StoryItem: React.FC<IStoryItemProps> = ({ story }) => {
-
   const storyCount = 10;
 
   const segments = Array.from({ length: storyCount }, (_, i) => {
     const angle = 360 / storyCount;
-    const gap = 2; 
+    const gap = 2;
     const start = i * angle;
     const end = start + angle;
-    
+
     return `
       #ff0050 ${start}deg ${end - gap}deg, 
       transparent ${end - gap}deg ${end}deg

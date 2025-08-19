@@ -3,13 +3,7 @@ import { useUpdateProfilePicture } from "../hooks/useUpdateProfilePicture";
 import { getBase64ImageUrl } from "../../../utils/getBase64Image";
 import type { IFileResponse } from "../../../common/types/fileResponseType.type";
 import StoryViewer from "../../home/components/StoryViewer";
-import { IStoryResponse } from "../../home/types/home.types";
-
-interface IProfilePictureProps {
-  ProfilePictureUrlBase64?: string;
-  ProfilePictureBase64MimeType: string;
-  userStories: IStoryResponse[];
-}
+import { IProfilePictureProps } from "../types/props.types";
 
 const ProfilePicture: React.FC<IProfilePictureProps> = ({
   ProfilePictureUrlBase64,

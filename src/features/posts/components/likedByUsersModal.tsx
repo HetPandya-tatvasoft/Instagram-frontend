@@ -1,20 +1,6 @@
 import React from "react";
 import { getBase64ImageUrl } from "../../../utils/getBase64Image";
-import type { IFileResponse } from "../../../common/types/fileResponseType.type"
-
-interface ILikeUser {
-  userId: number;
-  username: string;
-  profilePicBase64: IFileResponse;
-  isFollowing: boolean;
-}
-
-interface ILikesModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  users: ILikeUser[];
-  onToggleFollow: (userId: number, isCurrentlyFollowing: boolean) => void;
-}
+import { ILikesModalProps } from "../types/postProps.types";
 
 const LikesModal: React.FC<ILikesModalProps> = ({
   isOpen,

@@ -1,30 +1,36 @@
-import { useNavigate } from 'react-router-dom';
-import { useMutation } from '@tanstack/react-query';
-import type { IStringResponseGeneral, IResetPasswordPayload } from '../types/auth.type';
-import { resetPassword } from '../authService';
-import { messages } from '../../../common/constants/messages';
-import toast from 'react-hot-toast';
+import { useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import type {
+  IStringResponseGeneral,
+  IResetPasswordPayload,
+} from "../types/auth.type";
+import { resetPassword } from "../authService";
+import { messages } from "../../../common/constants/messages";
+import toast from "react-hot-toast";
 import { handleApiError } from "../../../utils/error.utils";
-import type { ApiResponse } from '../../../@core/api/apiResponse.type';
-import { routes } from '../../../common/constants/routes'
+import type { ApiResponse } from "../../../@core/api/apiResponse.type";
+import { routes } from "../../../common/constants/routes";
 
 const useResetPassword = () => {
+  const navigate = useNavigate();
 
-    const navigate = useNavigate();
+  return useMutation<
+    ApiResponse<IStringResponseGeneral>,
+    Error,
+    IResetPasswordPayload
+  >({
+    mutationFn: resetPassword,
+    onSuccess: (response) => {
+      toast.success(messages.auth.resetPasswordSuccess);
+      navigate(routes.login);
+    },
+    onError: (error) => {
+      handleApiError(error);
 
-    return useMutation<ApiResponse<IStringResponseGeneral>, Error, IResetPasswordPayload>({
-        mutationFn: resetPassword,
-        onSuccess: (response) => {
-            toast.success(messages.auth.resetPasswordSuccess);
-            navigate(routes.login)
-        },
-        onError: (error) => {
-            handleApiError(error)
-
-            // do this only if handleapi doesn't work
-            // toast.error(messages.auth.resetPasswordFailed);
-        },
-    });
+      // do this only if handleapi doesn't work
+      // toast.error(messages.auth.resetPasswordFailed);
+    },
+  });
 };
 
 export default useResetPassword;

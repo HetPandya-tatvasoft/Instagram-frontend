@@ -16,6 +16,7 @@ import SettingsAndPrivacy from "../features/settingsAndPrivacy/pages/SettingPage
 import NotificationSettings from "../features/profile/components/NotificationSettings";
 import CollectionsList from "../features/collectionsAndSavedPosts/pages/Collections";
 import CollectionPosts from "../features/collectionsAndSavedPosts/pages/CollectionPosts";
+import ChatPage from "../features/chat/pages/ChatPage";
 
 const AppRoutes = () => {
   return (
@@ -112,6 +113,15 @@ const AppRoutes = () => {
           element={
             <PrivateRoute>
               <CollectionPosts />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path={routes.mainRoutes.chat}
+          element={
+            <PrivateRoute>
+              <ChatPage />
             </PrivateRoute>
           }
         />

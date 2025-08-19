@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { ISavePostModalProps } from "../types/homeProps.types";
 import { useGetCollections } from "../hooks/useGetCollections";
 import {
@@ -10,23 +10,22 @@ import { createCollectionValidation } from "../validations/createCollectionValid
 import toast from "react-hot-toast";
 import FormikTextField from "../../../common/components/FormikTextField";
 import { useCreateNewCollection } from "../hooks/useCreateNewCollection";
-import { ICollectionResponse } from "../types/home.types";
+import { ICollectionResponse, IPost, IPostResponse } from "../types/home.types";
 import { useUpsertCollection } from "../hooks/useUpsertCollection";
+import { useRemovePostFromCollection } from "../hooks/useRemovePostFromCollection";
 
-const SavePostModal: React.FC<ISavePostModalProps> = ({
-  onClose,
-  postId,
-}) => {
-  
+const SavePostModal: React.FC<ISavePostModalProps> = ({ onClose, postId }) => {
   const [selectedCollection, setSelectedCollection] = useState<string | null>(
     null
   );
 
-  const { data : userCollections } = useGetCollections();
+  const { data: userCollections } = useGetCollections();
 
   const { createNewCollection } = useCreateNewCollection();
 
   const { upsertCollection } = useUpsertCollection();
+
+  const { removePostsFromCollection } = useRemovePostFromCollection();
 
   console.log(userCollections && userCollections.data.records);
 
@@ -55,17 +54,75 @@ const SavePostModal: React.FC<ISavePostModalProps> = ({
     },
   });
 
-  const savePostToCollection = (
-    postId: number,
-    collection: ICollectionResponse
-  ) => {
-    const upsertCollectionPayload: ICollectionUpsertPayload = {
-      collectionId: collection.collectionId,
-      postId: postId,
-    };
-    upsertCollection(upsertCollectionPayload);
-    onClose();
-  };
+  // const savePostToCollection = (
+  //   postId: number,
+  //   collection: ICollectionResponse
+  // ) => {
+  //   const upsertCollectionPayload: ICollectionUpsertPayload = {
+  //     collectionId: collection.collectionId,
+  //     postId: postId,
+  //   };
+  //   upsertCollection(upsertCollectionPayload);
+  //   onClose();
+  // };
+
+  const savePostToCollection = useCallback(
+    (postId: number, collection: ICollectionResponse) => {
+      const upsertCollectionPayload: ICollectionUpsertPayload = {
+        collectionId: collection.collectionId,
+        postId: postId,
+      };
+
+      upsertCollection(upsertCollectionPayload);
+      onClose();
+    },
+    [onClose, upsertCollection]
+  );
+
+  const isPostAlreadyInCollection = useCallback(
+    (collection: ICollectionResponse, postId: number) => {
+      return collection.savedPostsCollection.some(
+        (post: IPostResponse) => post.postId === postId
+      );
+    },
+    []
+  );
+
+  const togglePostInCollection = useCallback(
+    (postId: number, collection: ICollectionResponse) => {
+      const isAlreadySaved = isPostAlreadyInCollection(collection, postId);
+
+      if (isAlreadySaved) {
+        const removePostFromCollectionPayload = {
+          postId: [postId],
+          collectionId: collection.collectionId,
+        };
+
+        removePostsFromCollection(removePostFromCollectionPayload);
+        toast.success(`Removed from ${collection.title}`);
+      } else {
+        savePostToCollection(postId, collection);
+      }
+    },
+    [isPostAlreadyInCollection, removePostsFromCollection, savePostToCollection]
+  );
+
+  // const togglePostInCollection = useCallback((postId : number, collection : ICollectionResponse, alreadySaved : boolean) => {
+  //
+
+  //   if (alreadySaved) {
+  //     removePostsFromCollection(payload);
+  //   }
+
+  // }, [removePostsFromCollection]);
+
+  // const isPostAlreadyInCollectionCallback = useCallback((
+  //   collection : ICollectionResponse, postId : number
+  // ) => {
+  //     return collection.savedPostsCollection.some(
+  //       ( post : IPostResponse ) => post.postId === postId
+  //     )
+  // }, []);
 
   return (
     <div
@@ -83,21 +140,41 @@ const SavePostModal: React.FC<ISavePostModalProps> = ({
           {userCollections != null &&
           userCollections.data.records.length > 0 ? (
             userCollections.data.records.map(
-              (collection: ICollectionResponse, index) => (
-                <div
-                  key={index}
-                  onClick={() => {
-                    savePostToCollection(postId, collection);
-                  }}
-                  className={`p-3 rounded cursor-pointer mb-2 ${
-                    selectedCollection === collection.title
-                      ? "bg-blue-100 border border-blue-400"
-                      : "bg-gray-100 hover:bg-gray-200"
-                  }`}
-                >
-                  {collection.title}
-                </div>
-              )
+              (collection: ICollectionResponse, index) => {
+                const alreadySaved = isPostAlreadyInCollection(
+                  collection,
+                  postId
+                );
+
+                return (
+                  <div
+                    key={index}
+                    onClick={() => {
+                      togglePostInCollection(postId, collection);
+                      // if (!alreadySaved) {
+                      //   savePostToCollection(postId, collection);
+                      //   setSelectedCollection(collection.title);
+                      // }
+                    }}
+                    className={`p-3 rounded cursor-pointer mb-2 ${
+                      alreadySaved
+                        ? "bg-green-100 border border-green-400 cursor-not-allowed"
+                        : selectedCollection === collection.title
+                        ? "bg-blue-100 border border-blue-400"
+                        : "bg-gray-100 hover:bg-gray-200"
+                    }`}
+                  >
+                    <div className="flex justify-between items-center">
+                      <span>{collection.title}</span>
+                      {alreadySaved && (
+                        <span className="text-xs text-green-700 font-medium">
+                          Already Saved
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                );
+              }
             )
           ) : (
             <p className="text-gray-500 text-sm">No collections yet.</p>

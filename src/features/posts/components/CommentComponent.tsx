@@ -3,10 +3,7 @@ import { getBase64ImageUrl } from "../../../utils/getBase64Image";
 import { Heart } from "lucide-react";
 import { useCommentLike } from "../../home/hooks/useCommentLike";
 import { useCallback, useState, useEffect } from "react";
-
-interface ICommentCompProps {
-  comment: IPostComment;
-}
+import { ICommentCompProps } from "../types/postProps.types";
 
 const CommentComponent: React.FC<ICommentCompProps> = (commentProps) => {
   const comment = commentProps.comment;

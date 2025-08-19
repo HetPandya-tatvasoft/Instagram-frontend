@@ -28,7 +28,8 @@ export const routes = {
     postDetails: "/post/:postId",
     settingsAndPrivacy: "/instagram/settings",
     notificationSettings: "/instagram/notificationSettings",
-    collections : "/instagram/your-collections",
-    collectionPosts : "/instagram/collection-posts/:collectionId"
+    collections: "/instagram/your-collections",
+    collectionPosts: "/instagram/collection-posts/:collectionId",
+    chat: "/instagram/chat",
   },
 };

@@ -67,12 +67,15 @@ const MainLayout: React.FC<IMainLayoutProps> = ({ children }) => {
         }
       }
 
-      notificationConnection.on(HubMessages.notificationReceived, (notification) => {
-        queryClient.invalidateQueries({
-          queryKey: [tanstackQueryKeys.getNotificationsListKey],
-        });
-        toast.success("Notifications Received");
-      });
+      notificationConnection.on(
+        HubMessages.notificationReceived,
+        (notification) => {
+          queryClient.invalidateQueries({
+            queryKey: [tanstackQueryKeys.getNotificationsListKey],
+          });
+          toast.success("Notifications Received");
+        }
+      );
     };
 
     startConnection();
@@ -118,7 +121,7 @@ const MainLayout: React.FC<IMainLayoutProps> = ({ children }) => {
       icon: MessageCircle,
       label: "Messages",
       active: false,
-      linkTo: "",
+      linkTo: routes.mainRoutes.chat,
       shouldCreatePostModalOpen: false,
       shouldSearchSidebarOpen: false,
     },

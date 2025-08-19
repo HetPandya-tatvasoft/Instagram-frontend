@@ -4,12 +4,7 @@ import { getBase64ImageUrl } from "../../../utils/getBase64Image";
 import CenterModalLayout from "../../../layouts/CenterModalLayout";
 import AddCommentInput from "../components/AddCommentInput";
 import CommentComponent from "../components/CommentComponent";
-
-interface ICommentModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  post: IPostResponse;
-}
+import { ICommentModalProps } from "../types/postProps.types";
 
 const CommentModal: React.FC<ICommentModalProps> = ({
   isOpen,

@@ -55,6 +55,8 @@ const NotificationSettings: React.FC = () => {
   }, [
     storyNotificationSubscriptionStatus.data,
     likeNotificationSubscriptionStatus.data,
+    likeNotificationSubscriptionStatus.isLoading,
+    storyNotificationSubscriptionStatus.isLoading,
   ]);
 
   const handleToggle = useCallback(

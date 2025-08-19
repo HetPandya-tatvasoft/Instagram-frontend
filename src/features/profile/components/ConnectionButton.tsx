@@ -3,11 +3,7 @@ import { useUnfollowUser } from "../hooks/useUnfollowUser";
 import { useSendFollowRequest } from "../hooks/useSendFollowRequest";
 import { followStatus as FollowStatus } from "../../../common/enums/followStatus.enum";
 import { useQueryClient } from "@tanstack/react-query";
-
-interface IConnectionBtnProps {
-  userId: number;
-  followStatus: string;
-}
+import { IConnectionBtnProps } from "../../posts/types/postProps.types";
 
 const ConnectionButton: React.FC<IConnectionBtnProps> = ({
   userId,

@@ -4,10 +4,7 @@ import ProfilePostCard from "./ProfilePostCard";
 import { usePostLike } from "../../home/hooks/usePostLike";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../../../common/constants/routes";
-
-interface IProfilePostsProps {
-  posts: IUserMedia;
-}
+import { IProfilePostsProps } from "../types/props.types";
 
 const ProfilePostsSection: React.FC<IProfilePostsProps> = ({ posts }) => {
   const navigate = useNavigate();

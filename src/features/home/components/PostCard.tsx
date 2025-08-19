@@ -6,22 +6,22 @@ import {
   Bookmark,
 } from "lucide-react";
 import React, { useState, useCallback, useMemo, useEffect } from "react";
-import type { IUser, IPostResponse } from "../types/home.types";
 import { usePostLike } from "../hooks/usePostLike";
 import { getUserIdFromToken } from "../../../utils/jwt.utils";
 import CommentModal from "../../posts/components/CommentModal";
 import SavePostModal from "./SavePostModal";
 import { motion, AnimatePresence } from "framer-motion";
 import { getBase64ImageUrl } from "../../../utils/getBase64Image";
-
-interface IPostCardProps {
-  post: IPostResponse;
-}
+import { IPostCardProps } from "../types/homeProps.types";
+import { PostSettingsModal } from "../../posts/components/PostSettingsModal";
+// import { PostSettingsModal } from "../../posts/components/postSettingsModal";
 
 const PostCard: React.FC<IPostCardProps> = React.memo(({ post }) => {
   const [showLikesModal, setShowLikesModal] = useState(false);
 
   const [showSaveModal, setShowSaveModal] = useState(false);
+
+  const [showPostSettingsModal, setShowPostSettingsModal] = useState(false);
 
   const [postId, setPostId] = useState<number>(0);
 
@@ -163,13 +163,24 @@ const PostCard: React.FC<IPostCardProps> = React.memo(({ post }) => {
               onClick={() => handlePostImageClick()}
             />
           </div>
-          <div className="flex items-center space-x-1">
-            <span className="font-medium text-sm">{post.postedByUserName}</span>
-            <div className="w-4 h-4 bg-blue-500 flex items-center justify-center rounded-full">
-              <span className="text-white text-xs">✓</span>
+          <div>
+            <div className="flex">
+              <div className="flex items-center space-x-1">
+                <span className="font-medium text-sm">
+                  {post.postedByUserName}
+                </span>
+                <div className="w-4 h-4 bg-blue-500 flex items-center justify-center rounded-full">
+                  <span className="text-white text-xs">✓</span>
+                </div>
+              </div>
+              <span className="text-gray-500 text-sm">• 2h</span>
+            </div>
+            <div className="">
+              <span className="text-gray-500 text-sm flex">
+                {post.location}
+              </span>
             </div>
           </div>
-          <span className="text-gray-500 text-sm">• 2h</span>
         </div>
         <button className="p-2 hover:bg-gray-100 rounded-full">
           <MoreHorizontal size={16} />
@@ -322,6 +333,14 @@ const PostCard: React.FC<IPostCardProps> = React.memo(({ post }) => {
         users={likesData}
         onToggleFollow={toggleFollow}
       /> */}
+
+      {/* This below post settings modal is not useful as of now */}
+      {showPostSettingsModal && (
+        <PostSettingsModal
+          onClose={() => setShowPostSettingsModal(false)}
+          postId={post.postId}
+        />
+      )}
       {showSaveModal && (
         <SavePostModal
           onClose={() => setShowSaveModal(false)}

@@ -1,8 +1,4 @@
-import { IUserBio } from "../types/profile.types";
-
-interface IProfileBioProps {
-  profileBio: IUserBio;
-}
+import { IProfileBioProps } from "../types/props.types";
 
 const ProfileBio: React.FC<IProfileBioProps> = ({ profileBio }) => {
   return (

@@ -14,3 +14,4 @@ export const useGetCollections = () => {
     refetchOnReconnect: false,
   });
 };
+  

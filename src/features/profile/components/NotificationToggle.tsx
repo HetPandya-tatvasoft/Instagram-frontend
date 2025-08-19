@@ -1,13 +1,4 @@
-import { NotificationType } from "../../../common/enums/notificationType.enum";
-
-interface INotificationToggleProps {
-  icon: React.ElementType;
-  title: string;
-  description: string;
-  type: NotificationType;
-  enabled: boolean;
-  handleToggle: (type: NotificationType) => void;
-}
+import { INotificationToggleProps } from "../types/props.types";
 
 const NotificationToggle: React.FC<INotificationToggleProps> = ({
   icon: Icon,

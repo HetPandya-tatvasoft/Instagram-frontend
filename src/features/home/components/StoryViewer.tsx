@@ -14,14 +14,7 @@ import { MoreVertical, Trash } from "lucide-react";
 import { useStoryDelete } from "../hooks/useStoryDelete";
 import StoryOptionsMenu from "../../../common/components/StoryOptionsMenu";
 import AddToHighlightsModal from "../../../common/components/AddToHighlightsModal";
-
-interface IStoryViewerProps {
-  stories: IStoryResponse[];
-  onClose: () => void;
-  initialIndex?: number;
-  fromHighlights?: boolean;
-  handleRemoveStoryFromHighlights?: (storyId: number) => void;
-}
+import { IStoryViewerProps } from "../types/homeProps.types";
 
 const StoryViewer = ({
   stories,

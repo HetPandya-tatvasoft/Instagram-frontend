@@ -4,9 +4,13 @@ import { useGetCollections } from "../../home/hooks/useGetCollections";
 import { ICollectionResponse } from "../../home/types/home.types";
 import { useCallback } from "react";
 import { routes } from "../../../common/constants/routes";
+import { Trash } from "lucide-react";
+import { useDeleteCollection } from "../hooks/useDeleteCollection";
 
 const CollectionsList = () => {
   const { data: userCollections } = useGetCollections();
+
+  const { deleteCollection } = useDeleteCollection();
 
   const navigate = useNavigate();
 
@@ -21,6 +25,13 @@ const CollectionsList = () => {
       navigate(route);
     },
     [navigate]
+  );
+
+  const deleteCollectionFunction = useCallback(
+    (collectionId: number) => {
+      deleteCollection(collectionId);
+    },
+    [deleteCollection]
   );
 
   return (
@@ -42,10 +53,24 @@ const CollectionsList = () => {
               className="w-full h-40 object-cover rounded-md"
             /> */}
                 <div className="w-full p-2">
-                  <p className="font-medium">{collection.title}</p>
-                  <p className="text-sm">
-                    {collection.savedPostsCollection.length} posts
-                  </p>
+                  <div className="flex items-center justify-between px-2">
+                    <div>
+                      <p className="font-medium">{collection.title}</p>
+                      <p className="text-sm">
+                        {collection.savedPostsCollection.length} posts
+                      </p>
+                    </div>
+                    <div>
+                      <button
+                        className="cursor-pointer"
+                        onClick={() =>
+                          deleteCollectionFunction(collection.collectionId)
+                        }
+                      >
+                        <Trash />
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
             )

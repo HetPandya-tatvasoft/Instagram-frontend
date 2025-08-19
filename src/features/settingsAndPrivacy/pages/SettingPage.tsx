@@ -8,7 +8,7 @@ const SettingsAndPrivacy: React.FC = () => {
 
   const handleNavigateToNotificationSettings = useCallback(() => {
     navigate(routes.mainRoutes.notificationSettings);
-  }, []);
+  }, [navigate]);
 
   return (
     <MainLayout>

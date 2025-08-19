@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React from "react";
 import MainLayout from "../../../layouts/MainLayout";
 import ProfileHeader from "../components/ProfileHeader";
 import ProfileBio from "../components/ProfileBio";
@@ -7,7 +7,6 @@ import ProfilePostsSection from "../components/ProfilePostsSection";
 import { useParams } from "react-router-dom";
 import { useUserProfile } from "../hooks/useUserProfile";
 import { useGetUserMedia } from "../hooks/useGetUserMedia";
-import { usePostLike } from "../../home/hooks/usePostLike";
 import { IUserBio } from "../types/profile.types";
 import { useGetUserStories } from "../hooks/useGetUserStories";
 import { useGetUserHighlights } from "../hooks/useGetUserHighlights";
@@ -21,7 +20,6 @@ const UserProfilePage: React.FC = () => {
 
   const { data: highlights } = useGetUserHighlights(Number(userId));
 
-  
   // const userStories = userStoryData?.data;
 
   const { userMedia } = useGetUserMedia(

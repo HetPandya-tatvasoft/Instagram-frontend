@@ -1,16 +1,12 @@
-import { Heart, MessageCircle } from "lucide-react";
+import { Heart, MessageCircle, Trash } from "lucide-react";
 import { getBase64ImageUrl } from "../../../utils/getBase64Image";
-import type { IPostResponse } from "../../home/types/home.types";
 import type { IPostLike } from "../../home/types/home.types";
 import { getUserIdFromToken } from "../../../utils/jwt.utils";
-import { usePostLike } from "../../home/hooks/usePostLike";
-import { useCallback, useMemo } from "react";
-
-interface IProfilePostCardProps {
-  post: IPostResponse;
-  handleLikeClick: (postId: number) => void;
-  handlePostDetailsNavigation: (postId: number) => void;
-}
+import { useCallback, useMemo, useState } from "react";
+import { IProfilePostCardProps } from "../types/props.types";
+import { useDeletePost } from "../../posts/hooks/useDeletePost";
+import { DeleteConfirmationModal } from "../../../common/components/DeleteConfirmationModel";
+import { deleteItemEnum } from "../../../common/enums/deleteItem.enum";
 
 const ProfilePostCard: React.FC<IProfilePostCardProps> = ({
   post,
@@ -19,13 +15,27 @@ const ProfilePostCard: React.FC<IProfilePostCardProps> = ({
 }) => {
   const loggedInUserId = getUserIdFromToken();
 
-  const { likePost } = usePostLike();
+  const [openDeleteConfirmationModal, setOpenDeleteConfirmationModal] =
+    useState(false);
+
+  const { deletePost } = useDeletePost();
 
   const hasUserLiked = useMemo(() => {
-    return post.like?.some(
-      (like: IPostLike) => like.likedByUserId === loggedInUserId
-    ) ?? false;
+    return (
+      post.like?.some(
+        (like: IPostLike) => like.likedByUserId === loggedInUserId
+      ) ?? false
+    );
   }, [post.like, loggedInUserId]);
+
+  const handleCloseDeleteConfirmationModal = useCallback(() => {
+    setOpenDeleteConfirmationModal(false);
+  }, []);
+
+  const handleDeletePost = useCallback((postId: number) => {
+    // deletePost(postId);
+    setOpenDeleteConfirmationModal(true);
+  }, []);
 
   return (
     <div
@@ -43,7 +53,7 @@ const ProfilePostCard: React.FC<IProfilePostCardProps> = ({
             <button
               type="button"
               onClick={(e) => {
-                e.stopPropagation(); 
+                e.stopPropagation();
                 handleLikeClick(post.postId);
               }}
             >
@@ -59,8 +69,26 @@ const ProfilePostCard: React.FC<IProfilePostCardProps> = ({
               {post.comments?.length}
             </span>
           </div>
+          <div className="flex justify-center items-center">
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setOpenDeleteConfirmationModal(true);
+              }}
+            >
+              <Trash size={28} stroke="red" fill="white" />
+            </button>
+          </div>
         </div>
       </div>
+
+      {openDeleteConfirmationModal && (
+        <DeleteConfirmationModal
+          onClose={handleCloseDeleteConfirmationModal}
+          id={post.postId}
+          deleteItem={deleteItemEnum.deletePost}
+        />
+      )}
     </div>
   );
 };

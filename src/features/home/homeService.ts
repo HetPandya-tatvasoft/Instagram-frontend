@@ -40,6 +40,9 @@ const endPoints = {
   upsertCollection: `/post/upsert-collection`,
   getCollectionDetails: (collectionId: number) =>
     `/post/get-collection?collectionId=${collectionId}`,
+  removePostsFromCollection: (collectionId: number) =>
+    `/post/remove-posts-from-collection?collectionId=${collectionId}`,
+  deleteCollection: `/post/delete-collection`,
 };
 
 export const getHomeFeedService = async () =>
@@ -47,6 +50,22 @@ export const getHomeFeedService = async () =>
     endPoints.getHomeFeed,
     defaultPaginationRequest
   );
+
+export const getHomeFeedServiceInfiniteScroll = async ({
+  pageParam = 1,
+  pageSize = 10,
+}: {
+  pageParam?: number;
+  pageSize?: number;
+}): Promise<ApiResponse<IPaginationResponse<IPostResponse>>> => {
+  return postRequest<IPaginationResponse<IPostResponse>, IPaginationRequest>(
+    endPoints.getHomeFeed,
+    {
+      pageNumber: pageParam,
+      pageSize,
+    }
+  );
+};
 
 export const searchUserService = async (payload: IPaginationRequest) =>
   postRequest<IPaginationResponse<IUserResponse>, IPaginationRequest>(
@@ -111,3 +130,15 @@ export const getCollectionDetails = async (
     endPoints.getCollectionDetails(collectionId),
     payload
   );
+
+export const removePostsFromCollection = async (
+  payload: number[],
+  collectionId: number
+) =>
+  postRequest<string, number[]>(
+    endPoints.removePostsFromCollection(collectionId),
+    payload
+  );
+
+export const deleteCollection = async (collectionId: number) =>
+  postRequest<string, number>(endPoints.deleteCollection, collectionId);
