@@ -1,27 +1,26 @@
-// ChatWindow.jsx
+// ChatWindow.tsx
 
 import { ArrowLeft, Send } from "lucide-react";
 import React from "react";
-
-interface User {
-  id: number;
-  name: string;
-  lastMessage: string;
-}
+import { IChatResponse } from "../types/chat.types"; // ✅ import your global type
 
 interface ChatWindowProps {
-  chatUser: User;
+  chatUser: IChatResponse; // use the same type as sidebar + modal
+  onBack?: () => void; // optional handler for ArrowLeft (mobile back)
 }
 
-const ChatWindow: React.FC<ChatWindowProps> = ({ chatUser }) => {
+const ChatWindow: React.FC<ChatWindowProps> = ({ chatUser, onBack }) => {
   return (
     <div className="flex-1 flex flex-col">
       {/* Mobile Header */}
-      <div className=" flex items-center gap-3 p-3 border-b">
-        <ArrowLeft className="md:hidden w-6 h-6 cursor-pointer" />
+      <div className="flex items-center gap-3 p-3 border-b">
+        <ArrowLeft
+          className="md:hidden w-6 h-6 cursor-pointer"
+          onClick={onBack} // ✅ make this functional
+        />
         <div className="flex items-center gap-2">
           <div className="w-10 h-10 rounded-full bg-gray-300" />
-          <p className="font-medium">User Name : {chatUser.name}</p>
+          <p className="font-medium">User Name: {chatUser.toUserFullname}</p>
         </div>
       </div>
 

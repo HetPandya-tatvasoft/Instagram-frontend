@@ -16,15 +16,15 @@ export interface IChatResponse {
 }
 
 export interface IMessageResponse {
-    messageId : number;
-    chatId : number;
-    fromUserId : number;
-    toUserId : number;
-    message : string;
-    isSent : boolean;
-    isDelivered : boolean;
-    isSeen : boolean;
-    isDeleted : boolean;
-    createdDate : string;
-    modifiedDate : string;
+  messageId: number;
+  chatId: number;
+  fromUserId: number;
+  toUserId: number;
+  message: string;
+  isSent: boolean;
+  isDelivered: boolean;
+  isSeen: boolean;
+  isDeleted: boolean;
+  createdDate: string;
+  modifiedDate: string;
 }

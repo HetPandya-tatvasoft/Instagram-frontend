@@ -24,3 +24,14 @@ export const useCreateChat = () => {
     error: mutation.error,
   };
 };
+
+// const handleCreateChat = () => {
+//   if (!toUserId) return;
+
+//   createNewChat(toUserId, {
+//     onSuccess: (newChat) => {
+//       // ✅ directly open new chat window
+//       onSelectChat(newChat);
+//     },
+//   });
+// };
