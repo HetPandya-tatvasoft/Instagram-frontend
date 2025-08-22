@@ -8,21 +8,14 @@ import { useQueryClient } from "@tanstack/react-query";
 import { HubConnectionState } from "@microsoft/signalr";
 import { createPostHubConnection } from "../../../utils/signalR.utils";
 import { useHomeStories } from "../hooks/useHomeStories";
-import { HubMessages } from "../../../common/constants/keys";
-import toast from "react-hot-toast";
+import { HubMessages, tanstackQueryKeys } from "../../../common/constants/keys";
 import { useGetHomeFeedInfinite } from "../hooks/useGetHomeFeedInfinite";
 import { ArrowDown } from "lucide-react";
 
 const HomePage: React.FC = () => {
   const {
     data: followingStories,
-    isLoading,
-    isError,
-    error,
-    refetch,
   } = useHomeStories();
-
-  // const { data: paginatedPosts } = useHomeFeed();
 
   const {
     data: paginatedPosts,
@@ -31,9 +24,6 @@ const HomePage: React.FC = () => {
     isFetchingNextPage,
   } = useGetHomeFeedInfinite();
 
-  // console.log("Hello het this is the data you need : ");
-  console.log(paginatedPosts?.pages);
-  // const posts = paginatedPosts?.pages.flatMap((page) => page.data.records) ?? [];
   const posts = useMemo(
     () => paginatedPosts?.pages.flatMap((page) => page.data.records) ?? [],
     [paginatedPosts?.pages]
@@ -55,13 +45,15 @@ const HomePage: React.FC = () => {
 
       // Change this to constants
       connection.on(HubMessages.postReceived, () => {
-        toast.success("Signal R Post Received");
-        queryClient.invalidateQueries({ queryKey: ["home-feed"] });
+        queryClient.invalidateQueries({
+          queryKey: [tanstackQueryKeys.getHomeFeed],
+        });
       });
 
       connection.on(HubMessages.postInteraction, (postId: number) => {
-        toast.success("Signal R Interaction Received");
-        queryClient.invalidateQueries({ queryKey: ["home-feed"] });
+        queryClient.invalidateQueries({
+          queryKey: [tanstackQueryKeys.getHomeFeed],
+        });
       });
     };
 

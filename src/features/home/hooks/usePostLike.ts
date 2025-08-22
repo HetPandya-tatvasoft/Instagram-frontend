@@ -1,8 +1,6 @@
-import toast from "react-hot-toast";
 import { handleApiError } from "../../../utils/error.utils";
 import { likePost } from "../homeService";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { messages } from "../../../common/constants/messages";
 import { getUserIdFromToken } from "../../../utils/jwt.utils";
 import { tanstackQueryKeys } from "../../../common/constants/keys";
 
@@ -15,8 +13,7 @@ export const usePostLike = () => {
     mutationFn: (postId: number) => {
       return likePost(postId);
     },
-    onSuccess: (response, postId) => {
-      toast.success(messages.connections.postLikedSuccess);
+    onSuccess: ( postId ) => {
       queryClient.invalidateQueries({ queryKey: [tanstackQueryKeys.getHomeFeed] });
       queryClient.invalidateQueries({
         queryKey: [tanstackQueryKeys.getPostDetails, postId],

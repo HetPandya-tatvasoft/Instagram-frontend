@@ -18,21 +18,27 @@ export const getUpdateProfileValidationSchema = (
     email: Yup.string()
       .email(validationMessages.invalidValidation.emailInvalid)
       .required(validationMessages.requiredValidation.emailRequired)
-      .test(generalConsts.uniqueEmail, validationMessages.alreadyExists.emailExists, async function (value) {
-        if (!value) return false;
-        try {
-          if (value.toLowerCase() == currentUserEmail) {
+      .test(
+        generalConsts.uniqueEmail,
+        validationMessages.alreadyExists.emailExists,
+        async function (value) {
+          if (!value) return false;
+          try {
+            if (value.toLowerCase() == currentUserEmail) {
+              return true;
+            }
+            await checkUniqueEmail(value);
             return true;
+          } catch {
+            return this.createError({
+              message: errorCodes.alreadyExists.email,
+            });
           }
-          await checkUniqueEmail(value);
-          return true;
-        } catch {
-          return this.createError({
-            message: errorCodes.alreadyExists.email,
-          });
         }
-      }),
-    fullName: Yup.string().required(validationMessages.requiredValidation.fullNameRequired),
+      ),
+    fullName: Yup.string().required(
+      validationMessages.requiredValidation.fullNameRequired
+    ),
     username: Yup.string()
       .min(3, validationMessages.regexValidation.usernameValidation)
       .required(validationMessages.requiredValidation.usernameRequired)
@@ -82,7 +88,10 @@ export const getUpdateProfileValidationSchema = (
       .max(new Date(), validationMessages.invalidValidation.dobNotInFuture)
       .required(validationMessages.requiredValidation.dobRequired),
     gender: Yup.string()
-      .oneOf(["male", "female", "other", "prefer not to say"], validationMessages.invalidValidation.genderInvalid)
+      .oneOf(
+        ["male", "female", "other", "prefer not to say"],
+        validationMessages.invalidValidation.genderInvalid
+      )
       .required(validationMessages.requiredValidation.genderRequired),
 
     bio: Yup.string()

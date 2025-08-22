@@ -18,8 +18,6 @@ import { useEditHighlightTitle } from "../hooks/useEditHighlightTitle";
 import { useRemoveStoryFromHighlights } from "../hooks/useRemoveStoryFromHighlights";
 
 const StoryHighlights: React.FC<IStoryHighlightsProps> = ({ highlights }) => {
-  const loggedInUserId = getUserIdFromToken();
-
   const [openStoryViewer, setOpenStoryViewer] = useState(false);
 
   const [isOwnProfile, setIsOwnProfile] = useState(false);
@@ -38,6 +36,8 @@ const StoryHighlights: React.FC<IStoryHighlightsProps> = ({ highlights }) => {
   const { mutate: updateHighlight } = useEditHighlightTitle();
 
   const { mutate: removeStoryFromHighlight } = useRemoveStoryFromHighlights();
+
+  const loggedInUserId = getUserIdFromToken();
 
   useEffect(() => {
     if (highlights && highlights[0].userId === loggedInUserId) {
@@ -112,48 +112,51 @@ const StoryHighlights: React.FC<IStoryHighlightsProps> = ({ highlights }) => {
         </span>
       </div>
       {highlights != null &&
-        highlights.map((highlight, index) => 
-          highlight.items.length > 0 &&
-          (
-          <div
-            key={highlight.highlightId}
-            className="relative flex flex-col gap-2 justify-center items-center"
-            onClick={() => setSelectedHighlight(highlight)}
-          >
-            {isOwnProfile && (
-              <>
-                <button
-                  className="absolute top-0 left-0 bg-red-500 text-white text-xs rounded-full w-7 h-7 flex items-center justify-center z-10 hover:bg-red-600 cursor-pointer"
-                  onClick={() => handleEditClick(highlight)}
-                >
-                  <Pen size={14} />
-                </button>
-                <button
-                  className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full w-7 h-7 flex items-center justify-center z-10 hover:bg-red-600 cursor-pointer"
-                  onClick={() => handleDeleteHighlight(highlight.highlightId)}
-                >
-                  ✕
-                </button>
-              </>
-            )}
-
-            <button
-              className="border-2 border-dashed border-gray-300 rounded-full"
-              onClick={() => handleHighlightClick(index)}
-            >
-              <img
-                src={getBase64ImageUrl(
-                  highlight.items[0].storyResponse.mediaUrlBase64
+        highlights.map(
+          (highlight, index) =>
+            highlight.items.length > 0 && (
+              <div
+                key={highlight.highlightId}
+                className="relative flex flex-col gap-2 justify-center items-center"
+                onClick={() => setSelectedHighlight(highlight)}
+              >
+                {isOwnProfile && (
+                  <>
+                    <button
+                      className="absolute top-0 left-0 bg-red-500 text-white text-xs rounded-full w-7 h-7 flex items-center justify-center z-10 hover:bg-red-600 cursor-pointer"
+                      onClick={() => handleEditClick(highlight)}
+                    >
+                      <Pen size={14} />
+                    </button>
+                    <button
+                      className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full w-7 h-7 flex items-center justify-center z-10 hover:bg-red-600 cursor-pointer"
+                      onClick={() =>
+                        handleDeleteHighlight(highlight.highlightId)
+                      }
+                    >
+                      ✕
+                    </button>
+                  </>
                 )}
-                alt="Highlight Stories"
-                className="rounded-full w-16 h-16 border-gray-300 cursor-pointer p-1 object-cover"
-              />
-            </button>
-            <span className="text-xs text-gray-600 truncate w-16 text-center">
-              {highlight.title}
-            </span>
-          </div>
-        ))}
+
+                <button
+                  className="border-2 border-dashed border-gray-300 rounded-full"
+                  onClick={() => handleHighlightClick(index)}
+                >
+                  <img
+                    src={getBase64ImageUrl(
+                      highlight.items[0].storyResponse.mediaUrlBase64
+                    )}
+                    alt="Highlight Stories"
+                    className="rounded-full w-16 h-16 border-gray-300 cursor-pointer p-1 object-cover"
+                  />
+                </button>
+                <span className="text-xs text-gray-600 truncate w-16 text-center">
+                  {highlight.title}
+                </span>
+              </div>
+            )
+        )}
       {highlights == null && (
         <div className="flex mt-6 text-gray-700">No Story Highlights</div>
       )}

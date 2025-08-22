@@ -12,5 +12,6 @@ export const useGetMessagesByChatId = (chatId: number) => {
     staleTime: 1000 * 60 * 5,
     refetchOnMount: false,
     refetchOnReconnect: false,
+    retry: false,
   });
 };

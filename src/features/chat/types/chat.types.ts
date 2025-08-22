@@ -28,3 +28,16 @@ export interface IMessageResponse {
   createdDate: string;
   modifiedDate: string;
 }
+
+export interface ISaveMessagePayload {
+  chatId: number;
+  senderId: number;
+  receiverId: number;
+  message: string;
+  isReceiverOnline: boolean;
+}
+
+export interface IMarkMessageSeenPayload {
+  chatId: number;
+  toUserId: number;
+}

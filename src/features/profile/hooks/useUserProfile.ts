@@ -6,7 +6,6 @@ import {
   getUserFollowers,
   getFollowStatus,
 } from "../profileService";
-import toast from "react-hot-toast";
 import { useEffect } from "react";
 import type {
   IUserProfileHeader,
@@ -67,10 +66,6 @@ export const useUserProfile = (userId: string) => {
     results.forEach((result, index) => {
       if (result.isSuccess) {
         console.log(`Query ${index} succeeded : `, result.data);
-      }
-
-      if (result.isError) {
-        toast.error(result.error.message);
       }
     });
   }, [results]);

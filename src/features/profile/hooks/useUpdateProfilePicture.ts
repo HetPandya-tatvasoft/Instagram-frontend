@@ -1,18 +1,11 @@
 import { useMutation } from "@tanstack/react-query";
-// import { updateProfilePicture } from "../profileService";
 import { updateProfilePicture } from "../profileService";
-import toast from "react-hot-toast";
 import { handleApiError } from "../../../utils/error.utils";
-import { generalConsts } from "../../../common/constants/generalConsts";
-import { generateUpdatedSuccessMessage } from "../../../common/constants/messages";
 
 export const useUpdateProfilePicture = () => {
   const mutation = useMutation({
     mutationFn: (file: File | null) => updateProfilePicture(file),
-    onSuccess: (response) => {
-      toast.success(
-        generateUpdatedSuccessMessage(generalConsts.entityConsts.profilePic)
-      );
+    onSuccess: () => {
     },
     onError: (error) => {
       handleApiError(error);

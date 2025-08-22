@@ -1,6 +1,5 @@
 import {
   postRequest,
-  getRequest,
   postRequestFormData,
   deleteRequest,
 } from "../../utils/httpClient.utils";
@@ -21,28 +20,27 @@ import type {
   IAddCommentPayload,
   ICollectionCreatePayload,
   ICollectionUpsertPayload,
-  ICreateStoryPayload,
   IStoryViewCreatePayload,
 } from "./types/payload.types";
 
 const endPoints = {
   getHomeFeed: "/post/get-post-feed",
   searchUser: "/user/get-user-list",
-  likePost: (postId: number) => `/post/post-like-unlike/${postId}`,
   commentInPost: "/post/add-edit-comment",
-  likeComment: (commentId: number) => `post/like-unlike-comment/${commentId}`,
   getStoriesFollowing: `story/get-story-list-of-following`,
   createStory: `/story/create-story`,
   updateStoryView: `/story/story-view`,
-  deleteStory: (storyId: number) => `/story/delete-story/${storyId}`,
   getCollectionsList: `/post/get-collection-list`,
   createNewCollection: `/post/create-new-collection`,
   upsertCollection: `/post/upsert-collection`,
+  deleteCollection: `/post/delete-collection`,
+  likePost: (postId: number) => `/post/post-like-unlike/${postId}`,
+  likeComment: (commentId: number) => `post/like-unlike-comment/${commentId}`,
+  deleteStory: (storyId: number) => `/story/delete-story/${storyId}`,
   getCollectionDetails: (collectionId: number) =>
     `/post/get-collection?collectionId=${collectionId}`,
   removePostsFromCollection: (collectionId: number) =>
     `/post/remove-posts-from-collection?collectionId=${collectionId}`,
-  deleteCollection: `/post/delete-collection`,
 };
 
 export const getHomeFeedService = async () =>

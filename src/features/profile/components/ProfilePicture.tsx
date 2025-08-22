@@ -16,10 +16,6 @@ const ProfilePicture: React.FC<IProfilePictureProps> = ({
 
   const [openStoryViewer, setOpenStoryViewer] = useState(false);
 
-  const handleStoryClick = useCallback(() => {
-    setOpenStoryViewer(true);
-  }, []);
-
   const [profilePic, setProfilePic] = useState<IFileResponse | null>(
     ProfilePictureUrlBase64
       ? {
@@ -31,7 +27,11 @@ const ProfilePicture: React.FC<IProfilePictureProps> = ({
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  const { upload, isLoading } = useUpdateProfilePicture();
+  const { upload } = useUpdateProfilePicture();
+
+  const handleStoryClick = useCallback(() => {
+    setOpenStoryViewer(true);
+  }, []);
 
   const handleProfileClick = useCallback(() => {
     setIsModalOpen(true);

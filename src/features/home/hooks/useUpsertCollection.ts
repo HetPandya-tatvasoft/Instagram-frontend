@@ -1,7 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ICollectionUpsertPayload } from "../types/payload.types";
 import { upsertCollection } from "../homeService";
-import toast from "react-hot-toast";
 import { handleApiError } from "../../../utils/error.utils";
 import { tanstackQueryKeys } from "../../../common/constants/keys";
 
@@ -19,7 +18,6 @@ export const useUpsertCollection = () => {
       queryClient.invalidateQueries({
         queryKey: [tanstackQueryKeys.getUserCollections],
       });
-      toast.success(response.data);
     },
 
     onError: (error) => {

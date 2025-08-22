@@ -17,3 +17,8 @@ export interface INotificationResponse {
   Thumbnail: IFileResponse;
   isSeen: boolean;
 }
+
+export interface IFollowRequestPayload {
+  senderId: number;
+  isAccepted: boolean;
+}

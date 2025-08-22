@@ -5,14 +5,14 @@ import useSendResetPasswordLink from "../hooks/useForgotPassword";
 import { Link } from "react-router-dom";
 import { routes } from "../../../common/constants/routes";
 import { useCallback } from "react";
-import { forgotPasswordValidationSchema } from '../validations/forgotPasswordValidationSchema';
+import { forgotPasswordValidationSchema } from "../validations/forgotPasswordValidationSchema";
 
 const INITIAL_VALUES: IForgotPasswordPayload = {
   credential: "",
 };
 
 const ForgotPasswordForm: React.FC = () => {
-  const { mutate, isPending, error } = useSendResetPasswordLink();
+  const { mutate, isPending } = useSendResetPasswordLink();
 
   const handleSubmit = useCallback(
     (values: IForgotPasswordPayload) => {

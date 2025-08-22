@@ -4,7 +4,6 @@ import {
   defaultPaginationRequest,
 } from "../../../common/types/paginationRequest.type";
 import { getNotificationList } from "../services/notificationService";
-import toast from "react-hot-toast";
 import { handleApiError } from "../../../utils/error.utils";
 import { tanstackQueryKeys } from "../../../common/constants/keys";
 
@@ -13,8 +12,7 @@ export const useGetNotifications = () => {
 
   const mutation = useMutation({
     mutationFn: () => getNotificationList(defaultPayload),
-    onSuccess: (response) => {
-    },
+    onSuccess: () => {},
     onError: (error) => {
       handleApiError(error);
     },

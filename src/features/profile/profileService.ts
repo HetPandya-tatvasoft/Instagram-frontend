@@ -26,6 +26,18 @@ const endPoints = {
   getProfileData: "/user/get-logged-in-user",
   updateProfile: "/user/update-profile",
   updateProfilePicture: "/user/edit-profile-picture",
+  unfollowUser: "/connection/unfollow",
+  getPosts: `/post/get-post-list`,
+  upsertHighlights: `/story/upsert-highlight`,
+  updateHighlightTitle: `/story/update-highlight-title`,
+  removeStoryFromHighlights: `/story/remove-story-from-highlight`,
+  getUserStoryNotificationSubscription:
+    "/user/get-story-notification-subscription-status",
+  getUserLikeNotificationSubscription:
+    "/user/get-like-notification-subscription-status",
+  getUserStories: (id: number) => `/story/get-story-list/${id}`,
+  getUserHighlights: (id: number) => `/story/get-highlight-list/${id}`,
+  deleteHighlight: (id: number) => `/story/delete-highlight/${id}`,
   getUserInfoData: (id: number) => `/user/get-user/${id}`,
   getUserFollowing: (id: number) => `/connection/get-following-count/${id}`,
   getUserFollower: (id: number) => `/connection/get-follower-count/${id}`,
@@ -33,18 +45,6 @@ const endPoints = {
   getFollowStatus: (id: number) => `/connection/get-follow-status/${id}`,
   unfollowUserFunc: (id: number) => `/connection/unfollow/${id}`,
   sendFollowRequest: (id: number) => `/connection/send-follow-request/${id}`,
-  unfollowUser: "/connection/unfollow",
-  getPosts: `/post/get-post-list`,
-  getUserStories: (id: number) => `/story/get-story-list/${id}`,
-  getUserHighlights: (id: number) => `/story/get-highlight-list/${id}`,
-  upsertHighlights: `/story/upsert-highlight`,
-  deleteHighlight: (id: number) => `/story/delete-highlight/${id}`,
-  updateHighlightTitle: `/story/update-highlight-title`,
-  removeStoryFromHighlights: `/story/remove-story-from-highlight`,
-  getUserStoryNotificationSubscription:
-    "/user/get-story-notification-subscription-status",
-  getUserLikeNotificationSubscription:
-    "/user/get-like-notification-subscription-status",
   updateStorySubscribeNotification: (payload: boolean) =>
     `/user/subscribe-to-story-notifications/${payload}`,
   updateLikeSubscribeNotification: (payload: boolean) =>
@@ -141,7 +141,7 @@ export const getPosts = (
   payload: IPaginationRequestGeneric<IPostRequestPayload>
 ) =>
   postRequest<
-    IPaginationResponse<IPostResponse[]>,
+    IPaginationResponse<IPostResponse>,
     IPaginationRequestGeneric<IPostRequestPayload>
   >(endPoints.getPosts, payload);
 

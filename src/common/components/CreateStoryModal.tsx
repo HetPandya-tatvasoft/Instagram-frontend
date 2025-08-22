@@ -64,37 +64,12 @@ const CreateStoryModal = ({
 
       createStory(formData, {
         onSuccess: () => {
-          toast.success("Story posted successfully!");
+          // toast.success("Story posted successfully!");
           handleClose();
         },
       });
     },
   });
-
-  // const handleSubmit = () => {
-  //   if (!storyFile) {
-  //     toast.error("Please select an image or video.");
-  //     return;
-  //   }
-
-  //   const formData = new FormData();
-  //   const loggedInUserId = getUserIdFromToken();
-  //   formData.append("PostedByUserId", loggedInUserId.toString());
-  //   formData.append("Story", storyFile);
-  //   formData.append("Caption", formik.values.caption ?? "");
-  //   // if (musicUrl) formData.append("MusicUrl", musicUrl);
-  //   formData.append(
-  //     "IsVisibleToClosedOnes",
-  //     formik.values.isVisibleToClosedOnes.toString()
-  //   );
-
-  //   createStory(formData, {
-  //     onSuccess: () => {
-  //       toast.success("Story posted successfully!");
-  //       handleClose();
-  //     },
-  //   });
-  // };
 
   const handleClose = useCallback(() => {
     onClose();

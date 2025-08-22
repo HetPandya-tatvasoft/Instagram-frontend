@@ -27,7 +27,6 @@ const CreatePostModal: React.FC<ICreatePostModalProps> = ({
 
   // const handlePostCreationSubmit = useCallback(() => {
   //   if (files.length === 0) {
-  //     toast.error("Please upload alteast one image");
   //     return;
   //   }
 

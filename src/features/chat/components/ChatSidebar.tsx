@@ -1,25 +1,26 @@
 import React, { useState } from "react";
 import { Plus, Search } from "lucide-react";
-import { useGetChatList } from "../hooks/useGetChatList";
 import { IChatResponse } from "../types/chat.types";
+import { useGetChatList } from "../hooks/useGetChatList";
 import NewMessageModal from "./newMessageModal";
-interface ChatSidebarProps {
-  onSelectChat: (chat: IChatResponse) => void;
-}
+import { getBase64ImageUrl } from "../../../utils/getBase64Image";
+import { IChatSidebarProps } from "../types/chatProps.types";
 
-const ChatSidebar: React.FC<ChatSidebarProps> = ({ onSelectChat }) => {
+
+
+const ChatSidebar: React.FC<IChatSidebarProps> = ({
+  onSelectChat,
+  isMobile,
+}) => {
   const [isNewMessageOpen, setIsNewMessageOpen] = useState(false);
-
-  // const
-
   const { data: chatList } = useGetChatList();
 
-  // const handleCreateChat = useCallback(() => {
-  //   if(create)
-  // }, [])
-
   return (
-    <div className="hidden md:flex md:w-1/3 lg:w-1/4 border-r flex-col">
+    <div
+      className={`flex flex-col border-r ${
+        isMobile ? "flex-1 md:hidden" : "hidden md:flex md:w-1/3 lg:w-1/4"
+      }`}
+    >
       {/* Header */}
       <div className="p-4 border-b flex items-center justify-between">
         <div className="font-semibold text-lg">Messages</div>
@@ -52,13 +53,13 @@ const ChatSidebar: React.FC<ChatSidebarProps> = ({ onSelectChat }) => {
             onClick={() => onSelectChat(chat)}
             className="w-full text-left flex items-center gap-3 p-3 hover:bg-gray-100 cursor-pointer focus:outline-none"
           >
-            <div className="w-10 h-10 bg-gray-300 rounded-full" />
+            <img src={getBase64ImageUrl(chat.toUserProfilePictureBase64)} className="w-10 h-10 rounded-full" alt="" />
             <div className="truncate">
               <p className="font-medium text-black truncate">
                 {chat.toUserFullname}
               </p>
               <p className="text-sm text-gray-500 truncate">
-                user's last message
+                {chat.lastMessage}
               </p>
             </div>
           </button>

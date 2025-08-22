@@ -6,3 +6,13 @@ export interface INewMessageModalProps {
   onSelectChat: (chat: IChatResponse) => void;
   existingChatLists?: IChatResponse[];
 }
+
+export interface IChatWindowProps {
+  chatUser: IChatResponse;
+  onBack?: () => void;
+}
+
+export interface IChatSidebarProps {
+  onSelectChat: (chat: IChatResponse) => void;
+  isMobile?: boolean;
+}

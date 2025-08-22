@@ -37,11 +37,15 @@ export const tanstackQueryKeys = {
     getUserCollections : "get-user-collections",
     getCollectionDetails : "get-collection-details",
     getChatList : "get-chat-list",
-    getParticularChatMessages : "get-chat-messages"
+    getParticularChatMessages : "get-chat-messages",
+    
 };
 
 export const HubMessages = {
     postReceived : "ReceivedPosts",
     postInteraction : "PostInteraction",
-    notificationReceived : "ReceiveNotification", 
+    notificationReceived : "ReceiveNotification",
+    chatCreated : "ChatCreated",
+    messageReceived : "MessageReceived",
+
 }

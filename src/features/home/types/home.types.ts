@@ -26,11 +26,6 @@ export interface IPost {
   isSaved: boolean;
 }
 
-// export interface IFileResponse {
-//   base64String?: string;
-//   mimeType?: string;
-// }
-
 export interface IPostMedia {
   mediaId: number;
   mediaUrl: string;
@@ -50,8 +45,8 @@ export interface IPostComment {
   content: string;
   commentedByUserProfilePictureBase64: IFileResponse;
   commentedByUserUsername?: string;
-  totalCommentLikes : number,
-  isCommentLikedByCurrentUser : boolean,
+  totalCommentLikes: number;
+  isCommentLikedByCurrentUser: boolean;
   createdDate: string;
 }
 
@@ -96,62 +91,62 @@ export interface IUserResponse {
 export interface IUserConnectionData {
   followersCount: number;
   followingCount: number;
-  followStatus : string;
+  followStatus: string;
 }
 
 export interface IUserProfileHeader {
-  userHeaderInfo? : IUserResponse;
-  userConnectionData : IUserConnectionData
+  userHeaderInfo?: IUserResponse;
+  userConnectionData: IUserConnectionData;
 }
 
 export interface IAddCommentInputProps {
-  postId : number;
+  postId: number;
 }
 
 export interface IStoryView {
-  viewId : number;
-  storyId : number;
-  viewerId : number;
-  isLiked : boolean;
-  viewerUserName : string;
-  viewerFullName : string;
-  viewedAt : string;
+  viewId: number;
+  storyId: number;
+  viewerId: number;
+  isLiked: boolean;
+  viewerUserName: string;
+  viewerFullName: string;
+  viewedAt: string;
 }
 
-export interface IStoryResponse { 
-  storyId : number;
-  userId : number;
-  userName : string;
-  userProfilePictureBase64? : IFileResponse;
-  mediaUrl : string;
-  mediaUrlBase64? : IFileResponse;
-  musicUrl? : string;
-  caption : string;
-  isVisibleToClosedOnes : boolean;
-  isHighlighted : boolean;
-  storyViews? : IStoryView[];
-  isLikedByViewer : boolean;
-  storyUploadTime : string;
-  isSeen : boolean;
+export interface IStoryResponse {
+  storyId: number;
+  userId: number;
+  userName: string;
+  userProfilePictureBase64?: IFileResponse;
+  mediaUrl: string;
+  mediaUrlBase64?: IFileResponse;
+  musicUrl?: string;
+  caption: string;
+  isVisibleToClosedOnes: boolean;
+  isHighlighted: boolean;
+  storyViews?: IStoryView[];
+  isLikedByViewer: boolean;
+  storyUploadTime: string;
+  isSeen: boolean;
 }
 
 export interface IStoryFollowingList {
-  userId : number;
-  userName : string;
-  isAnyUnseenStory : boolean;
-  storyResponses : IStoryResponse[]
+  userId: number;
+  userName: string;
+  isAnyUnseenStory: boolean;
+  storyResponses: IStoryResponse[];
 }
 
 export interface IHighlightItem {
-  highlightItemId : number;
-  storyResponse : IStoryResponse;
+  highlightItemId: number;
+  storyResponse: IStoryResponse;
 }
 
 export interface IHighlightResponse {
-  highlightId : number;
-  userId : number;
-  title : string;
-  items : IHighlightItem[];
+  highlightId: number;
+  userId: number;
+  title: string;
+  items: IHighlightItem[];
 }
 
 export interface IpostFields {
@@ -160,8 +155,8 @@ export interface IpostFields {
 }
 
 export interface ICollectionResponse {
-  collectionId : number;
-  userId : number;
-  title : string;
-  savedPostsCollection : IPostResponse[];
+  collectionId: number;
+  userId: number;
+  title: string;
+  savedPostsCollection: IPostResponse[];
 }

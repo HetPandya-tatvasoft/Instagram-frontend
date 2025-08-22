@@ -20,8 +20,6 @@ const UserProfilePage: React.FC = () => {
 
   const { data: highlights } = useGetUserHighlights(Number(userId));
 
-  // const userStories = userStoryData?.data;
-
   const { userMedia } = useGetUserMedia(
     userHeaderData.userHeaderInfo?.userId ?? 0
   );

@@ -1,16 +1,16 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createNewChat } from "../service/chatService";
+import { deliverMessage } from "../service/chatService";
 import { tanstackQueryKeys } from "../../../common/constants/keys";
 import { handleApiError } from "../../../utils/error.utils";
 
-export const useCreateChat = () => {
+export const useDeliverMessage = () => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
-    mutationFn: (toUserId: number) => createNewChat(toUserId),
+    mutationFn: (toUserId: number) => deliverMessage(toUserId),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [tanstackQueryKeys.getChatList],
+        queryKey: [tanstackQueryKeys.getParticularChatMessages],
       });
     },
     onError: (error) => {
@@ -19,7 +19,7 @@ export const useCreateChat = () => {
   });
 
   return {
-    createNewChat: mutation.mutate,
+    deliverMessage: mutation.mutate,
     isLoading: mutation.isPending,
     error: mutation.error,
   };

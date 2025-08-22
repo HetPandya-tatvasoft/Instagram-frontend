@@ -1,24 +1,12 @@
 import type { INotificationResponse } from "../../../common/types/notificationResponse.type";
 import MainLayout from "../../../layouts/MainLayout";
-import {
-  useGetNotifications,
-  useGetNotificationsQuery,
-} from "../hooks/useGetNotifications";
+import { useGetNotificationsQuery } from "../hooks/useGetNotifications";
 import { useAcceptRejectFollowRequest } from "../hooks/useAcceptRejectFollowRequest";
 import { useCallback, useEffect } from "react";
 import NotificationCard from "../components/NotificationCard";
 import { useQueryClient } from "@tanstack/react-query";
-import DocumentViewer from "../../../common/components/DocumentViewer";
-import PdfViewer from "../../../common/components/PdfViewer";
-import IframePdfViewer from "../../../common/components/IFramePdfViewer";
-import PDFViewerOnly from "../../../common/components/ReactPdfViewer";
 
 const NotificationsPage: React.FC = () => {
-  const fileLinks = [
-    "https://reproquodevuksouth.blob.core.windows.net/product-documents/[14-02-2025]Delivery_Note_Report(1)20250217T052708310.pdf?sv=2018-03-28&sr=b&sig=arZEf4XAWo1iGKIHKOPmcFV8vEKaFiTM1ec%2Bxzcnnek%3D&se=2025-07-24T04%3A50%3A50Z&sp=r",
-    "../../../assets/test-doc.docx",
-  ];
-
   const { data: notifications, isLoading } = useGetNotificationsQuery();
 
   const { respondToFollowRequest } = useAcceptRejectFollowRequest();

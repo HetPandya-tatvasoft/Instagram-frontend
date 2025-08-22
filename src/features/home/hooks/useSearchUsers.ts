@@ -1,9 +1,6 @@
 import { useDebounce } from "./useDebounce";
 import { searchUserService } from "../homeService";
-import {
-  type IPaginationRequest,
-  defaultPaginationRequest,
-} from "../../../common/types/paginationRequest.type";
+import { defaultPaginationRequest } from "../../../common/types/paginationRequest.type";
 import { useQuery } from "@tanstack/react-query";
 
 export const useSearchUsers = (searchText: string) => {

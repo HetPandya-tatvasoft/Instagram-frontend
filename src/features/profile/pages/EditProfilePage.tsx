@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import MainLayout from "../../../layouts/MainLayout";
 import type { IUpdateUserProfilePayload } from "../types/profile.types";
-import { useFormik, type FormikHelpers } from "formik";
+import { useFormik } from "formik";
 import { FormHelperText } from "@mui/material";
 import FormikTextField from "../../../common/components/FormikTextField";
 import React from "react";
@@ -15,22 +15,7 @@ import { getUpdateProfileValidationSchema } from "../validations/updateProfileVa
 import { useAppSelector } from "../../../app/redux/hooks";
 import { genderEnum } from "../../../common/enums/gender.enum";
 
-type UpdateProfileFormContext = {
-  currentUserEmail?: string;
-  currentUserUsername?: string;
-  currentUserMobile?: string;
-};
-
-// const allowedGenders = [
-//   "male",
-//   "female",
-//   "custom",
-//   "prefer not to say",
-// ] as const;
-
 const allowedGenders = Object.values(genderEnum);
-
-type GenderType = (typeof allowedGenders)[number];
 
 const getSafeGender = (value?: string): genderEnum => {
   return (Object.values(genderEnum) as string[]).includes(value ?? "")
@@ -47,9 +32,9 @@ const EditProfilePage: React.FC = () => {
 
   const currentUserMobile = UserData?.contactNo;
 
-  const { data: userData, isLoading, error } = useGetUserProfile();
+  const { data: userData } = useGetUserProfile();
 
-  const { mutate, isPending } = useUpdateProfile();
+  const { mutate } = useUpdateProfile();
 
   const handleProfileSubmit = useCallback(
     (values: IUpdateUserProfilePayload) => {

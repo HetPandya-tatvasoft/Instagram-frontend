@@ -3,7 +3,6 @@ import { PostSettingsModalProps } from "../types/postProps.types";
 
 export const PostSettingsModal: React.FC<PostSettingsModalProps> = ({
   onClose,
-  postId,
 }) => {
   return (
     <div

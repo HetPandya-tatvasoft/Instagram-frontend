@@ -1,4 +1,3 @@
-import toast from "react-hot-toast";
 import { UnfollowUser } from "../profileService";
 import { handleApiError } from "../../../utils/error.utils";
 import { useMutation } from "@tanstack/react-query";
@@ -6,8 +5,7 @@ import { useMutation } from "@tanstack/react-query";
 export const useUnfollowUser = () => {
   const mutation = useMutation({
     mutationFn: (receiverId: number) => UnfollowUser(receiverId),
-    onSuccess: (response) => {
-      toast.success("User Unfollowed Successfully");
+    onSuccess: () => {
     },
     onError: (error) => {
       handleApiError(error);

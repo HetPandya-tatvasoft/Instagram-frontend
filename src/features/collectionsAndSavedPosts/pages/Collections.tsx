@@ -1,83 +1,12 @@
-import { useNavigate } from "react-router-dom";
 import MainLayout from "../../../layouts/MainLayout";
-import { useGetCollections } from "../../home/hooks/useGetCollections";
-import { ICollectionResponse } from "../../home/types/home.types";
-import { useCallback } from "react";
-import { routes } from "../../../common/constants/routes";
-import { Trash } from "lucide-react";
-import { useDeleteCollection } from "../hooks/useDeleteCollection";
+import CollectionsList from "../components/CollectionsList";
 
-const CollectionsList = () => {
-  const { data: userCollections } = useGetCollections();
-
-  const { deleteCollection } = useDeleteCollection();
-
-  const navigate = useNavigate();
-
-  console.log(userCollections?.data.records);
-
-  const navigateToCollectionPosts = useCallback(
-    (collectionId: number) => {
-      const route = routes.mainRoutes.collectionPosts.replace(
-        ":collectionId",
-        collectionId.toString()
-      );
-      navigate(route);
-    },
-    [navigate]
-  );
-
-  const deleteCollectionFunction = useCallback(
-    (collectionId: number) => {
-      deleteCollection(collectionId);
-    },
-    [deleteCollection]
-  );
-
+const Collections = () => {
   return (
     <MainLayout>
-      <div className="mt-4">
-        {userCollections?.data.records &&
-          userCollections.data.records.map(
-            (collection: ICollectionResponse) => (
-              <div
-                key={collection.collectionId}
-                className="cursor-pointer border mb-2 mx-2"
-                onClick={() =>
-                  navigateToCollectionPosts(collection.collectionId)
-                }
-              >
-                {/* <img
-              src={collection.title}
-              alt={collection.title}
-              className="w-full h-40 object-cover rounded-md"
-            /> */}
-                <div className="w-full p-2">
-                  <div className="flex items-center justify-between px-2">
-                    <div>
-                      <p className="font-medium">{collection.title}</p>
-                      <p className="text-sm">
-                        {collection.savedPostsCollection.length} posts
-                      </p>
-                    </div>
-                    <div>
-                      <button
-                        className="cursor-pointer"
-                        onClick={() =>
-                          deleteCollectionFunction(collection.collectionId)
-                        }
-                      >
-                        <Trash />
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )
-          )}
-      </div>
+      <CollectionsList />
     </MainLayout>
   );
 };
 
-export default CollectionsList;
+export default Collections;

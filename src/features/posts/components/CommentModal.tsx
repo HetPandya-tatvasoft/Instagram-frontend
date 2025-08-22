@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import type { IPostResponse } from "../../home/types/home.types";
 import { getBase64ImageUrl } from "../../../utils/getBase64Image";
 import CenterModalLayout from "../../../layouts/CenterModalLayout";
 import AddCommentInput from "../components/AddCommentInput";
@@ -19,12 +18,12 @@ const CommentModal: React.FC<ICommentModalProps> = ({
       document.body.style.overflow = "auto";
     };
   }, [isOpen]);
+  
 
   if (!isOpen) return null;
 
   return (
-    // <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-    <CenterModalLayout isOpen={isOpen} onClose={() => console.log("closing")}>
+    <CenterModalLayout isOpen={isOpen} onClose={() => onClose()}>
       <div className="bg-white rounded-xl h-[90vh] shadow-lg flex flex-col md:flex-row ">
         {/* Close Button */}
 
@@ -66,7 +65,6 @@ const CommentModal: React.FC<ICommentModalProps> = ({
         </div>
       </div>
     </CenterModalLayout>
-    // </div>
   );
 };
 

@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { useAppDispatch } from "../../../app/redux/hooks"
+import { useAppDispatch } from "../../../app/redux/hooks";
 import type { ILoginPayload, ILoginResponse } from "../types/auth.type";
 import { setUser } from "../slice/authSlice";
 import { loginUser } from "../authService";
@@ -14,38 +14,37 @@ import type { ApiResponse } from "../../../@core/api/apiResponse.type";
 import { routes } from "../../../common/constants/routes";
 
 export const useLogin = () => {
-    const dispatch = useAppDispatch();
-    const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
-    return useMutation<ApiResponse, Error, ILoginPayload>({
-        mutationFn: loginUser,
-        onSuccess: (response) => {
-            if (!response.isSuccess) {
-                toast.error(messages.auth.invalidCredentials);
-                return;
-            }
+  return useMutation<ApiResponse, Error, ILoginPayload>({
+    mutationFn: loginUser,
+    onSuccess: (response) => {
+      if (!response.isSuccess) {
+        toast.error(messages.auth.invalidCredentials);
+        return;
+      }
 
-            const token = response.data.token;
+      const token = response.data.token;
 
-            const decodedTokenData = decodeToken(token);
+      const decodedTokenData = decodeToken(token);
 
-            if (!decodedTokenData) {
-                return;
-            }
+      if (!decodedTokenData) {
+        return;
+      }
 
-            // Constructs User Object from the decoded token
-            const user = buildUserFromToken(token, decodedTokenData);
+      // Constructs User Object from the decoded token
+      const user = buildUserFromToken(token, decodedTokenData);
 
-            setAuthToken(token);
+      setAuthToken(token);
 
-            dispatch(setUser(user));
+      dispatch(setUser(user));
 
-            toast.success(messages.auth.loginSuccess);
-            navigate(routes.mainRoutes.home);
-        }, 
-        onError: (error) => {
-            handleApiError(error);
-        }
-
-    })
-}
+      toast.success(messages.auth.loginSuccess);
+      navigate(routes.mainRoutes.home);
+    },
+    onError: (error) => {
+      handleApiError(error);
+    },
+  });
+};

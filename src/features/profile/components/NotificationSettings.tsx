@@ -20,14 +20,6 @@ const NotificationSettings: React.FC = () => {
   const { mutate: updateLikeNotificationSubscription } =
     useSubscribeToLikeNotifications();
 
-  console.log(
-    `the story notification subscription for this user is ${storyNotificationSubscriptionStatus.data}`
-  );
-
-  console.log(
-    `the like subscription for this belowed user is ${likeNotificationSubscriptionStatus.data}`
-  );
-
   const navigate = useNavigate();
 
   const [settings, setSettings] = useState<Record<NotificationType, boolean>>({

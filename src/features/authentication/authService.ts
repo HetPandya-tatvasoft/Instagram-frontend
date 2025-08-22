@@ -48,10 +48,9 @@ export const resetPassword = (payload: IResetPasswordPayload) =>
   );
 
 export const checkUniqueEmail = async (email: string) =>
-  getRequestWithParams<boolean, { email: string }>(
-    endPoints.uniqueEmailCheck,
-    { email }
-  );
+  getRequestWithParams<boolean, { email: string }>(endPoints.uniqueEmailCheck, {
+    email,
+  });
 
 export const checkUniqueContact = (contactNumber: string) =>
   getRequestWithParams<boolean, { contactNumber: string }>(
@@ -70,4 +69,3 @@ export const fetchCurrentUser = async (): Promise<IUser> => {
   const response = await API.api.get<IUser>(endPoints.getLoggedInUser);
   return response.data;
 };
-

@@ -2,10 +2,6 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   Heart,
   MessageCircle,
-  Send,
-  Bookmark,
-  MoreHorizontal,
-  Settings,
   Search,
   Home,
   Compass,
@@ -20,10 +16,9 @@ import { Link } from "react-router-dom";
 import CreatePostModal from "../common/components/CreatePostModal";
 import SearchPanel from "../common/components/SearchPanel";
 import { createNotificationHubConnection } from "../utils/signalR.utils";
-import { HubConnection, HubConnectionState } from "@microsoft/signalr";
+import { HubConnectionState } from "@microsoft/signalr";
 import { HubMessages, tanstackQueryKeys } from "../common/constants/keys";
-import { QueryClient, useQueryClient } from "@tanstack/react-query";
-import toast from "react-hot-toast";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface IMainLayoutProps {
   children: React.ReactNode;
@@ -73,7 +68,7 @@ const MainLayout: React.FC<IMainLayoutProps> = ({ children }) => {
           queryClient.invalidateQueries({
             queryKey: [tanstackQueryKeys.getNotificationsListKey],
           });
-          toast.success("Notifications Received");
+          // toast.success("Notifications Received");
         }
       );
     };

@@ -14,6 +14,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { getBase64ImageUrl } from "../../../utils/getBase64Image";
 import { IPostCardProps } from "../types/homeProps.types";
 import { PostSettingsModal } from "../../posts/components/PostSettingsModal";
+import { routes } from "../../../common/constants/routes";
+import { useNavigate } from "react-router-dom";
 // import { PostSettingsModal } from "../../posts/components/postSettingsModal";
 
 const PostCard: React.FC<IPostCardProps> = React.memo(({ post }) => {
@@ -27,35 +29,6 @@ const PostCard: React.FC<IPostCardProps> = React.memo(({ post }) => {
 
   const [collections, setCollections] = useState(["Favorites", "Inspo"]);
 
-  const [likesData, setLikesData] = useState([
-    {
-      userId: 1,
-      username: "harsh_dev",
-      profilePicBase64: "https://randomuser.me/api/portraits/men/32.jpg",
-      isFollowing: true,
-    },
-    {
-      userId: 2,
-      username: "het_pandya",
-      profilePicBase64: "https://randomuser.me/api/portraits/men/15.jpg",
-      isFollowing: false,
-    },
-    {
-      userId: 3,
-      username: "shruti.codes",
-      profilePicBase64: "https://randomuser.me/api/portraits/women/45.jpg",
-      isFollowing: false,
-    },
-  ]);
-
-  const toggleFollow = (userId: number, isFollowing: boolean) => {
-    setLikesData((prev) =>
-      prev.map((user) =>
-        user.userId === userId ? { ...user, isFollowing: !isFollowing } : user
-      )
-    );
-  };
-
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const [openCommentModal, setOpenCommentModal] = useState(false);
@@ -65,6 +38,8 @@ const PostCard: React.FC<IPostCardProps> = React.memo(({ post }) => {
   const [isZoomed, setIsZoomed] = useState(false);
 
   const [fade, setFade] = useState(true);
+
+  const navigate = useNavigate();
 
   const { likePost } = usePostLike();
 
@@ -91,12 +66,6 @@ const PostCard: React.FC<IPostCardProps> = React.memo(({ post }) => {
   );
 
   let imgSrc = "/src/assets/images/default_profile.webp";
-
-  const handleSaveToCollection = (collection: string) => {};
-
-  const handleCreateCollection = (newName: string) => {
-    setCollections((prev) => [...prev, newName]);
-  };
 
   if (
     post.postedByUserProfilePictureBase64 &&
@@ -150,12 +119,27 @@ const PostCard: React.FC<IPostCardProps> = React.memo(({ post }) => {
     setShowSaveModal(true);
   }, []);
 
+  const handleUserProfileNavigation = useCallback(
+    (userId: number) => {
+      const route = routes.mainRoutes.userProfile.replace(
+        ":userId",
+        userId.toString()
+      );
+
+      navigate(route);
+    },
+    [navigate]
+  );
+
   return (
     <div className="bg-white border border-gray-200 rounded-lg mb-4">
       {/* Post Header */}
       <div className="flex items-center justify-between p-4">
         <div className="flex items-center space-x-3">
-          <div>
+          <div
+            className="cursor-pointer"
+            onClick={() => handleUserProfileNavigation(post.postedByUserId)}
+          >
             <img
               src={imgSrc}
               alt={` ${post.postedByUserName}'s profile picture.`}
@@ -166,16 +150,21 @@ const PostCard: React.FC<IPostCardProps> = React.memo(({ post }) => {
           <div>
             <div className="flex">
               <div className="flex items-center space-x-1">
-                <span className="font-medium text-sm">
+                <span
+                  className="font-medium text-sm cursor-pointer mr-3"
+                  onClick={() =>
+                    handleUserProfileNavigation(post.postedByUserId)
+                  }
+                >
                   {post.postedByUserName}
                 </span>
-                <div className="w-4 h-4 bg-blue-500 flex items-center justify-center rounded-full">
+                <div className="w-4 h-4 bg-blue-500 flex items-center justify-center rounded-full mr-2">
                   <span className="text-white text-xs">✓</span>
                 </div>
               </div>
               <span className="text-gray-500 text-sm">• 2h</span>
             </div>
-            <div className="">
+            <div >
               <span className="text-gray-500 text-sm flex">
                 {post.location}
               </span>
@@ -313,7 +302,14 @@ const PostCard: React.FC<IPostCardProps> = React.memo(({ post }) => {
                 <div key={comment.commentId}>
                   {/* Render your comment here */}
                   <span className="text-sm">
-                    <strong>{comment.commentedByUserUsername}</strong>{" "}
+                    <strong
+                      className="cursor-pointer"
+                      onClick={() =>
+                        handleUserProfileNavigation(comment.commentedByUserId)
+                      }
+                    >
+                      {comment.commentedByUserUsername}
+                    </strong>{" "}
                     {comment.content}
                   </span>
                 </div>
@@ -327,12 +323,6 @@ const PostCard: React.FC<IPostCardProps> = React.memo(({ post }) => {
         onClose={() => setOpenCommentModal(false)}
         post={post}
       />
-      {/* <LikesModal
-        isOpen={showLikesModal}
-        onClose={() => setShowLikesModal(false)}
-        users={likesData}
-        onToggleFollow={toggleFollow}
-      /> */}
 
       {/* This below post settings modal is not useful as of now */}
       {showPostSettingsModal && (
@@ -344,8 +334,6 @@ const PostCard: React.FC<IPostCardProps> = React.memo(({ post }) => {
       {showSaveModal && (
         <SavePostModal
           onClose={() => setShowSaveModal(false)}
-          onSaveToCollection={handleSaveToCollection}
-          onCreateCollection={handleCreateCollection}
           postId={postId}
         />
       )}

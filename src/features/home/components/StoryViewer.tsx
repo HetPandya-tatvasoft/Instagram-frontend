@@ -1,11 +1,4 @@
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
-import { IStoryResponse } from "../types/home.types";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { getBase64ImageUrl } from "../../../utils/getBase64Image";
 import { useStoryViewed } from "../hooks/useStoryViewed";
 import { getUserIdFromToken } from "../../../utils/jwt.utils";
@@ -91,14 +84,6 @@ const StoryViewer = ({
       setCurrentIndex((prev) => prev - 1);
     }
   }, [currentIndex, setCurrentIndex]);
-
-  // const handleStoryDelete = useCallback(
-  //   (storyId: number) => {
-  //     console.log(`The story Id is : ${storyId}`)
-  //     deleteStory(storyId);
-  //   },
-  //   [deleteStory]
-  // );
 
   const handleStoryDelete = useCallback(
     (storyId: number) => {
@@ -234,6 +219,7 @@ const StoryViewer = ({
           />
         </div>
       </div>
+
       {/* More Options Button */}
       <AddToHighlightsModal
         open={highlighModalOpen}

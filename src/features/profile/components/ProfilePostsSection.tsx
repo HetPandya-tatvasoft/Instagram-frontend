@@ -7,6 +7,8 @@ import { routes } from "../../../common/constants/routes";
 import { IProfilePostsProps } from "../types/props.types";
 
 const ProfilePostsSection: React.FC<IProfilePostsProps> = ({ posts }) => {
+  const [activeTab, setActiveTab] = useState("posts");
+
   const navigate = useNavigate();
 
   const { likePost } = usePostLike();
@@ -28,8 +30,6 @@ const ProfilePostsSection: React.FC<IProfilePostsProps> = ({ posts }) => {
     },
     [navigate]
   );
-
-  const [activeTab, setActiveTab] = useState("posts");
 
   const tabs = ["posts", "reels", "tagged"];
 

@@ -1,6 +1,3 @@
-import { NumberSchema } from "yup";
-import type { IPaginationRequestGeneric } from "../../../common/types/paginationRequest.type";
-
 export interface IAddCommentPayload {
   commentId: number;
   postId: number;

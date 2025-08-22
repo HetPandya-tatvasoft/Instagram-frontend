@@ -24,6 +24,6 @@ export interface IConnectionBtnProps {
 }
 
 export interface PostSettingsModalProps {
-  postId : number;
-  onClose : () => void;
+  postId: number;
+  onClose: () => void;
 }

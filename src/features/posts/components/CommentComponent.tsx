@@ -1,11 +1,14 @@
-import type { IPostComment } from "../../home/types/home.types";
 import { getBase64ImageUrl } from "../../../utils/getBase64Image";
 import { Heart } from "lucide-react";
 import { useCommentLike } from "../../home/hooks/useCommentLike";
 import { useCallback, useState, useEffect } from "react";
 import { ICommentCompProps } from "../types/postProps.types";
+import { routes } from "../../../common/constants/routes";
+import { useNavigate } from "react-router-dom";
 
 const CommentComponent: React.FC<ICommentCompProps> = (commentProps) => {
+  const navigate = useNavigate();
+
   const comment = commentProps.comment;
 
   const { likeComment } = useCommentLike();
@@ -18,17 +21,29 @@ const CommentComponent: React.FC<ICommentCompProps> = (commentProps) => {
 
   const handleLikeComment = useCallback(
     (commentId: number) => {
-      likeComment({commentId});
+      likeComment({ commentId });
       setCommentLiked(!comment.isCommentLikedByCurrentUser);
     },
     [likeComment, setCommentLiked, comment.isCommentLikedByCurrentUser]
+  );
+
+  const handleUserProfileNavigation = useCallback(
+    (userId: number) => {
+      const route = routes.mainRoutes.userProfile.replace(
+        ":userId",
+        userId.toString()
+      );
+
+      navigate(route);
+    },
+    [navigate]
   );
 
   return (
     <div key={comment.commentId} className="flex gap-3 items-start w-full">
       <div className="flex items-center justify-between w-full">
         <div className="flex items-center space-x-2">
-          <div>
+          <div className="cursor-pointer" onClick={() => handleUserProfileNavigation(comment.commentedByUserId)}>
             <img
               src={getBase64ImageUrl(
                 comment.commentedByUserProfilePictureBase64
@@ -38,7 +53,7 @@ const CommentComponent: React.FC<ICommentCompProps> = (commentProps) => {
             />
           </div>
           <div>
-            <span className="font-medium mr-2">
+            <span className="font-medium mr-2 cursor-pointer" onClick={() => handleUserProfileNavigation(comment.commentedByUserId)} >
               {comment.commentedByUserUsername}
             </span>
             <span>{comment.content}</span>

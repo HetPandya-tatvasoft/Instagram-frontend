@@ -16,7 +16,7 @@ import dayjs from "dayjs";
 import {
   registerStepOneValidationSchema,
   registerStepTwoValidationSchema,
-} from "../validations/registerValidationSchema";;
+} from "../validations/registerValidationSchema";
 
 const MONTHS = [
   "January",
@@ -77,7 +77,9 @@ const RegisterForm: React.FC = () => {
   const formik = useFormik({
     initialValues: INITIAL_VALUES,
     validationSchema:
-      step === 1 ? registerStepOneValidationSchema : registerStepTwoValidationSchema,
+      step === 1
+        ? registerStepOneValidationSchema
+        : registerStepTwoValidationSchema,
     validateOnBlur: true,
     onSubmit: handleRegisterSubmit,
   });

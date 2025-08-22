@@ -1,5 +1,4 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { IUserProfileResponse } from "./types/profile.types";
 import type { IUserResponse } from "../home/types/home.types";
 
 interface UserProfileState {

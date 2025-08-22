@@ -11,9 +11,11 @@ export const useCommentLike = () => {
       likeComment(commentId),
 
     onSuccess: (response, variables) => {
-      queryClient.invalidateQueries({ queryKey: [tanstackQueryKeys.getHomeFeed] });
       queryClient.invalidateQueries({
-        predicate: (query) => query.queryKey.includes(tanstackQueryKeys.getPostDetails),
+        queryKey: [tanstackQueryKeys.getHomeFeed],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [tanstackQueryKeys.getPostDetails],
       });
     },
     onError: (error) => {

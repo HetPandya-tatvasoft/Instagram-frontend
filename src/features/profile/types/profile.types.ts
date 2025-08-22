@@ -1,5 +1,5 @@
 import { genderEnum } from "../../../common/enums/gender.enum";
-import type { IPostResponse } from "../../home/types/home.types";
+import { IPostResponse } from "../../home/types/home.types";
 
 export interface IUpdateUserProfilePayload {
   email: string;
@@ -23,8 +23,8 @@ export interface IUserProfileResponse {
   userId: number;
   userName: string;
   email: string;
-  fullName : string;
-  dob: string; 
+  fullName: string;
+  dob: string;
   contactNo: string;
   gender: string;
   profilePicture?: string;
@@ -33,17 +33,17 @@ export interface IUserProfileResponse {
   link?: string;
   bio: string;
   isPrivate: boolean;
-  isVerified : boolean;
-  followStatus : string;
+  isVerified: boolean;
+  followStatus: string;
 }
 
 export interface IUserMedia {
-  userPosts? : IPostResponse[],
+  userPosts?: IPostResponse[];
 }
 
 export interface IUserBio {
-  name : string;
-  profileBio? : string;
+  name: string;
+  profileBio?: string;
 }
 
 export interface IHighlightError {

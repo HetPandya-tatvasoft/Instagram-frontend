@@ -1,4 +1,8 @@
-import { IPostResponse, IStoryFollowingList, IStoryResponse } from "./home.types";
+import {
+  IPostResponse,
+  IStoryFollowingList,
+  IStoryResponse,
+} from "./home.types";
 
 export interface IPostCardProps {
   post: IPostResponse;
@@ -28,7 +32,5 @@ export interface IStoriesProps {
 
 export interface ISavePostModalProps {
   onClose: () => void;
-  onSaveToCollection: (collectionName: string) => void;
-  onCreateCollection: (newCollection: string) => void;
-  postId : number;
+  postId: number;
 }

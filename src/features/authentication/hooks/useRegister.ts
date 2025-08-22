@@ -23,9 +23,8 @@ const useRegister = () => {
       toast.success(messages.auth.signupSuccess);
       navigate("/accounts/login");
     },
-    onError: (response, error) => {
+    onError: (error) => {
       handleApiError(error);
-      // toast.error(MESSAGES.AUTH.SIGNUP_FAILED);
     },
   });
 };

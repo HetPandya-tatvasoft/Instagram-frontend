@@ -1,30 +1,31 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import ProfilePicture from "../components/ProfilePicture";
 import { Settings, Pencil } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../../../common/constants/routes";
 import useLogout from "../../../hooks/useLogout";
-import type {
-  IUserProfileHeader,
-  IStoryResponse,
-} from "../../home/types/home.types";
 import ConnectionButton from "../components/ConnectionButton";
 import { generalConsts } from "../../../common/constants/generalConsts";
 import { IProfileHeaderProps } from "../types/props.types";
 
-const ProfileHeader: React.FC<IProfileHeaderProps> = ({ userInfo, userStories }) => {
-
-  const updateProfileRoute = routes.mainRoutes.updateProfile;
-
+const ProfileHeader: React.FC<IProfileHeaderProps> = ({
+  userInfo,
+  userStories,
+}) => {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-
-  const ownProfile =
-    userInfo.userConnectionData.followStatus ==
-    generalConsts.entityConsts.updateProfile;
 
   const navigate = useNavigate();
 
   const logout = useLogout();
+
+  const ownProfile = useMemo(
+    () =>
+      userInfo.userConnectionData.followStatus ==
+      generalConsts.entityConsts.updateProfile,
+    [userInfo.userConnectionData.followStatus]
+  );
+
+  const updateProfileRoute = useMemo(() => routes.mainRoutes.updateProfile, []);
 
   const handleLogout = useCallback(() => {
     logout();
@@ -45,24 +46,25 @@ const ProfileHeader: React.FC<IProfileHeaderProps> = ({ userInfo, userStories })
     "Log out",
   ];
 
-  const handleSettingsModalClick = useCallback((item : string) => {
-    if(item === "Log out"){
-      handleLogout();
-    }
-    else if(item == "Settings and privacy"){
-      navigate(routes.mainRoutes.settingsAndPrivacy);
-    }
-    else if(item == "Collections"){
-      navigate(routes.mainRoutes.collections)
-    }
-  }, [handleLogout, navigate])
+  const handleSettingsModalClick = useCallback(
+    (item: string) => {
+      if (item === "Log out") {
+        handleLogout();
+      } else if (item == "Settings and privacy") {
+        navigate(routes.mainRoutes.settingsAndPrivacy);
+      } else if (item == "Collections") {
+        navigate(routes.mainRoutes.collections);
+      }
+    },
+    [handleLogout, navigate]
+  );
 
   return (
     <>
       <div className="flex flex-row gap-3 sm:gap-16 flex-wrap sm:flex-nowrap">
         <div className="min-w-[80px]">
           <ProfilePicture
-           userStories={userStories}
+            userStories={userStories}
             ProfilePictureUrlBase64={
               userInfo?.userHeaderInfo?.profilePictureBase64?.base64String
             }

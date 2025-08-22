@@ -1,5 +1,10 @@
 import { NotificationType } from "../../../common/enums/notificationType.enum";
-import { IHighlightResponse, IPostResponse, IStoryResponse, IUserProfileHeader } from "../../home/types/home.types";
+import {
+  IHighlightResponse,
+  IPostResponse,
+  IStoryResponse,
+  IUserProfileHeader,
+} from "../../home/types/home.types";
 import { IUpdateHighlightPayload } from "./profile.payload.types";
 import { IUserBio, IUserMedia } from "./profile.types";
 
@@ -29,7 +34,7 @@ export interface IProfileBioProps {
 
 export interface IProfileHeaderProps {
   userInfo: IUserProfileHeader;
-  userStories : IStoryResponse[]
+  userStories: IStoryResponse[];
 }
 
 export interface IProfilePictureProps {

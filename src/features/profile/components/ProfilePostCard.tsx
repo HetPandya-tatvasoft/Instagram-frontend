@@ -18,8 +18,6 @@ const ProfilePostCard: React.FC<IProfilePostCardProps> = ({
   const [openDeleteConfirmationModal, setOpenDeleteConfirmationModal] =
     useState(false);
 
-  const { deletePost } = useDeletePost();
-
   const hasUserLiked = useMemo(() => {
     return (
       post.like?.some(
@@ -30,11 +28,6 @@ const ProfilePostCard: React.FC<IProfilePostCardProps> = ({
 
   const handleCloseDeleteConfirmationModal = useCallback(() => {
     setOpenDeleteConfirmationModal(false);
-  }, []);
-
-  const handleDeletePost = useCallback((postId: number) => {
-    // deletePost(postId);
-    setOpenDeleteConfirmationModal(true);
   }, []);
 
   return (

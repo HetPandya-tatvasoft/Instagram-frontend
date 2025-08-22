@@ -1,12 +1,5 @@
 import * as Yup from "yup";
-import {
-  checkUniqueEmail,
-  checkUniqueUsername,
-  checkUniqueContact,
-} from "../authService";
-import { errorCodes } from "../../../common/constants/error";
 import { validationMessages } from "../../../common/constants/validationMessages";
-import { generalConsts } from "../../../common/constants/generalConsts";
 import { regexConsts } from "../../../common/constants/regexConsts";
 
 const today = new Date();

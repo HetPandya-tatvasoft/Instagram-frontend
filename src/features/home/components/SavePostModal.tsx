@@ -27,8 +27,6 @@ const SavePostModal: React.FC<ISavePostModalProps> = ({ onClose, postId }) => {
 
   const { removePostsFromCollection } = useRemovePostFromCollection();
 
-  console.log(userCollections && userCollections.data.records);
-
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -48,23 +46,11 @@ const SavePostModal: React.FC<ISavePostModalProps> = ({ onClose, postId }) => {
     validationSchema: createCollectionValidation,
     onSubmit: (values, { resetForm }) => {
       createNewCollection(values);
-      toast.success("The form has been submitted");
       onClose();
       resetForm();
     },
   });
 
-  // const savePostToCollection = (
-  //   postId: number,
-  //   collection: ICollectionResponse
-  // ) => {
-  //   const upsertCollectionPayload: ICollectionUpsertPayload = {
-  //     collectionId: collection.collectionId,
-  //     postId: postId,
-  //   };
-  //   upsertCollection(upsertCollectionPayload);
-  //   onClose();
-  // };
 
   const savePostToCollection = useCallback(
     (postId: number, collection: ICollectionResponse) => {
@@ -107,23 +93,6 @@ const SavePostModal: React.FC<ISavePostModalProps> = ({ onClose, postId }) => {
     [isPostAlreadyInCollection, removePostsFromCollection, savePostToCollection]
   );
 
-  // const togglePostInCollection = useCallback((postId : number, collection : ICollectionResponse, alreadySaved : boolean) => {
-  //
-
-  //   if (alreadySaved) {
-  //     removePostsFromCollection(payload);
-  //   }
-
-  // }, [removePostsFromCollection]);
-
-  // const isPostAlreadyInCollectionCallback = useCallback((
-  //   collection : ICollectionResponse, postId : number
-  // ) => {
-  //     return collection.savedPostsCollection.some(
-  //       ( post : IPostResponse ) => post.postId === postId
-  //     )
-  // }, []);
-
   return (
     <div
       className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/40"
@@ -151,10 +120,6 @@ const SavePostModal: React.FC<ISavePostModalProps> = ({ onClose, postId }) => {
                     key={index}
                     onClick={() => {
                       togglePostInCollection(postId, collection);
-                      // if (!alreadySaved) {
-                      //   savePostToCollection(postId, collection);
-                      //   setSelectedCollection(collection.title);
-                      // }
                     }}
                     className={`p-3 rounded cursor-pointer mb-2 ${
                       alreadySaved

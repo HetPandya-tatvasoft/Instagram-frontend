@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { IHighlightResponse } from "../../home/types/home.types";
-import { IUpdateHighlightPayload } from "../types/profile.payload.types";
 import { IEditHighlightModalProps } from "../types/props.types";
 
 const EditHighlightModal: React.FC<IEditHighlightModalProps> = ({

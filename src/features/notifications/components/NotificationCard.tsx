@@ -7,7 +7,6 @@ const NotificationCard: React.FC<INotificationCardProps> = ({
   notification,
   onRespond,
 }) => {
-
   const {
     senderUsername,
     senderProfilePicture,
@@ -69,7 +68,6 @@ const NotificationCard: React.FC<INotificationCardProps> = ({
           </div>
         )}
 
-        {/* Optional preview for post/story/comment if available */}
         {(thumbnail || postId || storyId || commentId) && (
           <div className="mt-2">
             {thumbnail ? (

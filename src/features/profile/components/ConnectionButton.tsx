@@ -4,6 +4,7 @@ import { useSendFollowRequest } from "../hooks/useSendFollowRequest";
 import { followStatus as FollowStatus } from "../../../common/enums/followStatus.enum";
 import { useQueryClient } from "@tanstack/react-query";
 import { IConnectionBtnProps } from "../../posts/types/postProps.types";
+import { tanstackQueryKeys } from "../../../common/constants/keys";
 
 const ConnectionButton: React.FC<IConnectionBtnProps> = ({
   userId,
@@ -13,7 +14,7 @@ const ConnectionButton: React.FC<IConnectionBtnProps> = ({
 
   const queryClient = useQueryClient();
 
-  queryClient.invalidateQueries({queryKey : ["follow-status"]})
+  queryClient.invalidateQueries({ queryKey: [tanstackQueryKeys.getFollowStatus] });
 
   const { unfollow } = useUnfollowUser();
 
